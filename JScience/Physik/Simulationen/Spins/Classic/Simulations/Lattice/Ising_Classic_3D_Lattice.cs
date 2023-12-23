@@ -7,6 +7,7 @@ using System;
 using System.Data;
 using System.IO;
 using System.Xml.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace JScience.Physik.Simulationen.Spins.Classic.Simulations.Lattice
 {
