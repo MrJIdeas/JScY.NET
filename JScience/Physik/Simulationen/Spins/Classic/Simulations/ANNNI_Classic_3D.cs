@@ -24,11 +24,11 @@ namespace JScience.Physik.Simulationen.Spins.Classic.Simulations
                 {
                     for (int l = 0; l < DimZ; l++)
                     {
-                        if (i+2 < DimX)
+                        if (i + 2 < DimX)
                             (lattice[i, k, l] as Spin_ANNNI_Classic).AddAfterNeighbor(lattice[i + 2, k, l]);
                         if (i > 1)
                             (lattice[i, k, l] as Spin_ANNNI_Classic).AddAfterNeighbor(lattice[i - 2, k, l]);
-                        if (k+2 < DimY)
+                        if (k + 2 < DimY)
                             (lattice[i, k, l] as Spin_ANNNI_Classic).AddAfterNeighbor(lattice[i, k + 2, l]);
                         if (k > 1)
                             (lattice[i, k, l] as Spin_ANNNI_Classic).AddAfterNeighbor(lattice[i, k - 2, l]);
