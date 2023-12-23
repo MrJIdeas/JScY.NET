@@ -22,6 +22,7 @@
     <Folder Include="Physik\BaseClasses\" />
     <Folder Include="Physik\Events\" />
     <Folder Include="Physik\Interfaces\" />
+    <Folder Include="Physik\Simulationen\Spins\Classic\Simulations\Custom\" />
     <Folder Include="Physik\VarTypes\" />
   </ItemGroup>
 

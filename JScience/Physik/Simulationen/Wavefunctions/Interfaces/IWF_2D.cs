@@ -2,7 +2,7 @@
 
 namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 {
-    public interface IWF_2D:IWavefunction
+    public interface IWF_2D : IWavefunction
     {
         int DimX { get; }
         int DimY { get; }

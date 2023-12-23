@@ -6,16 +6,15 @@ using Science.Interfaces;
 using System;
 using System.Data;
 using System.IO;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace JScience.Physik.Simulationen.Spins.Classic.Simulations
+namespace JScience.Physik.Simulationen.Spins.Classic.Simulations.Lattice
 {
-    public class Ising_Classic_3D : ISimulation, ISpinSimulation
+    public class Ising_Classic_3D_Lattice : ISimulation, ISpinSimulation
     {
         protected virtual string CONST_FNAME => "ISING_3D_CLASSIC";
 
-        public Ising_Classic_3D(double j, double b, double t, uint dimX, uint dimY, uint dimZ, uint MaxSteps, EParticleType types, ELatticeBoundary boundary, uint StepsPerSaving)
+        public Ising_Classic_3D_Lattice(double j, double b, double t, uint dimX, uint dimY, uint dimZ, uint MaxSteps, EParticleType types, ELatticeBoundary boundary, uint StepsPerSaving)
         {
             this.MaxSteps = MaxSteps;
             J = j;
