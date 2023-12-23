@@ -211,6 +211,11 @@ namespace JScience.Physik.Simulationen.Spins.Classic.Simulations.Lattice
         public void Start()
         {
             n = 0;
+            for (int i = 0; i < DimX; i++)
+            {
+                Console.Write(H(lattice[i, 0, 0]) + " ");
+            }
+            Console.WriteLine();
             StartDate = DateTime.Now;
             EndDate = DateTime.MinValue;
             while (MaxSteps > n)
@@ -218,6 +223,12 @@ namespace JScience.Physik.Simulationen.Spins.Classic.Simulations.Lattice
                 Sim();
             }
             Stop();
+
+            for (int i = 0; i < DimX; i++)
+            {
+                Console.Write(H(lattice[i, 0, 0]));
+            }
+            Console.WriteLine();
         }
 
         public void Stop()
@@ -237,7 +248,7 @@ namespace JScience.Physik.Simulationen.Spins.Classic.Simulations.Lattice
             var Hnew = H(lattice[r, k, c]);
             if (Hnew > Hold)
             {
-                if (Math.Exp(-(Hnew - Hold) / T) < rand.NextDouble())
+                if (T == 0 || Math.Exp(-(Hnew - Hold) / T) < rand.NextDouble())
                     lattice[r, k, c].Flip();
             }
             n++;
@@ -257,6 +268,7 @@ namespace JScience.Physik.Simulationen.Spins.Classic.Simulations.Lattice
                         }
                     }
                 }
+
                 dt.Rows.Add(row);
             }
         }
@@ -266,9 +278,9 @@ namespace JScience.Physik.Simulationen.Spins.Classic.Simulations.Lattice
             double h = 0;
             foreach (Spin_Ising_Classic n in spin.getNeighbors())
             {
-                h += spin.getComponent(0) * n.getComponent(0);
+                h += n.getComponent(0);
             }
-            h *= -J;
+            h *= -J * spin.getComponent(0);
             h -= B * spin.getComponent(0);
             return h;
         }
