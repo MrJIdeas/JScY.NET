@@ -28,6 +28,6 @@ namespace JScience.Physik.Simulationen.Spins.Classic.VarTypes
             Spin *= -1;
         }
 
-        public override bool Equals(ISpin_Classic other) => PositionXYZ.Item1 == other.PositionXYZ.Item1 && PositionXYZ.Item2 == other.PositionXYZ.Item2 && PositionXYZ.Item3 == other.PositionXYZ.Item3;
+        public override bool Equals(ISpin_Classic other) => PositionXYZ.Equals(other.PositionXYZ);
     }
 }

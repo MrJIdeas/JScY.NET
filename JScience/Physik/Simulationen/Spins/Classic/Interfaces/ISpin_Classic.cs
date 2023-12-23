@@ -1,13 +1,13 @@
 ﻿using JScience.Physik.Enums;
-using System;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace JScience.Physik.Simulationen.Spins.Classic.Interfaces
 {
     public interface ISpin_Classic
     {
         EParticleType ParticleType { get; }
-        Tuple<double, double, double> PositionXYZ { get; }
+        Vector3 PositionXYZ { get; }
 
         double getAbs();
 
