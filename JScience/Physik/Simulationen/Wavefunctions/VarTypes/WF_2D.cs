@@ -5,7 +5,7 @@ using System.Numerics;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
 {
-    public class WF_2D : IWavefunction
+    public class WF_2D : IWF_2D
     {
         public WF_2D(int DimX, int DimY)
         {

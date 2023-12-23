@@ -1,0 +1,8 @@
+
+.vs/*
+JScience/bin/*
+JScience/obj/*
+ScienceTest/obj/*
+ScienceTest/bin/*
+UpgradeLog2.htm
+UpgradeLog.htm

@@ -5,7 +5,7 @@ using System.Numerics;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
 {
-    public class WF_1D : IWavefunction
+    public class WF_1D : IWF_1D
     {
         public WF_1D(int DimX)
         {
@@ -13,12 +13,11 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
         }
 
         private Complex[] field { get; set; }
-        public Complex this[int x] => field[x];
-
-        public int DimX => field.Length;
 
         #region Interface
 
+        public Complex this[int x] => field[x];
+        public int DimX => field.Length;
         public int Dimensions => 1;
 
         public double Norm()
