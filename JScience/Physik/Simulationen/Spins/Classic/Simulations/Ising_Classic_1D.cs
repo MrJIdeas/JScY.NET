@@ -7,8 +7,8 @@ namespace JScience.Physik.Simulationen.Spins.Classic.Simulations
     {
         protected override string CONST_FNAME => "ISING_1D_CLASSIC";
 
-        public Ising_Classic_1D(double j, double b, double t, uint dimX, EParticleType types, ELatticeBoundary boundary, uint StepsPerSaving) :
-            base(j, b, t, dimX, 1, types, boundary, StepsPerSaving)
+        public Ising_Classic_1D(double j, double b, double t, uint dimX, uint MaxSteps, EParticleType types, ELatticeBoundary boundary, uint StepsPerSaving) :
+            base(j, b, t, dimX, 1, MaxSteps, types, boundary, StepsPerSaving)
         {
         }
     }

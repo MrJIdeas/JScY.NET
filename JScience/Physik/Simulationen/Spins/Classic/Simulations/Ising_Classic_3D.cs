@@ -15,8 +15,9 @@ namespace JScience.Physik.Simulationen.Spins.Classic.Simulations
     {
         protected virtual string CONST_FNAME => "ISING_3D_CLASSIC";
 
-        public Ising_Classic_3D(double j, double b, double t, uint dimX, uint dimY, uint dimZ, EParticleType types, ELatticeBoundary boundary, uint StepsPerSaving)
+        public Ising_Classic_3D(double j, double b, double t, uint dimX, uint dimY, uint dimZ, uint MaxSteps, EParticleType types, ELatticeBoundary boundary, uint StepsPerSaving)
         {
+            this.MaxSteps = MaxSteps;
             J = j;
             this.StepsPerSaving = StepsPerSaving;
             Boundary = boundary;
@@ -158,15 +159,14 @@ namespace JScience.Physik.Simulationen.Spins.Classic.Simulations
         public uint DimY { get; private set; }
         public uint DimZ { get; private set; }
 
+        public uint MaxSteps { get; private set; }
+
         public uint DimLength => (uint)lattice.Length;
 
         public EMagnetiseType MagType => J == 0 ? EMagnetiseType.None : J > 0 ? EMagnetiseType.Ferro : EMagnetiseType.Antiferro;
         public EParticleType ParticleType { get; private set; }
         public ELatticeBoundary Boundary { get; private set; }
         protected Spin_Ising_Classic[,,] lattice { get; set; }
-
-        private Task RunTask { get; set; }
-        private bool CancelToken { get; set; }
 
         protected Random rand { get; private set; }
 
@@ -175,15 +175,9 @@ namespace JScience.Physik.Simulationen.Spins.Classic.Simulations
         public void Reset()
         {
             Finished = false;
-            if (!RunTask.IsCompleted)
-            {
-                CancelToken = true;
-                RunTask.Wait();
-            }
-            RunTask = null;
-            CancelToken = false;
             StartDate = DateTime.MinValue;
             EndDate = DateTime.MinValue;
+            SeedLattice();
         }
 
         public void SaveSimulationData()
@@ -216,17 +210,18 @@ namespace JScience.Physik.Simulationen.Spins.Classic.Simulations
 
         public void Start()
         {
+            n = 0;
             StartDate = DateTime.Now;
             EndDate = DateTime.MinValue;
-            RunTask = new Task(() => Sim());
-            RunTask.Start();
+            while (MaxSteps > n)
+            {
+                Sim();
+            }
+            Stop();
         }
 
         public void Stop()
         {
-            if (StartDate != DateTime.MinValue) { }
-            CancelToken = true;
-            RunTask.Wait();
             EndDate = DateTime.Now;
             SaveSimulationData();
             Finished = true;
@@ -234,10 +229,6 @@ namespace JScience.Physik.Simulationen.Spins.Classic.Simulations
 
         private void Sim()
         {
-            if (CancelToken)
-            {
-                return;
-            }
             int r = rand.Next(0, (int)DimX);
             int k = rand.Next(0, (int)DimY);
             int c = rand.Next(0, (int)DimZ);
@@ -268,7 +259,6 @@ namespace JScience.Physik.Simulationen.Spins.Classic.Simulations
                 }
                 dt.Rows.Add(row);
             }
-            Sim();
         }
 
         protected virtual double H(Spin_Ising_Classic spin)

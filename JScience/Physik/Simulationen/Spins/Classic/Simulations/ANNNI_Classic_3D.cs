@@ -8,7 +8,7 @@ namespace JScience.Physik.Simulationen.Spins.Classic.Simulations
 {
     public class ANNNI_Classic_3D : Ising_Classic_3D
     {
-        public ANNNI_Classic_3D(double j, double kappa, double b, double t, uint dimX, uint dimY, uint dimZ, EParticleType types, ELatticeBoundary boundary, uint StepsPerSaving) : base(j, b, t, dimX, dimY, dimZ, types, boundary, StepsPerSaving)
+        public ANNNI_Classic_3D(double j, double kappa, double b, double t, uint dimX, uint dimY, uint dimZ, uint MaxSteps, EParticleType types, ELatticeBoundary boundary, uint StepsPerSaving) : base(j, b, t, dimX, dimY, dimZ, MaxSteps, types, boundary, StepsPerSaving)
         {
             Kappa = kappa;
         }
