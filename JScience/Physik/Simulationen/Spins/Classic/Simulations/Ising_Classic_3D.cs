@@ -283,7 +283,7 @@ namespace JScience.Physik.Simulationen.Spins.Classic.Simulations
             return h;
         }
 
-        private double H()
+        public double H()
         {
             double h = 0;
             foreach (var spin in lattice)
