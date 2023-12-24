@@ -216,6 +216,11 @@ namespace JScience.Physik.Simulationen.Spins.Classic.Simulations.Lattice
                 Console.Write(H(lattice[i, 0, 0]) + " ");
             }
             Console.WriteLine();
+            for (int i = 0; i < DimX; i++)
+            {
+                Console.Write(lattice[i, 0, 0].Spin);
+            }
+            Console.WriteLine();
             StartDate = DateTime.Now;
             EndDate = DateTime.MinValue;
             while (MaxSteps > n)
@@ -226,7 +231,12 @@ namespace JScience.Physik.Simulationen.Spins.Classic.Simulations.Lattice
 
             for (int i = 0; i < DimX; i++)
             {
-                Console.Write(H(lattice[i, 0, 0]));
+                Console.Write(lattice[i, 0, 0].Spin);
+            }
+            Console.WriteLine();
+            for (int i = 0; i < DimX; i++)
+            {
+                Console.Write(H(lattice[i, 0, 0]) + " ");
             }
             Console.WriteLine();
         }
