@@ -1,4 +1,5 @@
 ﻿using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Interfaces;
+using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.Interfaces;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
 using JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Interfaces;
 using System;
@@ -35,8 +36,21 @@ namespace JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Classes
         private T PsiNTerm(T WF, List<IHamilton<T>> Hamiltons, int n)
         {
             T WF1 = (T)Activator.CreateInstance(WF.GetType(), WF.DimX);
+            List<IHamilton<T>> hamtodelete = new List<IHamilton<T>>();
             foreach (var ham in Hamiltons)
-                WF1 = (T)(WF1 + ham.HPsi(WF));
+            {
+                var hampsi = ham.HPsi(WF);
+                if (hampsi.Norm() > double.Epsilon || hampsi is IPotential<T>)
+                    WF1 = (T)(WF1 + hampsi);
+                else
+                    hamtodelete.Add(ham);
+            }
+            foreach (var ham in hamtodelete)
+            {
+                if (Hamiltons.Contains(ham))
+                    Hamiltons.Remove(ham);
+            }
+
             WF1 = (T)(-Complex.ImaginaryOne * t_STEP / n * WF1);
             return WF1;
         }
