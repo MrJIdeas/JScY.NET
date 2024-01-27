@@ -81,6 +81,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
             return conj;
         }
 
+        public double getNorm(int x) => field[x].Magnitude;
+
         #endregion Interface
     }
 }

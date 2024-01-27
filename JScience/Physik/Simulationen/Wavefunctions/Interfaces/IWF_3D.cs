@@ -12,6 +12,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 
         void SetField(int x, int y, int z, Complex value);
 
+        double getNorm(int x, int y, int z);
+
         #region Operatoren WF-double
 
         public static IWF_3D operator +(double b, IWF_3D a)

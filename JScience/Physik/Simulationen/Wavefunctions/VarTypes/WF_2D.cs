@@ -126,6 +126,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
             return conj;
         }
 
+        public double getNorm(int x, int y) => field[x, y].Magnitude;
+
         #endregion Interface
 
         #region Operatoren

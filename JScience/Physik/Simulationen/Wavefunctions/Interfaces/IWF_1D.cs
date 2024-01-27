@@ -11,6 +11,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 
         void SetField(int x, Complex value);
 
+        double getNorm(int x);
+
         #region Operatoren WF-complex
 
         public static IWF_1D operator +(Complex b, IWF_1D a)
