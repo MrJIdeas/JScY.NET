@@ -15,7 +15,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potential
 
         public int yEnd { get; private set; }
 
-        public ImaginaryPotential2D(int xSTART, int xEND, int ySTART, int yEND, double damping) : base(damping)
+        public ImaginaryPotential2D(string name, int xSTART, int xEND, int ySTART, int yEND, double damping) : base(name, damping)
         {
             xStart = xSTART;
             xEnd = xEND;
