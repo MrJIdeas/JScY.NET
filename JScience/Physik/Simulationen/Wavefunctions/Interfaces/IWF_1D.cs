@@ -7,5 +7,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
         int DimX { get; }
 
         Complex this[int x] { get; }
+
+        void SetField(int x, Complex value);
     }
 }

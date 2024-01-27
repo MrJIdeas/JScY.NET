@@ -108,6 +108,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
             }
         }
 
+        public void SetField(int x, int y, Complex value) => field[x, y] = value;
+
         #endregion Interface
 
         #region Operatoren
