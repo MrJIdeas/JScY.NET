@@ -1,5 +1,4 @@
-﻿using JScience.Physik.Simulationen.Wavefunctions.VarTypes;
-using System;
+﻿using System;
 using System.Numerics;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces

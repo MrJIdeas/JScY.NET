@@ -1,7 +1,6 @@
 ﻿using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.TightBinding.Interfaces;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
-using System;
 using System.Numerics;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.TightBinding.VarTypes

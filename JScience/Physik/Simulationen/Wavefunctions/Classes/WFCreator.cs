@@ -1,9 +1,7 @@
 ﻿using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
 using JScience.Physik.Simulationen.Wavefunctions.VarTypes;
 using System;
-using System.Collections.Generic;
 using System.Numerics;
-using System.Text;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.Classes
 {
