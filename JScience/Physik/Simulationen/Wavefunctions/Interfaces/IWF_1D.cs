@@ -11,6 +11,84 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 
         void SetField(int x, Complex value);
 
+        #region Operatoren WF-complex
+
+        public static IWF_1D operator +(Complex b, IWF_1D a)
+        {
+            for (int i = 0; i < a.DimX; i++)
+                a.SetField(i, a[i] + b);
+            return a;
+        }
+
+        public static IWF_1D operator -(Complex b, IWF_1D a)
+        {
+            for (int i = 0; i < a.DimX; i++)
+                a.SetField(i, a[i] - b);
+            return a;
+        }
+
+        public static IWF_1D operator *(Complex b, IWF_1D a)
+        {
+            for (int i = 0; i < a.DimX; i++)
+                a.SetField(i, a[i] * b);
+            return a;
+        }
+
+        public static IWF_1D operator +(IWF_1D a, Complex b) => b + a;
+
+        public static IWF_1D operator -(IWF_1D a, Complex b) => b - a;
+
+        public static IWF_1D operator *(IWF_1D a, Complex b) => b * a;
+
+        public static IWF_1D operator /(IWF_1D a, Complex b)
+        {
+            for (int i = 0; i < a.DimX; i++)
+                a.SetField(i, a[i] / b);
+            return a;
+        }
+
+        #endregion Operatoren WF-complex
+
+        #region Operatoren WF-double
+
+        public static IWF_1D operator +(double b, IWF_1D a)
+        {
+            for (int i = 0; i < a.DimX; i++)
+                a.SetField(i, a[i] + b);
+            return a;
+        }
+
+        public static IWF_1D operator -(double b, IWF_1D a)
+        {
+            for (int i = 0; i < a.DimX; i++)
+                a.SetField(i, a[i] - b);
+            return a;
+        }
+
+        public static IWF_1D operator *(double b, IWF_1D a)
+        {
+            for (int i = 0; i < a.DimX; i++)
+                a.SetField(i, a[i] * b);
+            return a;
+        }
+
+        public static IWF_1D operator +(IWF_1D a, double b) => b + a;
+
+        public static IWF_1D operator -(IWF_1D a, double b) => b - a;
+
+        public static IWF_1D operator *(IWF_1D a, double b) => b * a;
+
+        public static IWF_1D operator /(IWF_1D a, double b)
+        {
+            for (int i = 0; i < a.DimX; i++)
+                a.SetField(i, a[i] / b);
+            return a;
+        }
+
+        #endregion Operatoren WF-double
+
+        #region Operatoren WF-WF
+
         public static IWF_1D operator +(IWF_1D a, IWF_1D b)
         {
             if (!(a.Dimensions == b.Dimensions))
@@ -37,5 +115,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
                 a.SetField(i, a[i] * b[i]);
             return a;
         }
+
+        #endregion Operatoren WF-WF
     }
 }
