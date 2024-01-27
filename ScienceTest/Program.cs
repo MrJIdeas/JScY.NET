@@ -10,7 +10,7 @@ using JScience.Physik.Simulationen.Wavefunctions.VarTypes;
 //Console.WriteLine(test.H());
 //Console.WriteLine(test.n);
 
-WF_1D test = (WF_1D)WFCreator.CreateGaußWave(0.5, 1, 50, 10);
+WF_1D test = (WF_1D)WFCreator.CreateGaußWave(0.5, 50, 500, 10);
 //WF_1D test = (WF_1D)WFCreator.CreateDelta(100, 5);
 //for (int i = 0; i < test.DimX; i++)
 //    Console.WriteLine(test.getNorm(i));
@@ -27,3 +27,14 @@ test = ze.Do(test, hamlist);
 //for (int i = 0; i < test.DimX; i++)
 //    Console.WriteLine(test.getNorm(i));
 Console.WriteLine("Norm: " + test.Norm());
+
+List<double> x = new List<double>();
+for (int i = 0; i < test.DimX; i++)
+    x.Add(i);
+List<double> y = new List<double>();
+for (int i = 0; i < test.DimX; i++)
+    y.Add(test.getNorm(i));
+ScottPlot.Plot myPlot = new();
+
+myPlot.Add.Scatter(x.ToArray(), y.ToArray());
+myPlot.SavePng("quickstart.png", 800, 600);
