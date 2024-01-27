@@ -13,7 +13,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
         {
             double norm = wave.Norm();
             for (int i = 0; i < wave.DimX; i++)
-                wave.SetField(i, wave[i] / norm);
+                wave.SetField(i, wave[i] / Math.Sqrt(norm));
             return wave;
         }
 

@@ -25,7 +25,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
             double erg = 0;
             for (int i = 0; i < field.Length; i++)
             {
-                erg += field[i].Magnitude;
+                erg += (field[i] * Complex.Conjugate(field[i])).Real;
             }
             return erg;
         }
@@ -41,7 +41,6 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
         public IWavefunction GetShift(EShift shift)
         {
             WF_1D neu = new WF_1D(DimX);
-            Complex buf;
             switch (shift)
             {
                 default:
@@ -81,7 +80,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
             return conj;
         }
 
-        public double getNorm(int x) => field[x].Magnitude;
+        public double getNorm(int x) => (Complex.Conjugate(field[x]) * field[x]).Real;
 
         #endregion Interface
     }

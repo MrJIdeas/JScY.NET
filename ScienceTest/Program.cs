@@ -10,8 +10,10 @@ using JScience.Physik.Simulationen.Wavefunctions.VarTypes;
 //Console.WriteLine(test.H());
 //Console.WriteLine(test.n);
 
-WF_1D test = (WF_1D)WFCreator.CreateGaußWave(0.25, 0.25, 100, 50);
-//WF_1D test = (WF_1D)WFCreator.CreateDelta(100, 50);
+WF_1D test = (WF_1D)WFCreator.CreateGaußWave(0.5, 1, 50, 10);
+//WF_1D test = (WF_1D)WFCreator.CreateDelta(100, 5);
+//for (int i = 0; i < test.DimX; i++)
+//    Console.WriteLine(test.getNorm(i));
 Console.WriteLine("Norm: " + test.Norm());
 
 List<IHamilton<WF_1D>> hamlist = new List<IHamilton<WF_1D>>();
@@ -20,6 +22,8 @@ TightBindung1D<WF_1D> ham = new TightBindung1D<WF_1D>(1);
 
 hamlist.Add(ham);
 
-U_T_1D<WF_1D> ze = new U_T_1D<WF_1D>(0.1);
+U_T_1D<WF_1D> ze = new U_T_1D<WF_1D>(0.01);
 test = ze.Do(test, hamlist);
+//for (int i = 0; i < test.DimX; i++)
+//    Console.WriteLine(test.getNorm(i));
 Console.WriteLine("Norm: " + test.Norm());

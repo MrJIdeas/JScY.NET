@@ -1,6 +1,8 @@
 ﻿using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.TightBinding.Interfaces;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
+using System;
+using System.Numerics;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.TightBinding.VarTypes
 {
@@ -15,7 +17,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.TightBind
             double erg = 0;
             T erg2 = (T)((T)psi.Conj() * HPsi(psi));
             for (int i = 0; i < erg2.DimX; i++)
-                erg += erg2[i].Magnitude;
+                erg += (Complex.Conjugate(erg2[i]) * erg2[i]).Real;
             return erg;
         }
 

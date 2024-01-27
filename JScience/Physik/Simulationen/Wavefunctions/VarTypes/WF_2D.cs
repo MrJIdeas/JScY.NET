@@ -28,7 +28,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
             double erg = 0;
             for (int i = 0; i < DimX; i++)
                 for (int j = 0; j < DimY; j++)
-                    erg += field[i, j].Magnitude;
+                    erg += (Complex.Conjugate(field[i, j]) * field[i, j]).Real;
             return erg;
         }
 
@@ -126,7 +126,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
             return conj;
         }
 
-        public double getNorm(int x, int y) => field[x, y].Magnitude;
+        public double getNorm(int x, int y) => (Complex.Conjugate(field[x, y]) * field[x, y]).Real;
 
         #endregion Interface
 
