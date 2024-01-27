@@ -18,16 +18,16 @@ namespace JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Classes
 
         public T Do(T WF, List<IHamilton<T>> Hamiltons)
         {
-            T WFEnd = (T)((T)WF.Clone() + WF);
-            T WF1 = PsiNTerm(WF, Hamiltons, 1);
+            T WFEnd = (T)WF.Clone();
+            int n = 1;
+            T WF1 = PsiNTerm(WF, Hamiltons, n);
             WFEnd = (T)(WFEnd + WF1);
-            int n = 2;
+
             while (WF1.Norm() > double.Epsilon)
             {
-                T WF2 = PsiNTerm(WF1, Hamiltons, n);
-                WFEnd = (T)(WF + WF2);
-                WF1 = (T)(WF2.Clone());
                 n++;
+                WF1 = PsiNTerm(WF1, Hamiltons, n);
+                WFEnd = (T)(WFEnd + WF1);
             }
             return WFEnd;
         }
