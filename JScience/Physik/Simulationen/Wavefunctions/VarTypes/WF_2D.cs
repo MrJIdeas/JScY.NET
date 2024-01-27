@@ -110,6 +110,13 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
 
         public void SetField(int x, int y, Complex value) => field[x, y] = value;
 
+        public void Clear()
+        {
+            for (int i = 0; i < field.Length; i++)
+                for (int j = 0; j < DimY; j++)
+                    field[i, j] = Complex.Zero;
+        }
+
         #endregion Interface
 
         #region Operatoren
