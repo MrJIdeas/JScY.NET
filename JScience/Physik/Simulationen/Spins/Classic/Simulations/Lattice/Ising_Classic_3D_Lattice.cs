@@ -1,8 +1,8 @@
-﻿using JScience.Physik.Enums;
+﻿using JScience.Interfaces;
+using JScience.Physik.Enums;
 using JScience.Physik.Simulationen.Spins.Classic.Interfaces;
 using JScience.Physik.Simulationen.Spins.Classic.VarTypes;
 using JScience.Physik.Simulationen.Spins.Enums;
-using Science.Interfaces;
 using System;
 using System.Data;
 using System.IO;

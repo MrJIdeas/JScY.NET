@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Science.Interfaces
+namespace JScience.Interfaces
 {
     public interface ISimulation
     {
