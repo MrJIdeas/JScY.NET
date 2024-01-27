@@ -7,26 +7,38 @@ using System.Numerics;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Classes
 {
-    internal class U_T_1D<T> : IU_T<T> where T : IWF_1D
+    public class U_T_1D<T> : IU_T<T> where T : IWF_1D
     {
+        public U_T_1D(double t_step)
+        {
+            t_STEP = t_step;
+        }
+
         public double t_STEP { get; private set; }
 
         public T Do(T WF, List<IHamilton<T>> Hamiltons)
         {
-            T WFp1 = (T)Activator.CreateInstance(typeof(T), true, WF.DimX);
-            foreach (var ham in Hamiltons)
+            T WFEnd = (T)((T)WF.Clone() + WF);
+            T WF1 = PsiNTerm(WF, Hamiltons, 1);
+            WFEnd = (T)(WFEnd + WF1);
+            int n = 2;
+            while (WF1.Norm() > double.Epsilon)
             {
-                var hpsi = ham.HPsi(WF);
-                if (hpsi.Norm() < double.Epsilon)
-                    Hamiltons.Remove(ham);
-                else
-                    WFp1 = (T)(hpsi + WFp1);
+                T WF2 = PsiNTerm(WF1, Hamiltons, n);
+                WFEnd = (T)(WF + WF2);
+                WF1 = (T)(WF2.Clone());
+                n++;
             }
-            T erg = (T)(-Complex.ImaginaryOne * t_STEP * (WF + WFp1));
-            if (WFp1.Norm() < double.Epsilon)
-                return erg;
-            else
-                return Do(erg, Hamiltons);
+            return WFEnd;
+        }
+
+        private T PsiNTerm(T WF, List<IHamilton<T>> Hamiltons, int n)
+        {
+            T WF1 = (T)Activator.CreateInstance(WF.GetType(), WF.DimX);
+            foreach (var ham in Hamiltons)
+                WF1 = (T)(WF1 + ham.HPsi(WF));
+            WF1 = (T)(-Complex.ImaginaryOne * t_STEP / n * WF1);
+            return WF1;
         }
     }
 }
