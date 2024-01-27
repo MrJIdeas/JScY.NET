@@ -15,9 +15,5 @@ namespace JScience.Interfaces
         void Stop();
 
         void Reset();
-
-        void SaveSimulationData();
-
-        void PlotData();
     }
 }
