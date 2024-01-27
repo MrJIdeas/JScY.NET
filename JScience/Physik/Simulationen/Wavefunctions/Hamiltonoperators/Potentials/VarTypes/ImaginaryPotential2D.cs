@@ -5,7 +5,7 @@ using System.Numerics;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.VarTypes
 {
-    public class ImaginaryPotential2D<T> : IImagenaryPotential<T> where T : IWF_2D
+    public class ImaginaryPotential2D<T> : IImagenaryPotential<T>, IBarrier_X, IBarrier_Y where T : IWF_2D
     {
         public int xStart { get; private set; }
 
