@@ -6,7 +6,11 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.TightBind
 {
     public class TightBindung1D<T> : ITightBinding<T> where T : IWF_1D
     {
-        public new double E(T psi)
+        public TightBindung1D(double t_hop) : base(t_hop)
+        {
+        }
+
+        public override double E(T psi)
         {
             double erg = 0;
             T erg2 = (T)((T)psi.Conj() * HPsi(psi));
@@ -15,6 +19,6 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.TightBind
             return erg;
         }
 
-        public new T HPsi(T psi) => (T)(-t_Hopping * (T)((T)psi.GetShift(EShift.Xm) + (T)psi.GetShift(EShift.Xp)));
+        public override T HPsi(T psi) => (T)(-t_Hopping * (T)((T)psi.GetShift(EShift.Xm) + (T)psi.GetShift(EShift.Xp)));
     }
 }
