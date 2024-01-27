@@ -117,6 +117,15 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
                     field[i, j] = Complex.Zero;
         }
 
+        public IWavefunction Clone()
+        {
+            WF_2D conj = new WF_2D(DimX, DimY);
+            for (int i = 0; i < conj.DimX; i++)
+                for (int j = 0; j < conj.DimY; j++)
+                    conj.SetField(i, j, field[i, j]);
+            return conj;
+        }
+
         #endregion Interface
 
         #region Operatoren

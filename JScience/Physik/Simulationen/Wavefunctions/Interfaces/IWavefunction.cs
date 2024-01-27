@@ -13,5 +13,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
         IWavefunction GetShift(EShift shift);
 
         void Clear();
+
+        IWavefunction Clone();
     }
 }

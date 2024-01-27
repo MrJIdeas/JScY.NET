@@ -53,23 +53,26 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 
         public static IWF_1D operator +(double b, IWF_1D a)
         {
-            for (int i = 0; i < a.DimX; i++)
-                a.SetField(i, a[i] + b);
-            return a;
+            IWF_1D c = (IWF_1D)a.Clone();
+            for (int i = 0; i < c.DimX; i++)
+                c.SetField(i, c[i] + b);
+            return c;
         }
 
         public static IWF_1D operator -(double b, IWF_1D a)
         {
-            for (int i = 0; i < a.DimX; i++)
-                a.SetField(i, a[i] - b);
-            return a;
+            IWF_1D c = (IWF_1D)a.Clone();
+            for (int i = 0; i < c.DimX; i++)
+                c.SetField(i, c[i] - b);
+            return c;
         }
 
         public static IWF_1D operator *(double b, IWF_1D a)
         {
-            for (int i = 0; i < a.DimX; i++)
-                a.SetField(i, a[i] * b);
-            return a;
+            IWF_1D c = (IWF_1D)a.Clone();
+            for (int i = 0; i < c.DimX; i++)
+                c.SetField(i, c[i] * b);
+            return c;
         }
 
         public static IWF_1D operator +(IWF_1D a, double b) => b + a;
@@ -80,9 +83,10 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 
         public static IWF_1D operator /(IWF_1D a, double b)
         {
-            for (int i = 0; i < a.DimX; i++)
-                a.SetField(i, a[i] / b);
-            return a;
+            IWF_1D c = (IWF_1D)a.Clone();
+            for (int i = 0; i < c.DimX; i++)
+                c.SetField(i, c[i] / b);
+            return c;
         }
 
         #endregion Operatoren WF-double
@@ -93,27 +97,30 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
         {
             if (!(a.Dimensions == b.Dimensions))
                 throw new Exception("Error with Dimensions.");
-            for (int i = 0; i < a.DimX; i++)
-                a.SetField(i, a[i] + b[i]);
-            return a;
+            IWF_1D c = (IWF_1D)a.Clone();
+            for (int i = 0; i < c.DimX; i++)
+                c.SetField(i, c[i] + b[i]);
+            return c;
         }
 
         public static IWF_1D operator -(IWF_1D a, IWF_1D b)
         {
             if (!(a.Dimensions == b.Dimensions))
                 throw new Exception("Error with Dimensions.");
-            for (int i = 0; i < a.DimX; i++)
-                a.SetField(i, a[i] - b[i]);
-            return a;
+            IWF_1D c = (IWF_1D)a.Clone();
+            for (int i = 0; i < c.DimX; i++)
+                c.SetField(i, c[i] - b[i]);
+            return c;
         }
 
         public static IWF_1D operator *(IWF_1D a, IWF_1D b)
         {
             if (!(a.Dimensions == b.Dimensions))
                 throw new Exception("Error with Dimensions.");
-            for (int i = 0; i < a.DimX; i++)
-                a.SetField(i, a[i] * b[i]);
-            return a;
+            IWF_1D c = (IWF_1D)a.Clone();
+            for (int i = 0; i < c.DimX; i++)
+                c.SetField(i, c[i] * b[i]);
+            return c;
         }
 
         #endregion Operatoren WF-WF

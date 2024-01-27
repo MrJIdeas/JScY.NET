@@ -32,15 +32,15 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
 
         public IWavefunction Conj()
         {
-            WF_1D conj = this;
+            WF_1D conj = new WF_1D(DimX);
             for (int i = 0; i < conj.DimX; i++)
-                conj.field[i] = Complex.Conjugate(conj[i]);
+                conj.field[i] = Complex.Conjugate(field[i]);
             return conj;
         }
 
         public IWavefunction GetShift(EShift shift)
         {
-            WF_1D neu = this;
+            WF_1D neu = new WF_1D(DimX);
             Complex buf;
             switch (shift)
             {
@@ -48,21 +48,19 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
                     return null;
 
                 case EShift.Xm:
-                    buf = neu.field[0];
                     for (int i = 0; i < neu.DimX - 1; i++)
                     {
-                        neu.field[i] = neu.field[i + 1];
+                        neu.field[i] = field[i + 1];
                     }
-                    neu.field[neu.DimX - 1] = buf;
+                    neu.field[neu.DimX - 1] = Complex.Zero;
                     return neu;
 
                 case EShift.Xp:
-                    buf = neu.field[DimX - 1];
                     for (int i = neu.DimX - 1; i > 0; i--)
                     {
-                        neu.field[i] = neu.field[i - 1];
+                        neu.field[i] = field[i - 1];
                     }
-                    neu.field[0] = buf;
+                    neu.field[0] = Complex.Zero;
                     return neu;
             }
         }
@@ -73,6 +71,14 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
         {
             for (int i = 0; i < field.Length; i++)
                 field[i] = Complex.Zero;
+        }
+
+        public IWavefunction Clone()
+        {
+            WF_1D conj = new WF_1D(DimX);
+            for (int i = 0; i < conj.DimX; i++)
+                conj.field[i] = field[i];
+            return conj;
         }
 
         #endregion Interface

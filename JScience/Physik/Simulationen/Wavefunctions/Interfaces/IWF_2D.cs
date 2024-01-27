@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JScience.Physik.Simulationen.Wavefunctions.VarTypes;
+using System;
 using System.Numerics;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
@@ -59,30 +60,33 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
         {
             if (!(a.Dimensions == b.Dimensions))
                 throw new Exception("Error with Dimensions.");
-            for (int i = 0; i < a.DimX; i++)
-                for (int j = 0; j < a.DimY; j++)
-                    a.SetField(i, j, a[i, j] + b[i, j]);
-            return a;
+            IWF_2D c = (IWF_2D)a.Clone();
+            for (int i = 0; i < c.DimX; i++)
+                for (int j = 0; j < c.DimY; j++)
+                    c.SetField(i, j, c[i, j] + b[i, j]);
+            return c;
         }
 
         public static IWF_2D operator -(IWF_2D a, IWF_2D b)
         {
             if (!(a.Dimensions == b.Dimensions))
                 throw new Exception("Error with Dimensions.");
-            for (int i = 0; i < a.DimX; i++)
-                for (int j = 0; j < a.DimY; j++)
-                    a.SetField(i, j, a[i, j] - b[i, j]);
-            return a;
+            IWF_2D c = (IWF_2D)a.Clone();
+            for (int i = 0; i < c.DimX; i++)
+                for (int j = 0; j < c.DimY; j++)
+                    c.SetField(i, j, c[i, j] - b[i, j]);
+            return c;
         }
 
         public static IWF_2D operator *(IWF_2D a, IWF_2D b)
         {
             if (!(a.Dimensions == b.Dimensions))
                 throw new Exception("Error with Dimensions.");
-            for (int i = 0; i < a.DimX; i++)
-                for (int j = 0; j < a.DimY; j++)
-                    a.SetField(i, j, a[i, j] * b[i, j]);
-            return a;
+            IWF_2D c = (IWF_2D)a.Clone();
+            for (int i = 0; i < c.DimX; i++)
+                for (int j = 0; j < c.DimY; j++)
+                    c.SetField(i, j, c[i, j] * b[i, j]);
+            return c;
         }
 
         #endregion Operatoren WF-WF
