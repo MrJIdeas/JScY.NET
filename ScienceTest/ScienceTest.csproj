@@ -10,7 +10,7 @@
   <ItemGroup>
     <PackageReference Include="GnuPlotSharp" Version="1.1.6756.26087" />
     <PackageReference Include="QuantConnect.pythonnet" Version="2.0.26" />
-    <PackageReference Include="ScottPlot" Version="5.0.20" />
+    <PackageReference Include="ScottPlot" Version="5.0.21" />
   </ItemGroup>
 
   <ItemGroup>

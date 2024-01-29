@@ -28,7 +28,8 @@
 
   <ItemGroup>
     <PackageReference Include="GnuPlotSharp" Version="1.1.6756.26087" />
-    <PackageReference Include="pythonnet" Version="3.0.1" />
+    <PackageReference Include="pythonnet" Version="3.0.3" />
+    <PackageReference Include="ScottPlot" Version="5.0.21" />
   </ItemGroup>
 
 </Project>
