@@ -52,11 +52,11 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
                     {
                         neu.field[i] = field[i + 1];
                     }
-                    neu.field[neu.DimX - 1] = Complex.Zero;
+                    neu.field[neu.field.Length - 1] = Complex.Zero;
                     return neu;
 
                 case EShift.Xp:
-                    for (int i = neu.DimX - 1; i > 0; i--)
+                    for (int i = neu.field.Length - 1; i > 0; i--)
                     {
                         neu.field[i] = field[i - 1];
                     }
@@ -93,7 +93,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
                 y.Add(getNorm(i));
             Plot myPlot = new Plot();
 
-            myPlot.Add.Scatter(x.ToArray(), y.ToArray());
+            myPlot.Add.SignalXY(x.ToArray(), y.ToArray());
             return myPlot.GetImage(width, height);
         }
 
