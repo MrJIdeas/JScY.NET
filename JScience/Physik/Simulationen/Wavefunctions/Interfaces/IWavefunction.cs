@@ -1,4 +1,5 @@
 ﻿using JScience.Physik.Simulationen.Wavefunctions.Enums;
+using ScottPlot;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 {
@@ -15,5 +16,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
         void Clear();
 
         IWavefunction Clone();
+
+        Image GetImage(int width, int height);
     }
 }

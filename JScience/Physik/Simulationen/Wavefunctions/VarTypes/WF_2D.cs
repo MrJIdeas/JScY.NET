@@ -1,5 +1,6 @@
 ﻿using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
+using ScottPlot;
 using System;
 using System.Numerics;
 
@@ -127,6 +128,18 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
         }
 
         public double getNorm(int x, int y) => (Complex.Conjugate(field[x, y]) * field[x, y]).Real;
+
+        public Image GetImage(int width, int height)
+        {
+            var plt = new Plot();
+
+            double[,] data = new double[DimX, DimY];
+            for (int i = 0; i < DimY; i++)
+                for (int j = 0; j < DimY; j++)
+                    data[i, j] = getNorm(i, j);
+            plt.Add.Heatmap(data);
+            return plt.GetImage(width, height);
+        }
 
         #endregion Interface
 

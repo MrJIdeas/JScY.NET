@@ -1,5 +1,7 @@
 ﻿using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
+using ScottPlot;
+using System.Collections.Generic;
 using System.Numerics;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
@@ -80,6 +82,20 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
         }
 
         public double getNorm(int x) => (Complex.Conjugate(field[x]) * field[x]).Real;
+
+        public Image GetImage(int width, int height)
+        {
+            List<double> x = new List<double>();
+            for (int i = 0; i < DimX; i++)
+                x.Add(i);
+            List<double> y = new List<double>();
+            for (int i = 0; i < DimX; i++)
+                y.Add(getNorm(i));
+            Plot myPlot = new Plot();
+
+            myPlot.Add.Scatter(x.ToArray(), y.ToArray());
+            return myPlot.GetImage(width, height);
+        }
 
         #endregion Interface
     }
