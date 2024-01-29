@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Numerics;
-using System.Threading.Tasks;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 {
@@ -18,28 +17,22 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 
         public static IWF_1D operator +(Complex b, IWF_1D a)
         {
-            while (!Parallel.For(0, a.DimX, (i) =>
-            {
+            for (int i = 0; i < a.DimX; i++)
                 a.SetField(i, a[i] + b);
-            }).IsCompleted) ;
             return a;
         }
 
         public static IWF_1D operator -(Complex b, IWF_1D a)
         {
-            while (!Parallel.For(0, a.DimX, (i) =>
-            {
+            for (int i = 0; i < a.DimX; i++)
                 a.SetField(i, a[i] - b);
-            }).IsCompleted) ;
             return a;
         }
 
         public static IWF_1D operator *(Complex b, IWF_1D a)
         {
-            while (!Parallel.For(0, a.DimX, (i) =>
-            {
+            for (int i = 0; i < a.DimX; i++)
                 a.SetField(i, a[i] * b);
-            }).IsCompleted) ;
             return a;
         }
 
@@ -51,10 +44,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 
         public static IWF_1D operator /(IWF_1D a, Complex b)
         {
-            while (!Parallel.For(0, a.DimX, (i) =>
-            {
+            for (int i = 0; i < a.DimX; i++)
                 a.SetField(i, a[i] / b);
-            }).IsCompleted) ;
             return a;
         }
 
@@ -65,30 +56,24 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
         public static IWF_1D operator +(double b, IWF_1D a)
         {
             IWF_1D c = (IWF_1D)a.Clone();
-            while (!Parallel.For(0, c.DimX, (i) =>
-            {
+            for (int i = 0; i < c.DimX; i++)
                 c.SetField(i, c[i] + b);
-            }).IsCompleted) ;
             return c;
         }
 
         public static IWF_1D operator -(double b, IWF_1D a)
         {
             IWF_1D c = (IWF_1D)a.Clone();
-            while (!Parallel.For(0, c.DimX, (i) =>
-            {
+            for (int i = 0; i < c.DimX; i++)
                 c.SetField(i, c[i] - b);
-            }).IsCompleted) ;
             return c;
         }
 
         public static IWF_1D operator *(double b, IWF_1D a)
         {
             IWF_1D c = (IWF_1D)a.Clone();
-            while (!Parallel.For(0, c.DimX, (i) =>
-            {
+            for (int i = 0; i < c.DimX; i++)
                 c.SetField(i, c[i] * b);
-            }).IsCompleted) ;
             return c;
         }
 
@@ -101,10 +86,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
         public static IWF_1D operator /(IWF_1D a, double b)
         {
             IWF_1D c = (IWF_1D)a.Clone();
-            while (!Parallel.For(0, c.DimX, (i) =>
-            {
+            for (int i = 0; i < c.DimX; i++)
                 c.SetField(i, c[i] / b);
-            }).IsCompleted) ;
             return c;
         }
 
@@ -117,10 +100,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             if (!(a.Dimensions == b.Dimensions))
                 throw new Exception("Error with Dimensions.");
             IWF_1D c = (IWF_1D)a.Clone();
-            while (!Parallel.For(0, c.DimX, (i) =>
-            {
+            for (int i = 0; i < c.DimX; i++)
                 c.SetField(i, c[i] + b[i]);
-            }).IsCompleted) ;
             return c;
         }
 
@@ -129,10 +110,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             if (!(a.Dimensions == b.Dimensions))
                 throw new Exception("Error with Dimensions.");
             IWF_1D c = (IWF_1D)a.Clone();
-            while (!Parallel.For(0, c.DimX, (i) =>
-            {
+            for (int i = 0; i < c.DimX; i++)
                 c.SetField(i, c[i] - b[i]);
-            }).IsCompleted) ;
             return c;
         }
 
@@ -141,10 +120,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             if (!(a.Dimensions == b.Dimensions))
                 throw new Exception("Error with Dimensions.");
             IWF_1D c = (IWF_1D)a.Clone();
-            while (!Parallel.For(0, c.DimX, (i) =>
-            {
+            for (int i = 0; i < c.DimX; i++)
                 c.SetField(i, c[i] * b[i]);
-            }).IsCompleted) ;
             return c;
         }
 
