@@ -1,4 +1,5 @@
-﻿using JScience.Physik.Simulationen.Wavefunctions.Enums;
+﻿using JScience.Physik.Simulationen.Spins.Enums;
+using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
 using ScottPlot;
 using System.Collections.Generic;
@@ -8,14 +9,17 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
 {
     public class WF_1D : IWF_1D
     {
-        public WF_1D(int DimX)
+        public WF_1D(int DimX, ELatticeBoundary boundary)
         {
             field = new Complex[DimX];
+            Boundary = boundary;
         }
 
         private Complex[] field { get; set; }
 
         #region Interface
+
+        public ELatticeBoundary Boundary { get; private set; }
 
         public Complex this[int x] => field[x];
         public int DimX => field.Length;
@@ -33,7 +37,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
 
         public IWavefunction Conj()
         {
-            WF_1D conj = new WF_1D(DimX);
+            WF_1D conj = new WF_1D(DimX, Boundary);
             for (int i = 0; i < conj.DimX; i++)
                 conj.field[i] = Complex.Conjugate(field[i]);
             return conj;
@@ -41,7 +45,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
 
         public IWavefunction GetShift(EShift shift)
         {
-            WF_1D neu = new WF_1D(DimX);
+            WF_1D neu = new WF_1D(DimX, Boundary);
             switch (shift)
             {
                 default:
@@ -52,7 +56,10 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
                     {
                         neu.field[i] = field[i + 1];
                     }
-                    neu.field[neu.field.Length - 1] = Complex.Zero;
+                    if (Boundary == ELatticeBoundary.Periodic)
+                        neu.field[neu.field.Length - 1] = field[0];
+                    else
+                        neu.field[neu.field.Length - 1] = Complex.Zero;
                     return neu;
 
                 case EShift.Xp:
@@ -60,7 +67,10 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
                     {
                         neu.field[i] = field[i - 1];
                     }
-                    neu.field[0] = Complex.Zero;
+                    if (Boundary == ELatticeBoundary.Periodic)
+                        neu.field[0] = field[field.Length - 1];
+                    else
+                        neu.field[0] = Complex.Zero;
                     return neu;
             }
         }
@@ -75,7 +85,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
 
         public IWavefunction Clone()
         {
-            WF_1D conj = new WF_1D(DimX);
+            WF_1D conj = new WF_1D(DimX, Boundary);
             for (int i = 0; i < conj.DimX; i++)
                 conj.field[i] = field[i];
             return conj;

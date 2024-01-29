@@ -1,4 +1,5 @@
-﻿using JScience.Physik.Simulationen.Wavefunctions.Enums;
+﻿using JScience.Physik.Simulationen.Spins.Enums;
+using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using ScottPlot;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
@@ -6,6 +7,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
     public interface IWavefunction
     {
         int Dimensions { get; }
+        ELatticeBoundary Boundary { get; }
 
         double Norm();
 

@@ -1,4 +1,5 @@
-﻿using JScience.Physik.Simulationen.Wavefunctions.Classes;
+﻿using JScience.Physik.Simulationen.Spins.Enums;
+using JScience.Physik.Simulationen.Wavefunctions.Classes;
 using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Interfaces;
 using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.TightBinding.VarTypes;
 using JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Classes;
@@ -10,8 +11,8 @@ using JScience.Physik.Simulationen.Wavefunctions.VarTypes;
 //Console.WriteLine(test.H());
 //Console.WriteLine(test.n);
 
-WF_1D test = (WF_1D)WFCreator.CreateGaußWave(0.5, 50, 500, 10);
-//WF_1D test = (WF_1D)WFCreator.CreateDelta(100, 5);
+WF_1D test = (WF_1D)WFCreator.CreateGaußWave(1, 25, 500, 250, ELatticeBoundary.Periodic);
+//WF_1D test = (WF_1D)WFCreator.CreateDelta(500, 250, ELatticeBoundary.Periodic);
 //for (int i = 0; i < test.DimX; i++)
 //    Console.WriteLine(test.getNorm(i));
 Console.WriteLine("Norm: " + test.Norm());
@@ -22,19 +23,17 @@ TightBindung1D<WF_1D> ham = new TightBindung1D<WF_1D>(1);
 
 hamlist.Add(ham);
 
-U_T_1D<WF_1D> ze = new U_T_1D<WF_1D>(0.01);
-test = ze.Do(test, hamlist);
-//for (int i = 0; i < test.DimX; i++)
-//    Console.WriteLine(test.getNorm(i));
-Console.WriteLine("Norm: " + test.Norm());
+U_T_1D<WF_1D> ze = new U_T_1D<WF_1D>(0.5);
 
-List<double> x = new List<double>();
-for (int i = 0; i < test.DimX; i++)
-    x.Add(i);
-List<double> y = new List<double>();
-for (int i = 0; i < test.DimX; i++)
-    y.Add(test.getNorm(i));
-ScottPlot.Plot myPlot = new();
-
-myPlot.Add.Scatter(x.ToArray(), y.ToArray());
-myPlot.SavePng("quickstart.png", 800, 600);
+for (int i = 0; i < 5000; i++)
+{
+    test = ze.Do(test, hamlist);
+    //for (int i = 0; i < test.DimX; i++)
+    //    Console.WriteLine(test.getNorm(i));
+    //Console.WriteLine("Norm: " + test.Norm());
+    if (i % 100 == 0)
+    {
+        var erg = test.GetImage(800, 600);
+        erg.SavePng("test" + i + ".png");
+    }
+}

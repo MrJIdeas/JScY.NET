@@ -35,7 +35,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Classes
 
         private T PsiNTerm(T WF, List<IHamilton<T>> Hamiltons, int n)
         {
-            T WF1 = (T)Activator.CreateInstance(WF.GetType(), WF.DimX);
+            T WF1 = (T)Activator.CreateInstance(WF.GetType(), WF.DimX, WF.Boundary);
             List<IHamilton<T>> hamtodelete = new List<IHamilton<T>>();
             foreach (var ham in Hamiltons)
             {

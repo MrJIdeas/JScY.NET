@@ -1,4 +1,5 @@
-﻿using JScience.Physik.Simulationen.Wavefunctions.Enums;
+﻿using JScience.Physik.Simulationen.Spins.Enums;
+using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
 using ScottPlot;
 using System;
@@ -8,11 +9,13 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
 {
     public class WF_2D : IWF_2D
     {
-        public WF_2D(int DimX, int DimY)
+        public WF_2D(int DimX, int DimY, ELatticeBoundary boundary)
         {
+            Boundary = boundary;
             field = new Complex[DimX, DimY];
         }
 
+        public ELatticeBoundary Boundary { get; private set; }
         private Complex[,] field { get; set; }
         public Complex this[int x, int y] => field[x, y];
 
@@ -120,7 +123,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
 
         public IWavefunction Clone()
         {
-            WF_2D conj = new WF_2D(DimX, DimY);
+            WF_2D conj = new WF_2D(DimX, DimY, Boundary);
             for (int i = 0; i < conj.DimX; i++)
                 for (int j = 0; j < conj.DimY; j++)
                     conj.SetField(i, j, field[i, j]);
