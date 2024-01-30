@@ -70,58 +70,82 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
                     return null;
 
                 case EShift.Xm:
-                    Parallel.For(0, neu.DimY - 1, (j) =>
+                    Parallel.ForEach(neu.rangePartitioner, (range, loopState) =>
                     {
-                        for (int i = 0; i < neu.DimX - 1; i++)
+                        for (int i = range.Item1; i < range.Item2; i++)
                         {
-                            neu[i, j] = this[i + 1, j];
+                            int x = i % DimX;
+                            int y = (i - x) / DimX;
+                            if (x < DimX - 1)
+                                neu.field[i] = this[x + 1, y];
+                            else
+                            {
+                                if (Boundary == ELatticeBoundary.Periodic)
+                                    neu.field[i] = this[0, y];
+                                else
+                                    neu.field[i] = Complex.Zero;
+                            }
                         }
-                        if (Boundary == ELatticeBoundary.Periodic)
-                            neu[neu.DimX - 1, j] = this[0, j];
-                        else
-                            neu[neu.DimX - 1, j] = Complex.Zero;
                     });
                     return neu;
 
                 case EShift.Xp:
-                    Parallel.For(0, neu.DimY - 1, (j) =>
+                    Parallel.ForEach(neu.rangePartitioner, (range, loopState) =>
                     {
-                        for (int i = neu.DimX - 1; i > 0; i--)
+                        for (int i = range.Item1; i < range.Item2; i++)
                         {
-                            neu[i, j] = this[i - 1, j];
+                            int x = i % DimX;
+                            int y = (i - x) / DimX;
+                            if (x > 0)
+                                neu.field[i] = this[x - 1, y];
+                            else
+                            {
+                                if (Boundary == ELatticeBoundary.Periodic)
+                                    neu.field[i] = this[DimX - 1, y];
+                                else
+                                    neu.field[i] = Complex.Zero;
+                            }
                         }
-                        if (Boundary == ELatticeBoundary.Periodic)
-                            neu[0, j] = this[DimX - 1, j];
-                        else
-                            neu[0, j] = Complex.Zero;
                     });
                     return neu;
 
                 case EShift.Ym:
-                    Parallel.For(0, DimX, (j) =>
+                    Parallel.ForEach(neu.rangePartitioner, (range, loopState) =>
                     {
-                        for (int i = 0; i < neu.DimY - 1; i++)
+                        for (int i = range.Item1; i < range.Item2; i++)
                         {
-                            neu[j, i] = this[j, i + 1];
+                            int x = i % DimX;
+                            int y = (i - x) / DimX;
+                            if (y < DimY - 1)
+                                neu.field[i] = this[x, y + 1];
+                            else
+                            {
+                                if (Boundary == ELatticeBoundary.Periodic)
+                                    neu.field[i] = this[x, 0];
+                                else
+                                    neu.field[i] = Complex.Zero;
+                            }
                         }
-                        if (Boundary == ELatticeBoundary.Periodic)
-                            neu[j, neu.DimY - 1] = this[j, 0];
-                        else
-                            neu[j, neu.DimY - 1] = Complex.Zero;
                     });
                     return neu;
 
                 case EShift.Yp:
-                    Parallel.For(0, DimX, (j) =>
+                    Parallel.ForEach(neu.rangePartitioner, (range, loopState) =>
                     {
-                        for (int i = neu.DimY - 1; i > 0; i--)
+                        for (int i = range.Item1; i < range.Item2; i++)
                         {
-                            neu[j, i] = this[j, i - 1];
+                            int x = i % DimX;
+                            int y = (i - x) / DimX;
+                            if (y > 0)
+                                neu.field[i] = this[x, y - 1];
+                            else
+                            {
+                                if (Boundary == ELatticeBoundary.Periodic)
+                                    neu.field[i] = this[x, DimY - 1];
+                                else
+                                    neu.field[i] = Complex.Zero;
+                            }
                         }
-                        if (Boundary == ELatticeBoundary.Periodic)
-                            neu[j, 0] = this[j, DimY - 1];
-                        else
-                            neu[j, 0] = Complex.Zero;
                     });
                     return neu;
             }
@@ -149,7 +173,9 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
             return conj;
         }
 
-        public double getNorm(int x, int y) => (Complex.Conjugate(this[x, y]) * this[x, y]).Real;
+        public double getNorm(int x, int y) => getNorm(x + y * DimX);
+
+        public double getNorm(int i) => (Complex.Conjugate(field[i]) * field[i]).Real;
 
         public Image GetImage(int width, int height)
         {
