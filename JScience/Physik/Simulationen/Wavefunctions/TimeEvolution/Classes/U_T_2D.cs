@@ -4,8 +4,8 @@ using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
 using JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Numerics;
 using System.Linq;
+using System.Numerics;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Classes
 {

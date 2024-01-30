@@ -1,8 +1,8 @@
 ﻿using JScience.Physik.Simulationen.Spins.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using ScottPlot;
-using System.Collections.Concurrent;
 using System;
+using System.Collections.Concurrent;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 {
