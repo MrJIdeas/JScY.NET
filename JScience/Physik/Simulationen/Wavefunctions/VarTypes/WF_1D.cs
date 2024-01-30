@@ -2,6 +2,8 @@
 using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
 using ScottPlot;
+using System.Collections.Concurrent;
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -13,8 +15,10 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
         {
             field = new Complex[DimX];
             Boundary = boundary;
+            rangePartitioner = Partitioner.Create(0, DimX);
         }
 
+        public OrderablePartitioner<Tuple<int, int>> rangePartitioner { get; private set; }
         private Complex[] field { get; set; }
 
         #region Interface

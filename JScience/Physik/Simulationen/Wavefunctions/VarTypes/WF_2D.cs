@@ -3,6 +3,7 @@ using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
 using ScottPlot;
 using System;
+using System.Collections.Concurrent;
 using System.Numerics;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
@@ -13,9 +14,12 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
         {
             Boundary = boundary;
             field = new Complex[DimX, DimY];
+            rangePartitioner = Partitioner.Create(0, DimX);
         }
 
+        public OrderablePartitioner<Tuple<int, int>> rangePartitioner { get; private set; }
         public ELatticeBoundary Boundary { get; private set; }
+
         private Complex[,] field { get; set; }
         public Complex this[int x, int y] => field[x, y];
 

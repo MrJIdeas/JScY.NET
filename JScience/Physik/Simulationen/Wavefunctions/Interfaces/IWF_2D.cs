@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Numerics;
+using System.Threading.Tasks;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 {
@@ -60,27 +62,42 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
         public static IWF_2D operator +(double b, IWF_2D a)
         {
             IWF_2D c = (IWF_2D)a.Clone();
-            for (int i = 0; i < c.DimX; i++)
-                for (int j = 0; j < c.DimY; j++)
-                    c.SetField(i, j, c[i, j] + b);
+
+            // Loop over the partitions in parallel.
+            Parallel.ForEach(c.rangePartitioner, (range, loopState) =>
+            {
+                for (int i = range.Item1; i < range.Item2; i++)
+                    for (int j = 0; j < c.DimY; j++)
+                        c.SetField(i, j, c[i, j] + b);
+            });
             return c;
         }
 
         public static IWF_2D operator -(double b, IWF_2D a)
         {
             IWF_2D c = (IWF_2D)a.Clone();
-            for (int i = 0; i < c.DimX; i++)
-                for (int j = 0; j < c.DimY; j++)
-                    c.SetField(i, j, c[i, j] - b);
+
+            // Loop over the partitions in parallel.
+            Parallel.ForEach(c.rangePartitioner, (range, loopState) =>
+            {
+                for (int i = range.Item1; i < range.Item2; i++)
+                    for (int j = 0; j < c.DimY; j++)
+                        c.SetField(i, j, c[i, j] - b);
+            });
             return c;
         }
 
         public static IWF_2D operator *(double b, IWF_2D a)
         {
             IWF_2D c = (IWF_2D)a.Clone();
-            for (int i = 0; i < c.DimX; i++)
-                for (int j = 0; j < c.DimY; j++)
-                    c.SetField(i, j, c[i, j] * b);
+
+            // Loop over the partitions in parallel.
+            Parallel.ForEach(c.rangePartitioner, (range, loopState) =>
+            {
+                for (int i = range.Item1; i < range.Item2; i++)
+                    for (int j = 0; j < c.DimY; j++)
+                        c.SetField(i, j, c[i, j] * b);
+            });
             return c;
         }
 
@@ -93,9 +110,15 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
         public static IWF_2D operator /(IWF_2D a, double b)
         {
             IWF_2D c = (IWF_2D)a.Clone();
-            for (int i = 0; i < c.DimX; i++)
-                for (int j = 0; j < c.DimY; j++)
-                    c.SetField(i, j, c[i, j] / b);
+            var rangePartitioner = Partitioner.Create(0, c.DimX);
+
+            // Loop over the partitions in parallel.
+            Parallel.ForEach(rangePartitioner, (range, loopState) =>
+            {
+                for (int i = range.Item1; i < range.Item2; i++)
+                    for (int j = 0; j < c.DimY; j++)
+                        c.SetField(i, j, c[i, j] / b);
+            });
             return c;
         }
 
@@ -108,9 +131,14 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             if (!(a.Dimensions == b.Dimensions))
                 throw new Exception("Error with Dimensions.");
             IWF_2D c = (IWF_2D)a.Clone();
-            for (int i = 0; i < c.DimX; i++)
-                for (int j = 0; j < c.DimY; j++)
-                    c.SetField(i, j, c[i, j] + b[i, j]);
+
+            // Loop over the partitions in parallel.
+            Parallel.ForEach(c.rangePartitioner, (range, loopState) =>
+            {
+                for (int i = range.Item1; i < range.Item2; i++)
+                    for (int j = 0; j < c.DimY; j++)
+                        c.SetField(i, j, c[i, j] + b[i, j]);
+            });
             return c;
         }
 
@@ -119,9 +147,14 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             if (!(a.Dimensions == b.Dimensions))
                 throw new Exception("Error with Dimensions.");
             IWF_2D c = (IWF_2D)a.Clone();
-            for (int i = 0; i < c.DimX; i++)
-                for (int j = 0; j < c.DimY; j++)
-                    c.SetField(i, j, c[i, j] - b[i, j]);
+
+            // Loop over the partitions in parallel.
+            Parallel.ForEach(c.rangePartitioner, (range, loopState) =>
+            {
+                for (int i = range.Item1; i < range.Item2; i++)
+                    for (int j = 0; j < c.DimY; j++)
+                        c.SetField(i, j, c[i, j] - b[i, j]);
+            });
             return c;
         }
 
@@ -130,9 +163,14 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             if (!(a.Dimensions == b.Dimensions))
                 throw new Exception("Error with Dimensions.");
             IWF_2D c = (IWF_2D)a.Clone();
-            for (int i = 0; i < c.DimX; i++)
-                for (int j = 0; j < c.DimY; j++)
-                    c.SetField(i, j, c[i, j] * b[i, j]);
+
+            // Loop over the partitions in parallel.
+            Parallel.ForEach(c.rangePartitioner, (range, loopState) =>
+            {
+                for (int i = range.Item1; i < range.Item2; i++)
+                    for (int j = 0; j < c.DimY; j++)
+                        c.SetField(i, j, c[i, j] * b[i, j]);
+            });
             return c;
         }
 

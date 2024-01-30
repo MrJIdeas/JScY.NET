@@ -1,6 +1,8 @@
 ﻿using JScience.Physik.Simulationen.Spins.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using ScottPlot;
+using System.Collections.Concurrent;
+using System;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 {
@@ -8,6 +10,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
     {
         int Dimensions { get; }
         ELatticeBoundary Boundary { get; }
+
+        OrderablePartitioner<Tuple<int, int>> rangePartitioner { get; }
 
         double Norm();
 
