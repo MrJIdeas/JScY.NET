@@ -13,9 +13,9 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 
         double getNorm(int x, int y);
 
-        #region Operatoren WF-double
+        #region Operatoren WF-complex
 
-        public static IWF_2D operator +(double b, IWF_2D a)
+        public static IWF_2D operator +(Complex b, IWF_2D a)
         {
             for (int i = 0; i < a.DimX; i++)
                 for (int j = 0; j < a.DimY; j++)
@@ -23,7 +23,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             return a;
         }
 
-        public static IWF_2D operator -(double b, IWF_2D a)
+        public static IWF_2D operator -(Complex b, IWF_2D a)
         {
             for (int i = 0; i < a.DimX; i++)
                 for (int j = 0; j < a.DimY; j++)
@@ -31,12 +31,57 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             return a;
         }
 
-        public static IWF_2D operator *(double b, IWF_2D a)
+        public static IWF_2D operator *(Complex b, IWF_2D a)
         {
             for (int i = 0; i < a.DimX; i++)
                 for (int j = 0; j < a.DimY; j++)
                     a.SetField(i, j, a[i, j] * b);
             return a;
+        }
+
+        public static IWF_2D operator +(IWF_2D a, Complex b) => b + a;
+
+        public static IWF_2D operator -(IWF_2D a, Complex b) => b - a;
+
+        public static IWF_2D operator *(IWF_2D a, Complex b) => b * a;
+
+        public static IWF_2D operator /(IWF_2D a, Complex b)
+        {
+            for (int i = 0; i < a.DimX; i++)
+                for (int j = 0; j < a.DimY; j++)
+                    a.SetField(i, j, a[i, j] / b);
+            return a;
+        }
+
+        #endregion Operatoren WF-complex
+
+        #region Operatoren WF-double
+
+        public static IWF_2D operator +(double b, IWF_2D a)
+        {
+            IWF_2D c = (IWF_2D)a.Clone();
+            for (int i = 0; i < c.DimX; i++)
+                for (int j = 0; j < c.DimY; j++)
+                    c.SetField(i, j, c[i, j] + b);
+            return c;
+        }
+
+        public static IWF_2D operator -(double b, IWF_2D a)
+        {
+            IWF_2D c = (IWF_2D)a.Clone();
+            for (int i = 0; i < c.DimX; i++)
+                for (int j = 0; j < c.DimY; j++)
+                    c.SetField(i, j, c[i, j] - b);
+            return c;
+        }
+
+        public static IWF_2D operator *(double b, IWF_2D a)
+        {
+            IWF_2D c = (IWF_2D)a.Clone();
+            for (int i = 0; i < c.DimX; i++)
+                for (int j = 0; j < c.DimY; j++)
+                    c.SetField(i, j, c[i, j] * b);
+            return c;
         }
 
         public static IWF_2D operator +(IWF_2D a, double b) => b + a;
@@ -47,10 +92,11 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 
         public static IWF_2D operator /(IWF_2D a, double b)
         {
-            for (int i = 0; i < a.DimX; i++)
-                for (int j = 0; j < a.DimY; j++)
-                    a.SetField(i, j, a[i, j] / b);
-            return a;
+            IWF_2D c = (IWF_2D)a.Clone();
+            for (int i = 0; i < c.DimX; i++)
+                for (int j = 0; j < c.DimY; j++)
+                    c.SetField(i, j, c[i, j] / b);
+            return c;
         }
 
         #endregion Operatoren WF-double

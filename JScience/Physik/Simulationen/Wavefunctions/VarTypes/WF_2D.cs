@@ -47,7 +47,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
 
         public IWavefunction GetShift(EShift shift)
         {
-            WF_2D neu = this;
+            WF_2D neu = new WF_2D(DimX, DimY, Boundary);
             Complex[] buf;
             switch (shift)
             {
@@ -55,58 +55,58 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
                     return null;
 
                 case EShift.Xm:
-                    buf = new Complex[neu.DimY];
-                    for (int i = 0; i < neu.DimY; i++)
-                        buf[i] = neu.field[0, i];
-                    for (int j = 0; j < neu.DimY; j++)
+                    for (int j = 0; j < neu.DimY - 1; j++)
                     {
                         for (int i = 0; i < neu.DimX - 1; i++)
                         {
-                            neu.field[0, i] = neu.field[i + 1, j];
+                            neu.field[i, j] = field[i + 1, j];
                         }
-                        neu.field[neu.DimX - 1, j] = buf[j];
+                        if (Boundary == ELatticeBoundary.Periodic)
+                            neu.field[neu.DimX - 1, j] = field[0, j];
+                        else
+                            neu.field[neu.DimX - 1, j] = Complex.Zero;
                     }
                     return neu;
 
                 case EShift.Xp:
-                    buf = new Complex[neu.DimY];
-                    for (int i = 0; i < neu.DimY; i++)
-                        buf[i] = neu.field[DimX - 1, i];
-                    for (int j = 0; j < neu.DimY; j++)
+                    for (int j = 0; j < neu.DimY - 1; j++)
                     {
-                        for (int i = neu.DimX - 1 - 1; i >= 0; i--)
+                        for (int i = neu.DimX - 1; i > 0; i--)
                         {
-                            neu.field[i, j] = neu.field[i - 1, j];
+                            neu.field[i, j] = field[i - 1, j];
                         }
-                        neu.field[0, j] = buf[j];
+                        if (Boundary == ELatticeBoundary.Periodic)
+                            neu.field[0, j] = field[DimX - 1, j];
+                        else
+                            neu.field[0, j] = Complex.Zero;
                     }
                     return neu;
 
                 case EShift.Ym:
-                    buf = new Complex[neu.DimX];
-                    for (int i = 0; i < neu.DimX; i++)
-                        buf[i] = neu.field[i, 0];
-                    for (int i = 0; i < neu.DimX; i++)
+                    for (int j = 0; j < neu.DimX - 1; j++)
                     {
-                        for (int j = 0; j < neu.DimY - 1; j++)
+                        for (int i = 0; i < neu.DimY - 1; i++)
                         {
-                            neu.field[i, j] = neu.field[i, j + 1];
+                            neu.field[j, i] = field[j, i + 1];
                         }
-                        neu.field[i, neu.DimY - 1] = buf[i];
+                        if (Boundary == ELatticeBoundary.Periodic)
+                            neu.field[j, neu.DimY - 1] = field[j, 0];
+                        else
+                            neu.field[j, neu.DimY - 1] = Complex.Zero;
                     }
                     return neu;
 
                 case EShift.Yp:
-                    buf = new Complex[neu.DimX];
-                    for (int i = 0; i < neu.DimX; i++)
-                        buf[i] = neu.field[i, DimY - 1];
-                    for (int i = 0; i < neu.DimX; i++)
+                    for (int j = 0; j < neu.DimX - 1; j++)
                     {
-                        for (int j = neu.DimY - 1 - 1; j >= 0; j--)
+                        for (int i = neu.DimY - 1; i > 0; i--)
                         {
-                            neu.field[i, j] = neu.field[i, j - 1];
+                            neu.field[j, i] = field[j, i - 1];
                         }
-                        neu.field[i, 0] = buf[i];
+                        if (Boundary == ELatticeBoundary.Periodic)
+                            neu.field[j, 0] = field[j, DimY - 1];
+                        else
+                            neu.field[j, 0] = Complex.Zero;
                     }
                     return neu;
             }
@@ -140,7 +140,10 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
             for (int i = 0; i < DimY; i++)
                 for (int j = 0; j < DimY; j++)
                     data[i, j] = getNorm(i, j);
-            plt.Add.Heatmap(data);
+            var hm1 = plt.Add.Heatmap(data);
+            hm1.Colormap = new ScottPlot.Colormaps.Turbo();
+
+            plt.Add.ColorBar(hm1);
             return plt.GetImage(width, height);
         }
 
