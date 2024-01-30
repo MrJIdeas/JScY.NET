@@ -169,7 +169,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
 
         public double getNorm(int x, int y) => getNorm(x + y * DimX);
 
-        public double getNorm(int i) => (Complex.Conjugate(field[i]) * field[i]).Real;
+        public double getNorm(int i) => Math.Pow(field[i].Magnitude, 2);
 
         public Image GetImage(int width, int height)
         {

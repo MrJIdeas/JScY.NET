@@ -31,7 +31,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
         public int DimX => field.Length;
         public int Dimensions => 1;
 
-        public double Norm() => field.ToList().AsParallel().Sum(x => (x * Complex.Conjugate(x)).Real);
+        public double Norm() => field.ToList().AsParallel().Sum(x => Math.Pow(x.Magnitude, 2));
 
         public IWavefunction Conj()
         {
@@ -94,7 +94,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
             return conj;
         }
 
-        public double getNorm(int x) => (Complex.Conjugate(field[x]) * field[x]).Real;
+        public double getNorm(int x) => Math.Pow(field[x].Magnitude, 2);
 
         public Image GetImage(int width, int height)
         {
@@ -106,7 +106,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
                 y.Add(getNorm(i));
             Plot myPlot = new Plot();
 
-            myPlot.Add.SignalXY(x.ToArray(), y.ToArray());
+            myPlot.Add.Bars(x, y);
             return myPlot.GetImage(width, height);
         }
 

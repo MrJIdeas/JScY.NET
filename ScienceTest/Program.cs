@@ -12,24 +12,28 @@ using JScience.Physik.Simulationen.Wavefunctions.VarTypes;
 //Console.WriteLine(test.n);
 
 //WF_1D test = (WF_1D)WFCreator.CreateGaußWave(1, 25, 500, 250, ELatticeBoundary.Periodic);
-WF_2D test = (WF_2D)WFCreator.CreateGaußWave(1, 0, 25, 25, 100, 100, 50, 50, ELatticeBoundary.Periodic);
-//WF_1D test = (WF_1D)WFCreator.CreateDelta(500, 250, ELatticeBoundary.Periodic);
+//WF_2D test = (WF_2D)WFCreator.CreateGaußWave(1, 0, 25, 25, 100, 100, 50, 50, ELatticeBoundary.Periodic);
+//WF_1D test = (WF_1D)WFCreator.CreateFreeWave(1, 100, ELatticeBoundary.Periodic);
+//WF_2D test = (WF_2D)WFCreator.CreateFreeWave(1, 0, 100, 100, 50, 50, ELatticeBoundary.Reflection);
+WF_1D test = (WF_1D)WFCreator.CreateDelta(100, 50, ELatticeBoundary.Periodic);
 //WF_2D test = (WF_2D)WFCreator.CreateDelta(100, 100, 25, 25, ELatticeBoundary.Periodic);
 Console.WriteLine("Norm: " + test.Norm());
 
-//List<IHamilton<WF_1D>> hamlist = new List<IHamilton<WF_1D>>();
+List<IHamilton<WF_1D>> hamlist = new List<IHamilton<WF_1D>>();
 
-//TightBindung1D<WF_1D> ham = new TightBindung1D<WF_1D>(1);
+TightBindung1D<WF_1D> ham = new TightBindung1D<WF_1D>(1);
 
-List<IHamilton<WF_2D>> hamlist = new List<IHamilton<WF_2D>>();
+//List<IHamilton<WF_2D>> hamlist = new List<IHamilton<WF_2D>>();
 
-TightBindung2D<WF_2D> ham = new TightBindung2D<WF_2D>(1);
+//TightBindung2D<WF_2D> ham = new TightBindung2D<WF_2D>(1);
 
 hamlist.Add(ham);
 
-//U_T_1D<WF_1D> ze = new U_T_1D<WF_1D>(0.5);
-U_T_2D<WF_2D> ze = new U_T_2D<WF_2D>(0.5);
+U_T_1D<WF_1D> ze = new U_T_1D<WF_1D>(0.5);
+//U_T_2D<WF_2D> ze = new U_T_2D<WF_2D>(0.5);
 
+var erg = test.GetImage(800, 600);
+erg.SavePng("test_START.png");
 for (int i = 0; i < 5000; i++)
 {
     DateTime start = DateTime.Now;
@@ -38,7 +42,7 @@ for (int i = 0; i < 5000; i++)
     Console.WriteLine("Norm: " + test.Norm());
     if (i % 10 == 0)
     {
-        var erg = test.GetImage(800, 600);
+        erg = test.GetImage(800, 600);
         erg.SavePng("test" + i + ".png");
     }
 }
