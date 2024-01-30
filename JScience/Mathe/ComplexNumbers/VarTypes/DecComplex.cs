@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using System;
+﻿using System;
 
 namespace JScience.Mathe.ComplexNumbers.VarTypes
 {
