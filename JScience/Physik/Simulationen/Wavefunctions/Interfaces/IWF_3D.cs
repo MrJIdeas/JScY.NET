@@ -1,6 +1,5 @@
 ﻿using JScience.Mathe.ComplexNumbers.VarTypes;
 using System;
-using System.Numerics;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 {
