@@ -31,7 +31,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
         {
             IWF_1D erg = new WF_1D(DimX, boundary);
             for (int i = 0; i < DimX; i++)
-                erg.SetField(i, Complex.Exp(-Complex.ImaginaryOne * k * i));
+                erg.SetField(i, Complex.Exp(Complex.ImaginaryOne * k * i));
             return NormWave(erg);
         }
 
@@ -40,7 +40,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
             IWF_2D erg = new WF_2D(DimX, DimY, boundary);
             for (int i = 0; i < DimX; i++)
                 for (int j = 0; j < DimY; j++)
-                    erg.SetField(i, j, Complex.Exp(-Complex.ImaginaryOne * (kx * i + ky * j)));
+                    erg.SetField(i, j, Complex.Exp(Complex.ImaginaryOne * (kx * i + ky * j)));
             return NormWave(erg);
         }
 
