@@ -12,26 +12,28 @@ using JScience.Physik.Simulationen.Wavefunctions.VarTypes;
 //Console.WriteLine(test.n);
 
 //WF_1D test = (WF_1D)WFCreator.CreateGaußWave(1, 25, 500, 250, ELatticeBoundary.Periodic);
-//WF_1D test = (WF_1D)WFCreator.CreateDelta(500, 250, ELatticeBoundary.Periodic);
-WF_2D test = (WF_2D)WFCreator.CreateDelta(50, 50, 25, 25, ELatticeBoundary.Periodic);
-//for (int i = 0; i < test.DimX; i++)
-//    Console.WriteLine(test.getNorm(i));
+WF_1D test = (WF_1D)WFCreator.CreateDelta(500, 250, ELatticeBoundary.Periodic);
+//WF_2D test = (WF_2D)WFCreator.CreateDelta(100, 100, 25, 25, ELatticeBoundary.Periodic);
 Console.WriteLine("Norm: " + test.Norm());
 
-List<IHamilton<WF_2D>> hamlist = new List<IHamilton<WF_2D>>();
+List<IHamilton<WF_1D>> hamlist = new List<IHamilton<WF_1D>>();
 
-TightBindung2D<WF_2D> ham = new TightBindung2D<WF_2D>(1);
+TightBindung1D<WF_1D> ham = new TightBindung1D<WF_1D>(1);
+
+//List<IHamilton<WF_2D>> hamlist = new List<IHamilton<WF_2D>>();
+
+//TightBindung2D<WF_2D> ham = new TightBindung2D<WF_2D>(1);
 
 hamlist.Add(ham);
 
-//U_T_1D<WF_1D> ze = new U_T_1D<WF_1D>(0.5);
-U_T_2D<WF_2D> ze = new U_T_2D<WF_2D>(0.5);
+U_T_1D<WF_1D> ze = new U_T_1D<WF_1D>(0.5);
+//U_T_2D<WF_2D> ze = new U_T_2D<WF_2D>(0.5);
 
 for (int i = 0; i < 5000; i++)
 {
+    DateTime start = DateTime.Now;
     test = ze.Do(test, hamlist);
-    //for (int i = 0; i < test.DimX; i++)
-    //    Console.WriteLine(test.getNorm(i));
+    Console.WriteLine("Dauer Sek: " + (DateTime.Now - start).TotalSeconds);
     Console.WriteLine("Norm: " + test.Norm());
     if (i % 100 == 0)
     {
