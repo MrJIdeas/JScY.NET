@@ -12,8 +12,9 @@ using JScience.Physik.Simulationen.Wavefunctions.VarTypes;
 //Console.WriteLine(test.n);
 
 //WF_1D test = (WF_1D)WFCreator.CreateGaußWave(1, 25, 500, 250, ELatticeBoundary.Periodic);
+WF_2D test = (WF_2D)WFCreator.CreateGaußWave(1, 0, 25, 25, 100, 100, 50, 50, ELatticeBoundary.Periodic);
 //WF_1D test = (WF_1D)WFCreator.CreateDelta(500, 250, ELatticeBoundary.Periodic);
-WF_2D test = (WF_2D)WFCreator.CreateDelta(100, 100, 25, 25, ELatticeBoundary.Periodic);
+//WF_2D test = (WF_2D)WFCreator.CreateDelta(100, 100, 25, 25, ELatticeBoundary.Periodic);
 Console.WriteLine("Norm: " + test.Norm());
 
 //List<IHamilton<WF_1D>> hamlist = new List<IHamilton<WF_1D>>();
