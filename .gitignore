@@ -6,3 +6,5 @@ ScienceTest/obj/*
 ScienceTest/bin/*
 UpgradeLog2.htm
 UpgradeLog.htm
+ScienceTest/.DS_Store
+.DS_Store
