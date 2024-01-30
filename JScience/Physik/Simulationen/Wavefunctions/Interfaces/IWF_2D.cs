@@ -9,7 +9,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
     {
         int DimX { get; }
         int DimY { get; }
-        Complex this[int x, int y] { get; }
+        Complex this[int x, int y] { get; set; }
+        Complex this[int i] { get; set; }
 
         void SetField(int x, int y, Complex value);
 
@@ -62,13 +63,11 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
         public static IWF_2D operator +(double b, IWF_2D a)
         {
             IWF_2D c = (IWF_2D)a.Clone();
-
             // Loop over the partitions in parallel.
             Parallel.ForEach(c.rangePartitioner, (range, loopState) =>
             {
                 for (int i = range.Item1; i < range.Item2; i++)
-                    for (int j = 0; j < c.DimY; j++)
-                        c.SetField(i, j, c[i, j] + b);
+                    c[i] = c[i] + b;
             });
             return c;
         }
@@ -81,8 +80,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             Parallel.ForEach(c.rangePartitioner, (range, loopState) =>
             {
                 for (int i = range.Item1; i < range.Item2; i++)
-                    for (int j = 0; j < c.DimY; j++)
-                        c.SetField(i, j, c[i, j] - b);
+                    c[i] = c[i] - b;
             });
             return c;
         }
@@ -95,8 +93,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             Parallel.ForEach(c.rangePartitioner, (range, loopState) =>
             {
                 for (int i = range.Item1; i < range.Item2; i++)
-                    for (int j = 0; j < c.DimY; j++)
-                        c.SetField(i, j, c[i, j] * b);
+                    c[i] = c[i] * b;
             });
             return c;
         }
@@ -110,14 +107,12 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
         public static IWF_2D operator /(IWF_2D a, double b)
         {
             IWF_2D c = (IWF_2D)a.Clone();
-            var rangePartitioner = Partitioner.Create(0, c.DimX);
 
             // Loop over the partitions in parallel.
-            Parallel.ForEach(rangePartitioner, (range, loopState) =>
+            Parallel.ForEach(c.rangePartitioner, (range, loopState) =>
             {
                 for (int i = range.Item1; i < range.Item2; i++)
-                    for (int j = 0; j < c.DimY; j++)
-                        c.SetField(i, j, c[i, j] / b);
+                    c[i] = c[i] / b;
             });
             return c;
         }
@@ -136,8 +131,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             Parallel.ForEach(c.rangePartitioner, (range, loopState) =>
             {
                 for (int i = range.Item1; i < range.Item2; i++)
-                    for (int j = 0; j < c.DimY; j++)
-                        c.SetField(i, j, c[i, j] + b[i, j]);
+                    c[i] = a[i] + b[i];
             });
             return c;
         }
@@ -152,8 +146,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             Parallel.ForEach(c.rangePartitioner, (range, loopState) =>
             {
                 for (int i = range.Item1; i < range.Item2; i++)
-                    for (int j = 0; j < c.DimY; j++)
-                        c.SetField(i, j, c[i, j] - b[i, j]);
+                    c[i] = a[i] - b[i];
             });
             return c;
         }
@@ -168,8 +161,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             Parallel.ForEach(c.rangePartitioner, (range, loopState) =>
             {
                 for (int i = range.Item1; i < range.Item2; i++)
-                    for (int j = 0; j < c.DimY; j++)
-                        c.SetField(i, j, c[i, j] * b[i, j]);
+                    c[i] = a[i] * b[i];
             });
             return c;
         }
