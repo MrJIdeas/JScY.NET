@@ -1,7 +1,14 @@
-﻿namespace JScience.Mathe.ComplexNumbers.VarTypes
+﻿using System.Numerics;
+using System;
+
+namespace JScience.Mathe.ComplexNumbers.VarTypes
 {
-    public struct DecComplex
+    public struct DecComplex : IEquatable<DecComplex>, IFormattable
     {
+        public static DecComplex ImaginaryOne => new DecComplex(0, 1);
+        public static DecComplex One => new DecComplex(1, 0);
+        public static DecComplex Zero => new DecComplex(0, 0);
+
         public DecComplex(decimal real, decimal imag)
         {
             Real = real;
@@ -14,6 +21,14 @@
         public decimal Magnitude => Real * Real + Imag * Imag;
 
         public DecComplex Conj() => new DecComplex(Real, -Imag);
+
+        #region Interface
+
+        public bool Equals(DecComplex other) => Magnitude > other.Magnitude;
+
+        public string ToString(string format, IFormatProvider formatProvider) => string.Format("{0}+i*{1}", Real, Imag);
+
+        #endregion Interface
 
         #region Addition
 
