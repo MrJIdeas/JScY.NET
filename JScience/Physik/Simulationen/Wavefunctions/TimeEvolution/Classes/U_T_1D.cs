@@ -5,6 +5,7 @@ using JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Linq;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Classes
 {
@@ -37,18 +38,21 @@ namespace JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Classes
         {
             T WF1 = (T)Activator.CreateInstance(WF.GetType(), WF.DimX, WF.Boundary);
             List<IHamilton<T>> hamtodelete = new List<IHamilton<T>>();
-            foreach (var ham in Hamiltons)
+            foreach ((IHamilton<T> ham, T hampsi) in from ham in Hamiltons
+                                                     let hampsi = ham.HPsi(WF)
+                                                     select (ham, hampsi))
             {
-                var hampsi = ham.HPsi(WF);
                 if (hampsi.Norm() > double.Epsilon || hampsi is IPotential<T>)
                     WF1 = (T)(WF1 + hampsi);
                 else
                     hamtodelete.Add(ham);
             }
-            foreach (var ham in hamtodelete)
+
+            foreach (IHamilton<T> ham in from ham in hamtodelete
+                                         where Hamiltons.Contains(ham)
+                                         select ham)
             {
-                if (Hamiltons.Contains(ham))
-                    Hamiltons.Remove(ham);
+                Hamiltons.Remove(ham);
             }
 
             WF1 = (T)(-Complex.ImaginaryOne * t_STEP / n * WF1);
