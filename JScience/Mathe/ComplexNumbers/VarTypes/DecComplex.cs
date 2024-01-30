@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 
 namespace JScience.Mathe.ComplexNumbers.VarTypes
 {
@@ -94,5 +95,20 @@ namespace JScience.Mathe.ComplexNumbers.VarTypes
         public static DecComplex operator /(DecComplex lhs, DecComplex rhs) => lhs * rhs.Conj() / rhs.Magnitude;
 
         #endregion Division
+
+        public static DecComplex Pow(DecComplex val, DecComplex pow)
+        {
+            Complex test = new Complex((double)val.Real, (double)val.Imag);
+            Complex test2 = new Complex((double)pow.Real, (double)pow.Imag);
+            var test3 = Complex.Pow(test, test2);
+            return new DecComplex((decimal)test3.Real, (decimal)test3.Imaginary);
+        }
+
+        public static DecComplex Exp(DecComplex val)
+        {
+            Complex test = new Complex((double)val.Real, (double)val.Imag);
+            var test3 = Complex.Exp(test);
+            return new DecComplex((decimal)test3.Real, (decimal)test3.Imaginary);
+        }
     }
 }

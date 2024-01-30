@@ -1,10 +1,10 @@
-﻿using JScience.Physik.Simulationen.Spins.Enums;
+﻿using JScience.Mathe.ComplexNumbers.VarTypes;
+using JScience.Physik.Simulationen.Spins.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
 using ScottPlot;
 using System;
 using System.Collections.Concurrent;
-using System.Numerics;
 using System.Threading.Tasks;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
@@ -16,22 +16,22 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
             Boundary = boundary;
             this.DimX = DimX;
             this.DimY = DimY;
-            field = new Complex[DimX * DimY];
+            field = new DecComplex[DimX * DimY];
             rangePartitioner = Partitioner.Create(0, field.Length);
         }
 
         public OrderablePartitioner<Tuple<int, int>> rangePartitioner { get; private set; }
         public ELatticeBoundary Boundary { get; private set; }
 
-        private Complex[] field { get; set; }
+        private DecComplex[] field { get; set; }
 
-        public Complex this[int x, int y]
+        public DecComplex this[int x, int y]
         {
             get => field[x + y * DimX];
             set => field[x + y * DimX] = value;
         }
 
-        public Complex this[int i] { get => field[i]; set => field[i] = value; }
+        public DecComplex this[int i] { get => field[i]; set => field[i] = value; }
         public int DimX { get; private set; }
 
         public int DimY { get; private set; }
@@ -46,9 +46,9 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
             return new Tuple<int, int>(x, (i - x) / DimX);
         }
 
-        public double Norm()
+        public decimal Norm()
         {
-            double erg = 0;
+            decimal erg = 0;
             for (int i = 0; i < DimX; i++)
                 for (int j = 0; j < DimY; j++)
                     erg += getNorm(i, j);
@@ -61,7 +61,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
             Parallel.ForEach(conj.rangePartitioner, (range, loopState) =>
             {
                 for (int i = range.Item1; i < range.Item2; i++)
-                    conj.field[i] = Complex.Conjugate(conj.field[i]);
+                    conj.field[i] = conj.field[i].Conj();
             });
             return conj;
         }
@@ -69,7 +69,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
         public IWavefunction GetShift(EShift shift)
         {
             WF_2D neu = new WF_2D(DimX, DimY, Boundary);
-            Complex[] buf;
+            DecComplex[] buf;
             switch (shift)
             {
                 default:
@@ -145,14 +145,14 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
             }
         }
 
-        public void SetField(int x, int y, Complex value) => this[x, y] = value;
+        public void SetField(int x, int y, DecComplex value) => this[x, y] = value;
 
         public void Clear()
         {
             Parallel.ForEach(rangePartitioner, (range, loopState) =>
             {
                 for (int i = range.Item1; i < range.Item2; i++)
-                    field[i] = Complex.Zero;
+                    field[i] = DecComplex.Zero;
             });
         }
 
@@ -167,9 +167,9 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
             return conj;
         }
 
-        public double getNorm(int x, int y) => getNorm(x + y * DimX);
+        public decimal getNorm(int x, int y) => getNorm(x + y * DimX);
 
-        public double getNorm(int i) => Math.Pow(field[i].Magnitude, 2);
+        public decimal getNorm(int i) => field[i].Magnitude;
 
         public Image GetImage(int width, int height)
         {
@@ -179,7 +179,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
 
             for (int i = 0; i < DimX; i++)
                 for (int j = 0; j < DimY; j++)
-                    data[i, j] = getNorm(i, j);
+                    data[i, j] = (double)getNorm(i, j);
 
             var hm1 = plt.Add.Heatmap(data);
             hm1.Colormap = new ScottPlot.Colormaps.Turbo();

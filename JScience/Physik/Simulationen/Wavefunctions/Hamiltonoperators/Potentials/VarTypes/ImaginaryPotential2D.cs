@@ -1,4 +1,5 @@
-﻿using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.Interfaces;
+﻿using JScience.Mathe.ComplexNumbers.VarTypes;
+using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.Interfaces;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
 using System;
 using System.Numerics;
@@ -15,7 +16,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potential
 
         public int yEnd { get; private set; }
 
-        public ImaginaryPotential2D(string name, int xSTART, int xEND, int ySTART, int yEND, double damping) : base(name, damping)
+        public ImaginaryPotential2D(string name, int xSTART, int xEND, int ySTART, int yEND, decimal damping) : base(name, damping)
         {
             xStart = xSTART;
             xEnd = xEND;
@@ -23,13 +24,13 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potential
             yEnd = yEND;
         }
 
-        public override double E(T psi)
+        public override decimal E(T psi)
         {
-            double erg = 0;
+            decimal erg = 0;
             T erg2 = (T)((T)psi.Conj() * HPsi(psi));
             for (int i = 0; i < erg2.DimX; i++)
                 for (int j = 0; j < erg2.DimY; j++)
-                    erg += (Complex.Conjugate(erg2[i, j]) * erg2[i, j]).Real;
+                    erg += (erg2[i, j].Conj() * erg2[i, j]).Real;
             return erg;
         }
 

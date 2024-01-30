@@ -29,7 +29,7 @@ TightBindung1D<WF_1D> ham = new TightBindung1D<WF_1D>(1);
 
 hamlist.Add(ham);
 
-U_T_1D<WF_1D> ze = new U_T_1D<WF_1D>(0.5);
+U_T_1D<WF_1D> ze = new U_T_1D<WF_1D>(0.5m);
 //U_T_2D<WF_2D> ze = new U_T_2D<WF_2D>(0.5);
 
 var erg = test.GetImage(800, 600);

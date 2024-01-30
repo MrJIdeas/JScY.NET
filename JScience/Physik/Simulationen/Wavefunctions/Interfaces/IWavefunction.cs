@@ -13,7 +13,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 
         OrderablePartitioner<Tuple<int, int>> rangePartitioner { get; }
 
-        double Norm();
+        decimal Norm();
 
         IWavefunction Conj();
 

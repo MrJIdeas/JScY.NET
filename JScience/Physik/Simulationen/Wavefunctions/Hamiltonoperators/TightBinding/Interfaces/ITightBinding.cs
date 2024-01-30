@@ -6,14 +6,14 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.TightBind
 {
     public abstract class ITightBinding<T> : IHamilton<T> where T : IWavefunction
     {
-        protected ITightBinding(double t_hop)
+        protected ITightBinding(decimal t_hop)
         {
             t_Hopping = t_hop;
         }
 
-        public double t_Hopping { get; }
+        public decimal t_Hopping { get; }
 
-        public virtual double E(T psi) => throw new NotImplementedException();
+        public virtual decimal E(T psi) => throw new NotImplementedException();
 
         public virtual T HPsi(T psi) => throw new NotImplementedException();
     }

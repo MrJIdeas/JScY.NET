@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JScience.Mathe.ComplexNumbers.VarTypes;
+using System;
 using System.Numerics;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
@@ -8,15 +9,15 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
         int DimX { get; }
         int DimY { get; }
         int DimZ { get; }
-        Complex this[int x, int y, int z] { get; }
+        DecComplex this[int x, int y, int z] { get; }
 
-        void SetField(int x, int y, int z, Complex value);
+        void SetField(int x, int y, int z, DecComplex value);
 
-        double getNorm(int x, int y, int z);
+        decimal getNorm(int x, int y, int z);
 
-        #region Operatoren WF-double
+        #region Operatoren WF-decimal
 
-        public static IWF_3D operator +(double b, IWF_3D a)
+        public static IWF_3D operator +(decimal b, IWF_3D a)
         {
             for (int i = 0; i < a.DimX; i++)
                 for (int j = 0; j < a.DimY; j++)
@@ -25,7 +26,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             return a;
         }
 
-        public static IWF_3D operator -(double b, IWF_3D a)
+        public static IWF_3D operator -(decimal b, IWF_3D a)
         {
             for (int i = 0; i < a.DimX; i++)
                 for (int j = 0; j < a.DimY; j++)
@@ -34,7 +35,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             return a;
         }
 
-        public static IWF_3D operator *(double b, IWF_3D a)
+        public static IWF_3D operator *(decimal b, IWF_3D a)
         {
             for (int i = 0; i < a.DimX; i++)
                 for (int j = 0; j < a.DimY; j++)
@@ -43,13 +44,13 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             return a;
         }
 
-        public static IWF_3D operator +(IWF_3D a, double b) => b + a;
+        public static IWF_3D operator +(IWF_3D a, decimal b) => b + a;
 
-        public static IWF_3D operator -(IWF_3D a, double b) => b - a;
+        public static IWF_3D operator -(IWF_3D a, decimal b) => b - a;
 
-        public static IWF_3D operator *(IWF_3D a, double b) => b * a;
+        public static IWF_3D operator *(IWF_3D a, decimal b) => b * a;
 
-        public static IWF_3D operator /(IWF_3D a, double b)
+        public static IWF_3D operator /(IWF_3D a, decimal b)
         {
             for (int i = 0; i < a.DimX; i++)
                 for (int j = 0; j < a.DimY; j++)
@@ -58,7 +59,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             return a;
         }
 
-        #endregion Operatoren WF-double
+        #endregion Operatoren WF-decimal
 
         #region Operatoren WF-WF
 

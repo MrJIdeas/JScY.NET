@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JScience.Mathe.ComplexNumbers.VarTypes;
+using System;
 using System.Numerics;
 using System.Threading.Tasks;
 
@@ -8,18 +9,18 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
     {
         int DimX { get; }
         int DimY { get; }
-        Complex this[int x, int y] { get; set; }
-        Complex this[int i] { get; set; }
+        DecComplex this[int x, int y] { get; set; }
+        DecComplex this[int i] { get; set; }
 
-        void SetField(int x, int y, Complex value);
+        void SetField(int x, int y, DecComplex value);
 
-        double getNorm(int x, int y);
+        decimal getNorm(int x, int y);
 
         Tuple<int, int> getCoordinates(int i);
 
-        #region Operatoren WF-complex
+        #region Operatoren WF-DecComplex
 
-        public static IWF_2D operator +(Complex b, IWF_2D a)
+        public static IWF_2D operator +(DecComplex b, IWF_2D a)
         {
             for (int i = 0; i < a.DimX; i++)
                 for (int j = 0; j < a.DimY; j++)
@@ -27,7 +28,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             return a;
         }
 
-        public static IWF_2D operator -(Complex b, IWF_2D a)
+        public static IWF_2D operator -(DecComplex b, IWF_2D a)
         {
             for (int i = 0; i < a.DimX; i++)
                 for (int j = 0; j < a.DimY; j++)
@@ -35,7 +36,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             return a;
         }
 
-        public static IWF_2D operator *(Complex b, IWF_2D a)
+        public static IWF_2D operator *(DecComplex b, IWF_2D a)
         {
             for (int i = 0; i < a.DimX; i++)
                 for (int j = 0; j < a.DimY; j++)
@@ -43,13 +44,13 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             return a;
         }
 
-        public static IWF_2D operator +(IWF_2D a, Complex b) => b + a;
+        public static IWF_2D operator +(IWF_2D a, DecComplex b) => b + a;
 
-        public static IWF_2D operator -(IWF_2D a, Complex b) => b - a;
+        public static IWF_2D operator -(IWF_2D a, DecComplex b) => b - a;
 
-        public static IWF_2D operator *(IWF_2D a, Complex b) => b * a;
+        public static IWF_2D operator *(IWF_2D a, DecComplex b) => b * a;
 
-        public static IWF_2D operator /(IWF_2D a, Complex b)
+        public static IWF_2D operator /(IWF_2D a, DecComplex b)
         {
             for (int i = 0; i < a.DimX; i++)
                 for (int j = 0; j < a.DimY; j++)
@@ -57,11 +58,11 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             return a;
         }
 
-        #endregion Operatoren WF-complex
+        #endregion Operatoren WF-DecComplex
 
-        #region Operatoren WF-double
+        #region Operatoren WF-decimal
 
-        public static IWF_2D operator +(double b, IWF_2D a)
+        public static IWF_2D operator +(decimal b, IWF_2D a)
         {
             IWF_2D c = (IWF_2D)a.Clone();
             // Loop over the partitions in parallel.
@@ -73,7 +74,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             return c;
         }
 
-        public static IWF_2D operator -(double b, IWF_2D a)
+        public static IWF_2D operator -(decimal b, IWF_2D a)
         {
             IWF_2D c = (IWF_2D)a.Clone();
 
@@ -86,7 +87,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             return c;
         }
 
-        public static IWF_2D operator *(double b, IWF_2D a)
+        public static IWF_2D operator *(decimal b, IWF_2D a)
         {
             IWF_2D c = (IWF_2D)a.Clone();
 
@@ -99,13 +100,13 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             return c;
         }
 
-        public static IWF_2D operator +(IWF_2D a, double b) => b + a;
+        public static IWF_2D operator +(IWF_2D a, decimal b) => b + a;
 
-        public static IWF_2D operator -(IWF_2D a, double b) => b - a;
+        public static IWF_2D operator -(IWF_2D a, decimal b) => b - a;
 
-        public static IWF_2D operator *(IWF_2D a, double b) => b * a;
+        public static IWF_2D operator *(IWF_2D a, decimal b) => b * a;
 
-        public static IWF_2D operator /(IWF_2D a, double b)
+        public static IWF_2D operator /(IWF_2D a, decimal b)
         {
             IWF_2D c = (IWF_2D)a.Clone();
 
@@ -118,7 +119,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             return c;
         }
 
-        #endregion Operatoren WF-double
+        #endregion Operatoren WF-decimal
 
         #region Operatoren WF-WF
 

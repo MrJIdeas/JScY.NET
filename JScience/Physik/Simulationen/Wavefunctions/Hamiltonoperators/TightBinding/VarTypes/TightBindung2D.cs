@@ -7,17 +7,17 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.TightBind
 {
     public class TightBindung2D<T> : ITightBinding<T> where T : IWF_2D
     {
-        public TightBindung2D(double t_hop) : base(t_hop)
+        public TightBindung2D(decimal t_hop) : base(t_hop)
         {
         }
 
-        public override double E(T psi)
+        public override decimal E(T psi)
         {
-            double erg = 0;
+            decimal erg = 0;
             T erg2 = (T)((T)psi.Conj() * HPsi(psi));
             for (int i = 0; i < erg2.DimX; i++)
                 for (int j = 0; j < erg2.DimY; j++)
-                    erg += (Complex.Conjugate(erg2[i, j]) * erg2[i, j]).Real;
+                    erg += (erg2[i, j].Conj() * erg2[i, j]).Real;
             return erg;
         }
 

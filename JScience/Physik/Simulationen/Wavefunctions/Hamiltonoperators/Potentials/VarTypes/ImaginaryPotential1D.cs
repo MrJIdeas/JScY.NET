@@ -11,18 +11,18 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potential
 
         public int xEnd { get; private set; }
 
-        public ImaginaryPotential1D(string name, int xSTART, int xEND, double damping) : base(name, damping)
+        public ImaginaryPotential1D(string name, int xSTART, int xEND, decimal damping) : base(name, damping)
         {
             xStart = xSTART;
             xEnd = xEND;
         }
 
-        public override double E(T psi)
+        public override decimal E(T psi)
         {
-            double erg = 0;
+            decimal erg = 0;
             T erg2 = (T)((T)psi.Conj() * HPsi(psi));
             for (int i = 0; i < erg2.DimX; i++)
-                erg += (Complex.Conjugate(erg2[i]) * erg2[i]).Real;
+                erg += (erg2[i].Conj() * erg2[i]).Real;
             return erg;
         }
 

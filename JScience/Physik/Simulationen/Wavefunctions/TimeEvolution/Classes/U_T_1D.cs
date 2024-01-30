@@ -1,4 +1,5 @@
-﻿using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Interfaces;
+﻿using JScience.Mathe.ComplexNumbers.VarTypes;
+using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Interfaces;
 using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.Interfaces;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
 using JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Interfaces;
@@ -11,12 +12,12 @@ namespace JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Classes
 {
     public class U_T_1D<T> : IU_T<T> where T : IWF_1D
     {
-        public U_T_1D(double t_step)
+        public U_T_1D(decimal t_step)
         {
             t_STEP = t_step;
         }
 
-        public double t_STEP { get; private set; }
+        public decimal t_STEP { get; private set; }
 
         public T Do(T WF, List<IHamilton<T>> Hamiltons)
         {
@@ -25,7 +26,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Classes
             T WF1 = PsiNTerm(WF, Hamiltons, n);
             WFEnd = (T)(WFEnd + WF1);
 
-            while (WF1.Norm() > double.Epsilon)
+            while (WF1.Norm() > 1E-30m)
             {
                 n++;
                 WF1 = PsiNTerm(WF1, Hamiltons, n);
@@ -42,7 +43,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Classes
                                                      let hampsi = ham.HPsi(WF)
                                                      select (ham, hampsi))
             {
-                if (hampsi.Norm() > double.Epsilon || hampsi is IPotential<T>)
+                if (hampsi.Norm() > 1E-30m || hampsi is IPotential<T>)
                     WF1 = (T)(WF1 + hampsi);
                 else
                     hamtodelete.Add(ham);
@@ -55,7 +56,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Classes
                 Hamiltons.Remove(ham);
             }
 
-            WF1 = (T)(-Complex.ImaginaryOne * t_STEP / n * WF1);
+            WF1 = (T)(-1 * DecComplex.ImaginaryOne * t_STEP / n * WF1);
             return WF1;
         }
     }
