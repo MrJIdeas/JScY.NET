@@ -15,6 +15,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 
         double getNorm(int x, int y);
 
+        Tuple<int, int> getCoordinates(int i);
+
         #region Operatoren WF-complex
 
         public static IWF_2D operator +(Complex b, IWF_2D a)

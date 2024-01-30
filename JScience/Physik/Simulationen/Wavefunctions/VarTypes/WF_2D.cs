@@ -40,6 +40,12 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
 
         public int Dimensions => 1;
 
+        public Tuple<int, int> getCoordinates(int i)
+        {
+            int x = i % DimX;
+            return new Tuple<int, int>(x, (i - x) / DimX);
+        }
+
         public double Norm()
         {
             double erg = 0;
@@ -74,16 +80,13 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
                     {
                         for (int i = range.Item1; i < range.Item2; i++)
                         {
-                            int x = i % DimX;
-                            int y = (i - x) / DimX;
-                            if (x < DimX - 1)
-                                neu.field[i] = this[x + 1, y];
+                            var coord = getCoordinates(i);
+                            if (coord.Item1 < DimX - 1)
+                                neu.field[i] = this[coord.Item1 + 1, coord.Item2];
                             else
                             {
                                 if (Boundary == ELatticeBoundary.Periodic)
-                                    neu.field[i] = this[0, y];
-                                else
-                                    neu.field[i] = Complex.Zero;
+                                    neu.field[i] = this[0, coord.Item2];
                             }
                         }
                     });
@@ -94,16 +97,13 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
                     {
                         for (int i = range.Item1; i < range.Item2; i++)
                         {
-                            int x = i % DimX;
-                            int y = (i - x) / DimX;
-                            if (x > 0)
-                                neu.field[i] = this[x - 1, y];
+                            var coord = getCoordinates(i);
+                            if (coord.Item1 > 0)
+                                neu.field[i] = this[coord.Item1 - 1, coord.Item2];
                             else
                             {
                                 if (Boundary == ELatticeBoundary.Periodic)
-                                    neu.field[i] = this[DimX - 1, y];
-                                else
-                                    neu.field[i] = Complex.Zero;
+                                    neu.field[i] = this[DimX - 1, coord.Item2];
                             }
                         }
                     });
@@ -114,16 +114,13 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
                     {
                         for (int i = range.Item1; i < range.Item2; i++)
                         {
-                            int x = i % DimX;
-                            int y = (i - x) / DimX;
-                            if (y < DimY - 1)
-                                neu.field[i] = this[x, y + 1];
+                            var coord = getCoordinates(i);
+                            if (coord.Item2 < DimY - 1)
+                                neu.field[i] = this[coord.Item1, coord.Item2 + 1];
                             else
                             {
                                 if (Boundary == ELatticeBoundary.Periodic)
-                                    neu.field[i] = this[x, 0];
-                                else
-                                    neu.field[i] = Complex.Zero;
+                                    neu.field[i] = this[coord.Item1, 0];
                             }
                         }
                     });
@@ -134,16 +131,13 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
                     {
                         for (int i = range.Item1; i < range.Item2; i++)
                         {
-                            int x = i % DimX;
-                            int y = (i - x) / DimX;
-                            if (y > 0)
-                                neu.field[i] = this[x, y - 1];
+                            var coord = getCoordinates(i);
+                            if (coord.Item2 > 0)
+                                neu.field[i] = this[coord.Item1, coord.Item2 - 1];
                             else
                             {
                                 if (Boundary == ELatticeBoundary.Periodic)
-                                    neu.field[i] = this[x, DimY - 1];
-                                else
-                                    neu.field[i] = Complex.Zero;
+                                    neu.field[i] = this[coord.Item1, DimY - 1];
                             }
                         }
                     });
