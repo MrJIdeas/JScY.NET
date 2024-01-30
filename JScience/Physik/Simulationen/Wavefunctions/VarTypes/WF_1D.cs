@@ -53,10 +53,10 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
                     return null;
 
                 case EShift.Xm:
-                    for (int i = 0; i < neu.DimX - 1; i++)
+                    Parallel.For(0, neu.DimX - 1, (i) =>
                     {
                         neu.field[i] = field[i + 1];
-                    }
+                    });
                     if (Boundary == ELatticeBoundary.Periodic)
                         neu.field[neu.field.Length - 1] = field[0];
                     else
@@ -64,10 +64,10 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
                     return neu;
 
                 case EShift.Xp:
-                    for (int i = neu.field.Length - 1; i > 0; i--)
+                    Parallel.For(1, neu.DimX, (i) =>
                     {
                         neu.field[i] = field[i - 1];
-                    }
+                    });
                     if (Boundary == ELatticeBoundary.Periodic)
                         neu.field[0] = field[field.Length - 1];
                     else
@@ -80,15 +80,21 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
 
         public void Clear()
         {
-            for (int i = 0; i < field.Length; i++)
-                field[i] = Complex.Zero;
+            Parallel.ForEach(rangePartitioner, (range, loopState) =>
+            {
+                for (int i = range.Item1; i < range.Item2; i++)
+                    field[i] = Complex.Zero;
+            });
         }
 
         public IWavefunction Clone()
         {
             WF_1D conj = new WF_1D(DimX, Boundary);
-            for (int i = 0; i < conj.DimX; i++)
-                conj.field[i] = field[i];
+            Parallel.ForEach(conj.rangePartitioner, (range, loopState) =>
+            {
+                for (int i = range.Item1; i < range.Item2; i++)
+                    conj.field[i] = field[i];
+            });
             return conj;
         }
 

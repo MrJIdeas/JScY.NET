@@ -35,7 +35,7 @@ for (int i = 0; i < 5000; i++)
     test = ze.Do(test, hamlist);
     Console.WriteLine("Dauer Sek: " + (DateTime.Now - start).TotalSeconds);
     Console.WriteLine("Norm: " + test.Norm());
-    if (i % 100 == 0)
+    if (i % 10 == 0)
     {
         var erg = test.GetImage(800, 600);
         erg.SavePng("test" + i + ".png");

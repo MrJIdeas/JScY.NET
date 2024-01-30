@@ -4,7 +4,6 @@ using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
 using ScottPlot;
 using System;
 using System.Collections.Concurrent;
-using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 
@@ -45,10 +44,11 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
         public IWavefunction Conj()
         {
             WF_2D conj = (WF_2D)Clone();
-            Parallel.For(0, conj.DimX, (i) =>
+            Parallel.ForEach(conj.rangePartitioner, (range, loopState) =>
             {
-                for (int j = 0; j < conj.DimY; j++)
-                    conj.field[i, j] = Complex.Conjugate(conj[i, j]);
+                for (int i = range.Item1; i < range.Item2; i++)
+                    for (int j = 0; j < conj.DimY; j++)
+                        conj.field[i, j] = Complex.Conjugate(conj[i, j]);
             });
             return conj;
         }
@@ -91,30 +91,36 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
                     return neu;
 
                 case EShift.Ym:
-                    Parallel.For(0, neu.DimX - 1, (j) =>
+                    Parallel.ForEach(rangePartitioner, (range, loopState) =>
                     {
-                        for (int i = 0; i < neu.DimY - 1; i++)
+                        for (int j = range.Item1; j < range.Item2; j++)
                         {
-                            neu.field[j, i] = field[j, i + 1];
+                            for (int i = 0; i < neu.DimY - 1; i++)
+                            {
+                                neu.field[j, i] = field[j, i + 1];
+                            }
+                            if (Boundary == ELatticeBoundary.Periodic)
+                                neu.field[j, neu.DimY - 1] = field[j, 0];
+                            else
+                                neu.field[j, neu.DimY - 1] = Complex.Zero;
                         }
-                        if (Boundary == ELatticeBoundary.Periodic)
-                            neu.field[j, neu.DimY - 1] = field[j, 0];
-                        else
-                            neu.field[j, neu.DimY - 1] = Complex.Zero;
                     });
                     return neu;
 
                 case EShift.Yp:
-                    Parallel.For(0, neu.DimX - 1, (j) =>
+                    Parallel.ForEach(rangePartitioner, (range, loopState) =>
                     {
-                        for (int i = neu.DimY - 1; i > 0; i--)
+                        for (int j = range.Item1; j < range.Item2; j++)
                         {
-                            neu.field[j, i] = field[j, i - 1];
+                            for (int i = neu.DimY - 1; i > 0; i--)
+                            {
+                                neu.field[j, i] = field[j, i - 1];
+                            }
+                            if (Boundary == ELatticeBoundary.Periodic)
+                                neu.field[j, 0] = field[j, DimY - 1];
+                            else
+                                neu.field[j, 0] = Complex.Zero;
                         }
-                        if (Boundary == ELatticeBoundary.Periodic)
-                            neu.field[j, 0] = field[j, DimY - 1];
-                        else
-                            neu.field[j, 0] = Complex.Zero;
                     });
                     return neu;
             }
@@ -124,20 +130,22 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
 
         public void Clear()
         {
-            Parallel.For(0, DimX, (i) =>
+            Parallel.ForEach(rangePartitioner, (range, loopState) =>
             {
-                for (int j = 0; j < DimY; j++)
-                    field[i, j] = Complex.Zero;
+                for (int i = range.Item1; i < range.Item2; i++)
+                    for (int j = 0; j < DimY; j++)
+                        field[i, j] = Complex.Zero;
             });
         }
 
         public IWavefunction Clone()
         {
             WF_2D conj = new WF_2D(DimX, DimY, Boundary);
-            Parallel.For(0, conj.DimX, (i) =>
+            Parallel.ForEach(rangePartitioner, (range, loopState) =>
             {
-                for (int j = 0; j < conj.DimY; j++)
-                    conj.SetField(i, j, field[i, j]);
+                for (int i = range.Item1; i < range.Item2; i++)
+                    for (int j = 0; j < conj.DimY; j++)
+                        conj.SetField(i, j, field[i, j]);
             });
             return conj;
         }
@@ -149,9 +157,12 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
             var plt = new Plot();
 
             double[,] data = new double[DimX, DimY];
-            for (int i = 0; i < DimY; i++)
-                for (int j = 0; j < DimY; j++)
-                    data[i, j] = getNorm(i, j);
+            Parallel.ForEach(rangePartitioner, (range, loopState) =>
+            {
+                for (int i = range.Item1; i < range.Item2; i++)
+                    for (int j = 0; j < DimY; j++)
+                        data[i, j] = getNorm(i, j);
+            });
             var hm1 = plt.Add.Heatmap(data);
             hm1.Colormap = new ScottPlot.Colormaps.Turbo();
 
