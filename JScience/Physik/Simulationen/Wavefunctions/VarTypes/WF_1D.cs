@@ -6,6 +6,8 @@ using System.Collections.Concurrent;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
 {
@@ -29,21 +31,16 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
         public int DimX => field.Length;
         public int Dimensions => 1;
 
-        public double Norm()
-        {
-            double erg = 0;
-            for (int i = 0; i < field.Length; i++)
-            {
-                erg += (field[i] * Complex.Conjugate(field[i])).Real;
-            }
-            return erg;
-        }
+        public double Norm() => field.ToList().AsParallel().Sum(x => (x * Complex.Conjugate(x)).Real);
 
         public IWavefunction Conj()
         {
             WF_1D conj = new WF_1D(DimX, Boundary);
-            for (int i = 0; i < conj.DimX; i++)
-                conj.field[i] = Complex.Conjugate(field[i]);
+            Parallel.ForEach(conj.rangePartitioner, (range, loopState) =>
+            {
+                for (int i = range.Item1; i < range.Item2; i++)
+                    conj.SetField(i, Complex.Conjugate(field[i]));
+            });
             return conj;
         }
 

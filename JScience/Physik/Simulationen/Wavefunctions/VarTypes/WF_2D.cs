@@ -4,7 +4,9 @@ using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
 using ScottPlot;
 using System;
 using System.Collections.Concurrent;
+using System.Linq;
 using System.Numerics;
+using System.Threading.Tasks;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
 {
@@ -36,16 +38,18 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
             double erg = 0;
             for (int i = 0; i < DimX; i++)
                 for (int j = 0; j < DimY; j++)
-                    erg += (Complex.Conjugate(field[i, j]) * field[i, j]).Real;
+                    erg += getNorm(i, j);
             return erg;
         }
 
         public IWavefunction Conj()
         {
-            WF_2D conj = this;
-            for (int i = 0; i < conj.DimX; i++)
+            WF_2D conj = (WF_2D)Clone();
+            Parallel.For(0, conj.DimX, (i) =>
+            {
                 for (int j = 0; j < conj.DimY; j++)
                     conj.field[i, j] = Complex.Conjugate(conj[i, j]);
+            });
             return conj;
         }
 
@@ -59,7 +63,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
                     return null;
 
                 case EShift.Xm:
-                    for (int j = 0; j < neu.DimY - 1; j++)
+                    Parallel.For(0, neu.DimY - 1, (j) =>
                     {
                         for (int i = 0; i < neu.DimX - 1; i++)
                         {
@@ -69,11 +73,11 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
                             neu.field[neu.DimX - 1, j] = field[0, j];
                         else
                             neu.field[neu.DimX - 1, j] = Complex.Zero;
-                    }
+                    });
                     return neu;
 
                 case EShift.Xp:
-                    for (int j = 0; j < neu.DimY - 1; j++)
+                    Parallel.For(0, neu.DimY - 1, (j) =>
                     {
                         for (int i = neu.DimX - 1; i > 0; i--)
                         {
@@ -83,11 +87,11 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
                             neu.field[0, j] = field[DimX - 1, j];
                         else
                             neu.field[0, j] = Complex.Zero;
-                    }
+                    });
                     return neu;
 
                 case EShift.Ym:
-                    for (int j = 0; j < neu.DimX - 1; j++)
+                    Parallel.For(0, neu.DimX - 1, (j) =>
                     {
                         for (int i = 0; i < neu.DimY - 1; i++)
                         {
@@ -97,11 +101,11 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
                             neu.field[j, neu.DimY - 1] = field[j, 0];
                         else
                             neu.field[j, neu.DimY - 1] = Complex.Zero;
-                    }
+                    });
                     return neu;
 
                 case EShift.Yp:
-                    for (int j = 0; j < neu.DimX - 1; j++)
+                    Parallel.For(0, neu.DimX - 1, (j) =>
                     {
                         for (int i = neu.DimY - 1; i > 0; i--)
                         {
@@ -111,7 +115,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
                             neu.field[j, 0] = field[j, DimY - 1];
                         else
                             neu.field[j, 0] = Complex.Zero;
-                    }
+                    });
                     return neu;
             }
         }
@@ -120,17 +124,21 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
 
         public void Clear()
         {
-            for (int i = 0; i < field.Length; i++)
+            Parallel.For(0, DimX, (i) =>
+            {
                 for (int j = 0; j < DimY; j++)
                     field[i, j] = Complex.Zero;
+            });
         }
 
         public IWavefunction Clone()
         {
             WF_2D conj = new WF_2D(DimX, DimY, Boundary);
-            for (int i = 0; i < conj.DimX; i++)
+            Parallel.For(0, conj.DimX, (i) =>
+            {
                 for (int j = 0; j < conj.DimY; j++)
                     conj.SetField(i, j, field[i, j]);
+            });
             return conj;
         }
 
