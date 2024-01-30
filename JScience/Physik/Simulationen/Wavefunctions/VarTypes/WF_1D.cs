@@ -58,9 +58,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
                         neu.field[i] = field[i + 1];
                     });
                     if (Boundary == ELatticeBoundary.Periodic)
-                        neu.field[neu.field.Length - 1] = field[0];
-                    else
-                        neu.field[neu.field.Length - 1] = Complex.Zero;
+                        neu.field[neu.DimX - 1] = field[0];
                     return neu;
 
                 case EShift.Xp:
@@ -69,9 +67,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
                         neu.field[i] = field[i - 1];
                     });
                     if (Boundary == ELatticeBoundary.Periodic)
-                        neu.field[0] = field[field.Length - 1];
-                    else
-                        neu.field[0] = Complex.Zero;
+                        neu.field[0] = field[DimX - 1];
                     return neu;
             }
         }
