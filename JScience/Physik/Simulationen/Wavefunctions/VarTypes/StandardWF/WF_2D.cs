@@ -7,7 +7,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 
-namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
+namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 {
     public class WF_2D : IWF_2D
     {

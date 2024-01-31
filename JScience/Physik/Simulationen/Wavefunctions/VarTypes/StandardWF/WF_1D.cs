@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes
+namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 {
     public class WF_1D : IWF_1D
     {

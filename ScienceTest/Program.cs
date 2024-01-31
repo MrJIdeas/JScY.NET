@@ -3,7 +3,7 @@ using JScience.Physik.Simulationen.Wavefunctions.Classes;
 using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Interfaces;
 using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.TightBinding.VarTypes;
 using JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Classes;
-using JScience.Physik.Simulationen.Wavefunctions.VarTypes;
+using JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF;
 
 //Ising_Classic_1D_Lattice test = new Ising_Classic_1D_Lattice(-1, 0, 0, 6, 10000, EParticleType.ZBoson, ELatticeBoundary.Periodic, 1);
 //Console.WriteLine(test.H());

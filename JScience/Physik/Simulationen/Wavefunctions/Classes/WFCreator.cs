@@ -1,9 +1,8 @@
 ﻿using JScience.Mathe.ComplexNumbers.VarTypes;
 using JScience.Physik.Simulationen.Spins.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
-using JScience.Physik.Simulationen.Wavefunctions.VarTypes;
+using JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF;
 using System;
-using System.Numerics;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.Classes
 {
