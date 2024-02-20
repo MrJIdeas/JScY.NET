@@ -6,6 +6,7 @@ using ScottPlot;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -96,7 +97,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public decimal getNorm(int x) => field[x].Magnitude;
 
-        public Image GetImage(int width, int height)
+        public System.Drawing.Image GetImage(int width, int height)
         {
             List<double> x = new List<double>();
             for (int i = 0; i < DimX; i++)
@@ -107,7 +108,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
             Plot myPlot = new Plot();
 
             myPlot.Add.Bars(x, y);
-            return myPlot.GetImage(width, height);
+            var img = System.Drawing.Image.FromStream(new MemoryStream(myPlot.GetImage(width, height).GetImageBytes()));
+            return img;
         }
 
         #endregion Interface

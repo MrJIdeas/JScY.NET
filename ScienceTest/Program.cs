@@ -1,6 +1,7 @@
 ﻿using FFMediaToolkit;
 using FFMediaToolkit.Encoding;
 using FFMediaToolkit.Graphics;
+using JScience.Classes.Videogeneration;
 using JScience.Physik.Simulationen.Spins.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Classes;
 using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Interfaces;
@@ -57,22 +58,10 @@ hamlist.Add(afpot2);
 //U_T_1D<WF_1D> ze = new U_T_1D<WF_1D>(0.5m);
 U_T_2D<WF_2D> ze = new U_T_2D<WF_2D>(0.5m);
 
-FFmpegLoader.FFmpegPath = @"C:\ffmpeg\bin\";
-
-var settings = new VideoEncoderSettings(width: 960, height: 544, framerate: 30, codec: VideoCodec.H264);
-settings.EncoderPreset = EncoderPreset.Fast;
-settings.Framerate = 1;
-settings.CRF = 17;
-var file = MediaBuilder.CreateContainer(@"C:\ffmpeg\out.mp4").WithVideo(settings).Create();
+FFMpeg_ImageToVideo recorder = new FFMpeg_ImageToVideo(@"C:\ffmpeg\bin\", @"C:\ffmpeg\out.mp4", 800, 600, 30);
 
 var erg = test.GetImage(800, 600);
-//erg.SavePng("test_START.png");
-Bitmap pic = (Bitmap)Image.FromStream(new MemoryStream(erg.GetImageBytes()));
-var rect = new Rectangle(Point.Empty, pic.Size);
-var bitLock = pic.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
-var bitmapData = ImageData.FromPointer(bitLock.Scan0, ImagePixelFormat.Bgr24, pic.Size);
-file.Video.AddFrame(bitmapData); // Encode the frame
-pic.UnlockBits(bitLock);
+recorder.AddNextImage(erg);
 
 for (int i = 0; i < 200; i++)
 {
@@ -83,13 +72,6 @@ for (int i = 0; i < 200; i++)
     if (i % 2 == 0)
     {
         erg = test.GetImage(800, 600);
-        //erg.SavePng("test" + i + ".png");
-        pic = (Bitmap)Image.FromStream(new MemoryStream(erg.GetImageBytes()));
-        rect = new Rectangle(Point.Empty, pic.Size);
-        bitLock = pic.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
-        bitmapData = ImageData.FromPointer(bitLock.Scan0, ImagePixelFormat.Bgr24, pic.Size);
-        file.Video.AddFrame(bitmapData); // Encode the frame
-        pic.UnlockBits(bitLock);
+        recorder.AddNextImage(erg);
     }
 }
-file.Dispose();

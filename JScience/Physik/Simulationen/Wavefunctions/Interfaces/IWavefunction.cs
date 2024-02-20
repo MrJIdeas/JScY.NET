@@ -1,6 +1,6 @@
 ﻿using JScience.Physik.Simulationen.Spins.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Enums;
-using ScottPlot;
+using System.Drawing;
 using System;
 using System.Collections.Concurrent;
 

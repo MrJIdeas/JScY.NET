@@ -5,6 +5,7 @@ using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
 using ScottPlot;
 using System;
 using System.Collections.Concurrent;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
@@ -170,7 +171,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public decimal getNorm(int i) => field[i].Magnitude;
 
-        public Image GetImage(int width, int height)
+        public System.Drawing.Image GetImage(int width, int height)
         {
             var plt = new Plot();
 
@@ -184,7 +185,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
             hm1.Colormap = new ScottPlot.Colormaps.Turbo();
 
             plt.Add.ColorBar(hm1);
-            return plt.GetImage(width, height);
+            var img = System.Drawing.Image.FromStream(new MemoryStream(plt.GetImage(width, height).GetImageBytes()));
+            return img;
         }
 
         #endregion Interface
