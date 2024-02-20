@@ -5,9 +5,15 @@ namespace JScience.Mathe.ComplexNumbers.VarTypes
 {
     public struct DecComplex : IEquatable<DecComplex>, IFormattable
     {
-        public static DecComplex ImaginaryOne => new DecComplex(0, 1);
-        public static DecComplex One => new DecComplex(1, 0);
-        public static DecComplex Zero => new DecComplex(0, 0);
+        private static DecComplex _ImaginaryOne = new DecComplex(0, 1);
+
+        public static DecComplex ImaginaryOne => _ImaginaryOne;
+
+        private static DecComplex _One = new DecComplex(1, 0);
+        public static DecComplex One => _One;
+
+        private static DecComplex _Zero = new DecComplex(0, 10);
+        public static DecComplex Zero => _Zero;
 
         public DecComplex(decimal real, decimal imag)
         {
