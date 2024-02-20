@@ -5,19 +5,13 @@ using System;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.VarTypes
 {
-    public class ImaginaryPotential1D<T> : IImagenaryPotential<T>, IBarrier_X where T : IWF_1D
+    public class ImaginaryPotential1D<T> : Potential1D<T>, IBarrier_X where T : IWF_1D
     {
-        public int xStart { get; private set; }
-
-        public int xEnd { get; private set; }
-
-        public ImaginaryPotential1D(string name, int xSTART, int xEND, decimal damping) : base(name, damping)
+        public ImaginaryPotential1D(string name, int xSTART, int xEND, decimal damping) : base(name, xSTART, xEND, -damping)
         {
-            xStart = xSTART;
-            xEnd = xEND;
         }
 
-        public override decimal E(T psi)
+        public decimal E(T psi)
         {
             decimal erg = 0;
             T erg2 = (T)((T)psi.Conj() * HPsi(psi));
@@ -30,7 +24,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potential
         {
             T psiV = (T)Activator.CreateInstance(psi.GetType(), psi.DimX, psi.Boundary);
             for (int i = xStart; i < xEnd; i++)
-                psiV.SetField(i, -1 * DecComplex.ImaginaryOne * Damping * psi[i]);
+                psiV.SetField(i, DecComplex.ImaginaryOne * Potential * psi[i]);
             return psiV;
         }
     }
