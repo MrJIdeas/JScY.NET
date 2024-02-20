@@ -14,7 +14,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace JScience.Classes.Videogeneration
 {
-    public class FFMpeg_ImageToVideo
+    public class FFMpeg_ImageToVideo : IDisposable
     {
         private MediaOutput _mediaBuilder;
 
@@ -32,17 +32,20 @@ namespace JScience.Classes.Videogeneration
 
         public void AddNextImage(System.Drawing.Image img)
         {
-            using (var ms = new MemoryStream())
-            {
-                img.Save(ms, img.RawFormat);
+            using var ms = new MemoryStream();
+            img.Save(ms, img.RawFormat);
 
-                Bitmap pic = (Bitmap)Bitmap.FromStream(ms);
-                var rect = new Rectangle(Point.Empty, pic.Size);
-                var bitLock = pic.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
-                var bitmapData = ImageData.FromPointer(bitLock.Scan0, ImagePixelFormat.Bgr24, pic.Size);
-                _mediaBuilder.Video.AddFrame(bitmapData); // Encode the frame
-                pic.UnlockBits(bitLock);
-            }
+            Bitmap pic = (Bitmap)Bitmap.FromStream(ms);
+            var rect = new Rectangle(Point.Empty, pic.Size);
+            var bitLock = pic.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
+            var bitmapData = ImageData.FromPointer(bitLock.Scan0, ImagePixelFormat.Bgr24, pic.Size);
+            _mediaBuilder.Video.AddFrame(bitmapData); // Encode the frame
+            pic.UnlockBits(bitLock);
+        }
+
+        public void Dispose()
+        {
+            _mediaBuilder.Dispose();
         }
     }
 }

@@ -75,3 +75,4 @@ for (int i = 0; i < 200; i++)
         recorder.AddNextImage(erg);
     }
 }
+recorder.Dispose();
