@@ -24,7 +24,7 @@ namespace JScience.Mathe.ComplexNumbers.VarTypes
         public decimal Real { get; set; }
         public decimal Imag { get; set; }
 
-        public decimal Magnitude => Real * Real + Imag * Imag;
+        public decimal Magnitude => Decimal.Add(Decimal.Multiply(Real, Real), Decimal.Multiply(Imag, Imag));
 
         public DecComplex Conj() => new DecComplex(Real, -Imag);
 
