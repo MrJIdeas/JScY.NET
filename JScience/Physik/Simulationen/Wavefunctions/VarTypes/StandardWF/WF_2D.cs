@@ -69,7 +69,6 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
         public IWavefunction GetShift(EShift shift)
         {
             WF_2D neu = new WF_2D(DimX, DimY, Boundary);
-            DecComplex[] buf;
             switch (shift)
             {
                 default:
