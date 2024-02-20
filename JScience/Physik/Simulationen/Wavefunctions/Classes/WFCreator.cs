@@ -3,6 +3,7 @@ using JScience.Physik.Simulationen.Spins.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
 using JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF;
 using System;
+using System.IO;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.Classes
 {
@@ -84,5 +85,42 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
         }
 
         #endregion Delta
+
+        #region From File
+
+        public static IWF_1D FromFile1D(string FilePath, char Delimiter, ELatticeBoundary boundary)
+        {
+            if (!File.Exists(FilePath))
+                throw new FileNotFoundException("Invalid Path for Wavefunctíon File.");
+            var lines = File.ReadAllLines(FilePath);
+            IWF_1D erg = new WF_1D(lines.Length, boundary);
+            for (int i = 0; i < lines.Length; i++)
+            {
+                var parts = lines[i].Split(Delimiter);
+                if (parts.Length != 2)
+                    throw new ArgumentException("Invalid Arguments for Wavefunction (2 Elements per Row Real+Imaginary).");
+                erg.SetField(i, new DecComplex(Decimal.Parse(parts[0]), Decimal.Parse(parts[1])));
+            }
+            return erg;
+        }
+
+        public static IWF_2D FromFile2D(string FilePath, char Delimiter, ELatticeBoundary boundary)
+        {
+            if (!File.Exists(FilePath))
+                throw new FileNotFoundException("Invalid Path for Wavefunctíon File.");
+            var lines = File.ReadAllLines(FilePath);
+            IWF_2D erg = new WF_2D(lines.Length, lines[0].Length, boundary);
+            for (int i = 0; i < lines.Length; i++)
+            {
+                var parts = lines[i].Split(Delimiter);
+                if (parts.Length % 2 != 0)
+                    throw new ArgumentException("Invalid Arguments for Wavefunction (2 Elements per Row Real+Imaginary).");
+                for (int j = 0; j < parts.Length; j += 2)
+                    erg.SetField(i, j, new DecComplex(Decimal.Parse(parts[j]), Decimal.Parse(parts[j + 1])));
+            }
+            return erg;
+        }
+
+        #endregion From File
     }
 }
