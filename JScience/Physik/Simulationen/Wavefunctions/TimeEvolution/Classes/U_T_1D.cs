@@ -43,7 +43,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Classes
                                                      let hampsi = ham.HPsi(WF)
                                                      select (ham, hampsi))
             {
-                if (hampsi.Norm() > 1E-30m || hampsi is IPotential<T>)
+                if (hampsi.Norm() > 1E-30m || ham is IPotential<T>)
                     WF1 = (T)(WF1 + hampsi);
                 else
                     hamtodelete.Add(ham);
