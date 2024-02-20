@@ -32,7 +32,7 @@ namespace JScience.Physik.Simulationen.Spins.Classic.VarTypes
 
         public abstract void Flip();
 
-        public abstract double getAbs();
+        public double getAbs() => Math.Abs(Spin);
 
         public abstract double getComponent(uint index);
 
@@ -42,7 +42,7 @@ namespace JScience.Physik.Simulationen.Spins.Classic.VarTypes
                 Neighbors.Remove(neighbor);
         }
 
-        public abstract bool Equals(ISpin_Classic other);
+        public bool Equals(ISpin_Classic other) => PositionXYZ.Equals(other.PositionXYZ);
 
         public List<ISpin_Classic> getNeighbors() => Neighbors;
     }

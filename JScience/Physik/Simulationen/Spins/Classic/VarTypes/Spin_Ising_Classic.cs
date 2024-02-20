@@ -10,11 +10,6 @@ namespace JScience.Physik.Simulationen.Spins.Classic.VarTypes
         {
         }
 
-        public override double getAbs()
-        {
-            return Math.Abs(Spin);
-        }
-
         public override double getComponent(uint index)
         {
             if (index == 0)
@@ -23,11 +18,6 @@ namespace JScience.Physik.Simulationen.Spins.Classic.VarTypes
                 throw new Exception("No Valid Component Index");
         }
 
-        public override void Flip()
-        {
-            Spin *= -1;
-        }
-
-        public override bool Equals(ISpin_Classic other) => PositionXYZ.Equals(other.PositionXYZ);
+        public override void Flip() => Spin *= -1;
     }
 }
