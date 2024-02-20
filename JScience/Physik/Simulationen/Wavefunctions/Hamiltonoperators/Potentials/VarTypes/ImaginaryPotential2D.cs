@@ -36,10 +36,10 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potential
 
         public override T HPsi(T psi)
         {
-            T psiV = (T)Activator.CreateInstance(psi.GetType(), psi.DimX);
+            T psiV = (T)Activator.CreateInstance(psi.GetType(), psi.DimX, psi.DimY, psi.Boundary);
             for (int i = xStart; i < xEnd; i++)
                 for (int j = yStart; j < yEnd; j++)
-                    psiV.SetField(i, j, Damping * psi[i, j]);
+                    psiV.SetField(i, j, -1 * Damping * DecComplex.ImaginaryOne * psi[i, j]);
             return psiV;
         }
     }

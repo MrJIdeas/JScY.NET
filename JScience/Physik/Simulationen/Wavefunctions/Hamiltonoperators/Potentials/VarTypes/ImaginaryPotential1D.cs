@@ -1,4 +1,5 @@
-﻿using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.Interfaces;
+﻿using JScience.Mathe.ComplexNumbers.VarTypes;
+using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.Interfaces;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
 using System;
 using System.Numerics;
@@ -28,9 +29,9 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potential
 
         public override T HPsi(T psi)
         {
-            T psiV = (T)Activator.CreateInstance(psi.GetType(), psi.DimX);
+            T psiV = (T)Activator.CreateInstance(psi.GetType(), psi.DimX, psi.Boundary);
             for (int i = xStart; i < xEnd; i++)
-                psiV.SetField(i, Damping * psi[i]);
+                psiV.SetField(i, -1 * DecComplex.ImaginaryOne * Damping * psi[i]);
             return psiV;
         }
     }
