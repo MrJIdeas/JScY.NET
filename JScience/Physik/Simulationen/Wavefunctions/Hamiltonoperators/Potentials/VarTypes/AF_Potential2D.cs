@@ -18,10 +18,10 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potential
             T psiV = (T)Activator.CreateInstance(psi.GetType(), psi.DimX, psi.DimY, psi.Boundary);
             for (int i = xStart; i < xEnd; i++)
                 for (int j = yStart; j < yEnd; j++)
-                    if ((i - xStart) % Blocksize % 2 == 0 && (j - yStart) % Blocksize % 2 == 1)
+                    if ((i - xStart) % Blocksize % 2 == 0 && (j - yStart) % Blocksize % 2 == 0)
                         psiV.SetField(i, j, Potential * psi[i, j]);
                     else
-                        psiV.SetField(i, j, Potential * psi[i, j]);
+                        psiV.SetField(i, j, -Potential * psi[i, j]);
             return psiV;
         }
     }
