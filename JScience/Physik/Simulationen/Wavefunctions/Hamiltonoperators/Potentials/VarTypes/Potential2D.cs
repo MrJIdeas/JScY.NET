@@ -38,7 +38,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potential
             return erg;
         }
 
-        public T HPsi(T psi)
+        public virtual T HPsi(T psi)
         {
             T psiV = (T)Activator.CreateInstance(psi.GetType(), psi.DimX, psi.DimY, psi.Boundary);
             for (int i = xStart; i < xEnd; i++)
