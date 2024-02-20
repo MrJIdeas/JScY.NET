@@ -1,16 +1,15 @@
-﻿using FFMediaToolkit.Encoding;
+﻿using FFMediaToolkit;
+using FFMediaToolkit.Encoding;
 using FFMediaToolkit.Graphics;
-using FFMediaToolkit;
 using JScience.Physik.Simulationen.Spins.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Classes;
 using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Interfaces;
+using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.VarTypes;
 using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.TightBinding.VarTypes;
 using JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Classes;
 using JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF;
-using SkiaSharp;
 using System.Drawing;
 using System.Drawing.Imaging;
-using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.VarTypes;
 
 //Ising_Classic_1D_Lattice test = new Ising_Classic_1D_Lattice(-1, 0, 0, 6, 10000, EParticleType.ZBoson, ELatticeBoundary.Periodic, 1);
 //Console.WriteLine(test.H());
