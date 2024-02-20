@@ -1,16 +1,11 @@
 ﻿using FFMediaToolkit;
 using FFMediaToolkit.Encoding;
 using FFMediaToolkit.Graphics;
-using ScottPlot;
-using SkiaSharp;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Text;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace JScience.Classes.Videogeneration
 {
