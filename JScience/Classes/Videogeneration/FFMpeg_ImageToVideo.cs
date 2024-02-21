@@ -25,7 +25,7 @@ namespace JScience.Classes.Videogeneration
             Process.GetCurrentProcess().Exited += (s, e) => _mediaBuilder.Dispose();
         }
 
-        public void AddNextImage(System.Drawing.Image img)
+        public void AddNextImage(Image img)
         {
             using var ms = new MemoryStream();
             img.Save(ms, img.RawFormat);
