@@ -2,9 +2,7 @@
 using JScience.Physik.Simulationen.Spins.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
-using ScottPlot;
 using System;
-using System.Collections.Concurrent;
 using System.IO;
 using System.Threading.Tasks;
 

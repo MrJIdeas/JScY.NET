@@ -1,4 +1,4 @@
-﻿using JScience.Interfaces;
+﻿using JBasisInterface.Interfaces.Simulationen;
 using JScience.Physik.Enums;
 using JScience.Physik.Simulationen.Spins.Classic.Interfaces;
 using JScience.Physik.Simulationen.Spins.Classic.VarTypes;
