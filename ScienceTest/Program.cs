@@ -32,8 +32,8 @@ Console.WriteLine("Norm: " + test.Norm());
 List<IHamilton<WF_2D>> hamlist = new List<IHamilton<WF_2D>>();
 
 TightBindung2D<WF_2D> ham = new TightBindung2D<WF_2D>(1);
-Potential2D<WF_2D> pot1 = new Potential2D<WF_2D>("PotMitte", 40 * test.DimX / 100, 60 * test.DimX / 100, 0, test.DimY, 10);
-Potential2D<WF_2D> pot2 = new Potential2D<WF_2D>("PotMitte", 0, test.DimX, 40 * test.DimY / 100, 60 * test.DimY / 100, 10);
+Potential2D<WF_2D> pot1 = new Potential2D<WF_2D>("PotMitte", 40 * test.DimX / 100, 0, 60 * test.DimX / 100, test.DimY, 25);
+Potential2D<WF_2D> pot2 = new Potential2D<WF_2D>("PotMitte", 0, 40 * test.DimY / 100, test.DimX, 60 * test.DimY / 100, 25);
 AF_Potential2D<WF_2D> afpot1 = new AF_Potential2D<WF_2D>("PotMitte", 40 * test.DimX / 100, 0, 60 * test.DimX / 100, test.DimY, 1, 5);
 AF_Potential2D<WF_2D> afpot2 = new AF_Potential2D<WF_2D>("PotMitte", 0, 40 * test.DimY / 100, test.DimX, 60 * test.DimY / 100, 1, 5);
 ImaginaryPotential2D<WF_2D> imagpotl = new ImaginaryPotential2D<WF_2D>("ImagPotLinks", 0, 5 * test.DimX / 100, 0, test.DimY, 10);
@@ -45,10 +45,10 @@ hamlist.Add(imagpotl);
 hamlist.Add(imagpotr);
 hamlist.Add(imagpoto);
 hamlist.Add(imagpotu);
-hamlist.Add(afpot1);
-hamlist.Add(afpot2);
-//hamlist.Add(pot1);
-//hamlist.Add(pot2);
+//hamlist.Add(afpot1);
+//hamlist.Add(afpot2);
+hamlist.Add(pot1);
+hamlist.Add(pot2);
 
 //U_T<WF_1D> ze = new U_T<WF_1D>(0.5);
 U_T<WF_2D> ze = new U_T<WF_2D>(0.5);
