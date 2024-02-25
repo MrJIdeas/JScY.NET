@@ -11,4 +11,8 @@
     <ProjectReference Include="..\JScience\JScience.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<PackageReference Include="JBasisInterface" Version="0.0.7" />
+	</ItemGroup>
+
 </Project>
