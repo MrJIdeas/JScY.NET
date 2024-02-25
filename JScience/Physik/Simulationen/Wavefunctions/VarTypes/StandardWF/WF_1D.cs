@@ -8,14 +8,18 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 {
     public class WF_1D : IWF_1D
     {
+        protected Plot myPlot { get; set; }
+
         public WF_1D(int DimX, ELatticeBoundary boundary)
         {
+            myPlot = new Plot();
             field = new DecComplex[DimX];
             Boundary = boundary;
             rangePartitioner = Partitioner.Create(0, DimX);
@@ -28,15 +32,17 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public ELatticeBoundary Boundary { get; private set; }
 
-        public DecComplex this[int x] => field[x];
+        public DecComplex this[int i] { get => field[i]; protected set => field[i] = value; }
         public int DimX => field.Length;
         public int Dimensions => 1;
 
         public decimal Norm() => field.ToList().AsParallel().Sum(x => x.Magnitude);
 
+        protected virtual IWavefunction getEmptyLikeThis() => new WF_1D(DimX, Boundary);
+
         public IWavefunction Conj()
         {
-            WF_1D conj = new WF_1D(DimX, Boundary);
+            IWavefunction conj = getEmptyLikeThis();
             Parallel.ForEach(conj.rangePartitioner, (range, loopState) =>
             {
                 for (int i = range.Item1; i < range.Item2; i++)
@@ -86,11 +92,11 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public IWavefunction Clone()
         {
-            WF_1D conj = new WF_1D(DimX, Boundary);
+            IWavefunction conj = getEmptyLikeThis();
             Parallel.ForEach(conj.rangePartitioner, (range, loopState) =>
             {
                 for (int i = range.Item1; i < range.Item2; i++)
-                    conj.field[i] = field[i];
+                    conj.SetField(i, field[i]);
             });
             return conj;
         }
@@ -99,14 +105,13 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public System.Drawing.Image GetImage(int width, int height)
         {
+            myPlot.Clear();
             List<double> x = new List<double>();
             for (int i = 0; i < DimX; i++)
                 x.Add(i);
             List<double> y = new List<double>();
             for (int i = 0; i < DimX; i++)
                 y.Add((double)getNorm(i));
-            Plot myPlot = new Plot();
-
             myPlot.Add.Bars(x, y);
             var img = System.Drawing.Image.FromStream(new MemoryStream(myPlot.GetImage(width, height).GetImageBytes()));
             return img;
