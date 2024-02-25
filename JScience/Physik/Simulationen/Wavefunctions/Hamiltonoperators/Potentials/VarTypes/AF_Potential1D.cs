@@ -15,15 +15,14 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potential
 
         public override T HPsi(T psi)
         {
-            T psiV = (T)Activator.CreateInstance(psi.GetType(), psi.WFInfo);
             for (int i = xStart; i < xEnd; i++)
             {
                 if ((i - xStart) % Blocksize % 2 == 0)
-                    psiV.SetField(i, Potential * psi[i]);
+                    psiV.SetField(i, psi[i]);
                 else
-                    psiV.SetField(i, -Potential * psi[i]);
+                    psiV.SetField(i, -psi[i]);
             }
-            return psiV;
+            return (T)(psiV * Potential);
         }
     }
 }
