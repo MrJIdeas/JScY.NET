@@ -16,7 +16,7 @@ using JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF;
 //WF_1D test = (WF_1D)WFCreator.CreateGaußWave(-5, 10, 100, 25, ELatticeBoundary.Reflection);
 //WF_1D test = (WF_1D)WFCreator.CreateFreeWave(1, 100, ELatticeBoundary.Periodic);
 //WF_1D test = (WF_1D)WFCreator.CreateDelta(100, 50, ELatticeBoundary.Periodic);
-WF_2D test = (WF_2D)WFCreator.CreateGaußWave(-1, 0, 25, 25, 100, 100, 25, 25, ELatticeBoundary.Reflection);
+WF_2D test = (WF_2D)WFCreator.CreateGaußWave(1, 0, 25, 25, 100, 100, 25, 25, ELatticeBoundary.Reflection);
 //WF_2D test = (WF_2D)WFCreator.CreateFreeWave(1, 0, 100, 100, 50, 50, ELatticeBoundary.Reflection);
 //WF_2D test = (WF_2D)WFCreator.CreateDelta(100, 100, 50, 50, ELatticeBoundary.Reflection);
 Console.WriteLine("Norm: " + test.Norm());
