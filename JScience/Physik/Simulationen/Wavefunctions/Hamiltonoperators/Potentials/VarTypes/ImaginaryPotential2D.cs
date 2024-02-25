@@ -11,16 +11,6 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potential
         {
         }
 
-        public decimal E(T psi)
-        {
-            decimal erg = 0;
-            T erg2 = (T)((T)psi.Conj() * HPsi(psi));
-            for (int i = 0; i < erg2.DimX; i++)
-                for (int j = 0; j < erg2.DimY; j++)
-                    erg += (erg2[i, j].Conj() * erg2[i, j]).Real;
-            return erg;
-        }
-
         public override T HPsi(T psi)
         {
             T psiV = (T)Activator.CreateInstance(psi.GetType(), psi.WFInfo);
