@@ -6,7 +6,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potential
 {
     public class AF_Potential2D<T> : Potential2D<T>, IAFBarrier where T : IWF_2D
     {
-        public AF_Potential2D(string name, int xSTART, int ySTART, int xEND, int yEND, decimal Vmax, int blocksize) : base(name, xSTART, ySTART, xEND, yEND, Vmax)
+        public AF_Potential2D(string name, int xSTART, int ySTART, int xEND, int yEND, double Vmax, int blocksize) : base(name, xSTART, ySTART, xEND, yEND, Vmax)
         {
             Blocksize = blocksize;
         }

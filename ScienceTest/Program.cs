@@ -38,8 +38,8 @@ AF_Potential2D<WF_2D> afpot1 = new AF_Potential2D<WF_2D>("PotMitte", 40 * test.D
 AF_Potential2D<WF_2D> afpot2 = new AF_Potential2D<WF_2D>("PotMitte", 0, 40 * test.DimY / 100, test.DimX, 60 * test.DimY / 100, 1, 5);
 ImaginaryPotential2D<WF_2D> imagpotl = new ImaginaryPotential2D<WF_2D>("ImagPotLinks", 0, 5 * test.DimX / 100, 0, test.DimY, 10);
 ImaginaryPotential2D<WF_2D> imagpotr = new ImaginaryPotential2D<WF_2D>("ImagPotRechts", 95 * test.DimX / 100, test.DimX, 0, test.DimY, 10);
-ImaginaryPotential2D<WF_2D> imagpoto = new ImaginaryPotential2D<WF_2D>("ImagPotLinks", 0, test.DimX, 95 * test.DimY / 100, test.DimY, 10);
-ImaginaryPotential2D<WF_2D> imagpotu = new ImaginaryPotential2D<WF_2D>("ImagPotRechts", 0, test.DimX, 0, 5 * test.DimY / 100, 10);
+ImaginaryPotential2D<WF_2D> imagpoto = new ImaginaryPotential2D<WF_2D>("ImagPotLinks", 5 * test.DimX / 100, 95 * test.DimX / 100, 95 * test.DimY / 100, test.DimY, 10);
+ImaginaryPotential2D<WF_2D> imagpotu = new ImaginaryPotential2D<WF_2D>("ImagPotRechts", 5 * test.DimX / 100, 95 * test.DimX / 100, 0, 5 * test.DimY / 100, 10);
 hamlist.Add(ham);
 hamlist.Add(imagpotl);
 hamlist.Add(imagpotr);
@@ -50,8 +50,8 @@ hamlist.Add(afpot2);
 //hamlist.Add(pot1);
 //hamlist.Add(pot2);
 
-//U_T<WF_1D> ze = new U_T<WF_1D>(0.5m);
-U_T<WF_2D> ze = new U_T<WF_2D>(0.5m);
+//U_T<WF_1D> ze = new U_T<WF_1D>(0.5);
+U_T<WF_2D> ze = new U_T<WF_2D>(0.5);
 
 FFMpeg_ImageToVideo recorder = new FFMpeg_ImageToVideo(@"C:\ffmpeg\bin\", @"C:\ffmpeg\out.mp4", 800, 600, 30);
 

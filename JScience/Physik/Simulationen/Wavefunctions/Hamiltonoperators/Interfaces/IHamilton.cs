@@ -6,6 +6,6 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Interface
     {
         T HPsi(T psi);
 
-        decimal E(T psi);
+        double E(T psi);
     }
 }

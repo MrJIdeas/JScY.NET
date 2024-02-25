@@ -1,22 +1,23 @@
 ﻿using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.TightBinding.Interfaces;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
+using System.Numerics;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.TightBinding.VarTypes
 {
     public class TightBindung2D<T> : ITightBinding<T> where T : IWF_2D
     {
-        public TightBindung2D(decimal t_hop) : base(t_hop)
+        public TightBindung2D(double t_hop) : base(t_hop)
         {
         }
 
-        public override decimal E(T psi)
+        public override double E(T psi)
         {
-            decimal erg = 0;
+            double erg = 0;
             T erg2 = (T)((T)psi.Conj() * HPsi(psi));
             for (int i = 0; i < erg2.DimX; i++)
                 for (int j = 0; j < erg2.DimY; j++)
-                    erg += (erg2[i, j].Conj() * erg2[i, j]).Real;
+                    erg += (Complex.Conjugate(erg2[i, j]) * erg2[i, j]).Real;
             return erg;
         }
 

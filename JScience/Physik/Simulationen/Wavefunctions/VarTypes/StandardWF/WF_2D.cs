@@ -1,4 +1,4 @@
-﻿using JScience.Mathe.ComplexNumbers.VarTypes;
+﻿using System.Numerics;
 using JScience.Physik.Simulationen.Spins.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
@@ -22,7 +22,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
             this.DimY = wfinfo.DimY;
         }
 
-        public DecComplex this[int x, int y]
+        public Complex this[int x, int y]
         {
             get => this[x + y * DimX];
             set => this[x + y * DimX] = value;
@@ -114,9 +114,9 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
             }
         }
 
-        public void SetField(int x, int y, DecComplex value) => this[x, y] = value;
+        public void SetField(int x, int y, Complex value) => this[x, y] = value;
 
-        public decimal getNorm(int x, int y) => getNorm(x + y * DimX);
+        public double getNorm(int x, int y) => getNorm(x + y * DimX);
 
         public new System.Drawing.Image GetImage(int width, int height)
         {

@@ -6,6 +6,6 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potential
     public interface IPotential<T> : IHamilton<T> where T : IWavefunction
     {
         public string Name { get; }
-        public decimal Potential { get; }
+        public double Potential { get; }
     }
 }

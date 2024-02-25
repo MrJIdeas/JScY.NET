@@ -1,4 +1,4 @@
-﻿using JScience.Mathe.ComplexNumbers.VarTypes;
+﻿using System.Numerics;
 using JScience.Physik.Simulationen.Spins.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF;
@@ -26,9 +26,9 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 
         #region Feld
 
-        DecComplex this[int x] { get; }
+        Complex this[int x] { get; }
 
-        void SetField(int x, DecComplex value);
+        void SetField(int x, Complex value);
 
         IWavefunction Conj();
 
@@ -38,15 +38,15 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 
         #region Norm
 
-        decimal Norm();
+        double Norm();
 
-        decimal getNorm(int x);
+        double getNorm(int x);
 
         #endregion Norm
 
-        #region Operatoren WF-DecComplex
+        #region Operatoren WF-Complex
 
-        public static IWavefunction operator +(DecComplex b, IWavefunction a)
+        public static IWavefunction operator +(Complex b, IWavefunction a)
         {
             Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
             {
@@ -56,7 +56,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             return a;
         }
 
-        public static IWavefunction operator -(DecComplex b, IWavefunction a)
+        public static IWavefunction operator -(Complex b, IWavefunction a)
         {
             Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
             {
@@ -66,7 +66,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             return a;
         }
 
-        public static IWavefunction operator *(DecComplex b, IWavefunction a)
+        public static IWavefunction operator *(Complex b, IWavefunction a)
         {
             Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
             {
@@ -76,13 +76,13 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             return a;
         }
 
-        public static IWavefunction operator +(IWavefunction a, DecComplex b) => b + a;
+        public static IWavefunction operator +(IWavefunction a, Complex b) => b + a;
 
-        public static IWavefunction operator -(IWavefunction a, DecComplex b) => b - a;
+        public static IWavefunction operator -(IWavefunction a, Complex b) => b - a;
 
-        public static IWavefunction operator *(IWavefunction a, DecComplex b) => b * a;
+        public static IWavefunction operator *(IWavefunction a, Complex b) => b * a;
 
-        public static IWavefunction operator /(IWavefunction a, DecComplex b)
+        public static IWavefunction operator /(IWavefunction a, Complex b)
         {
             Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
             {
@@ -92,11 +92,11 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             return a;
         }
 
-        #endregion Operatoren WF-DecComplex
+        #endregion Operatoren WF-Complex
 
-        #region Operatoren WF-decimal
+        #region Operatoren WF-double
 
-        public static IWavefunction operator +(decimal b, IWavefunction a)
+        public static IWavefunction operator +(double b, IWavefunction a)
         {
             IWavefunction c = a.Clone();
             Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
@@ -107,7 +107,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             return c;
         }
 
-        public static IWavefunction operator -(decimal b, IWavefunction a)
+        public static IWavefunction operator -(double b, IWavefunction a)
         {
             IWavefunction c = a.Clone();
             Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
@@ -118,7 +118,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             return c;
         }
 
-        public static IWavefunction operator *(decimal b, IWavefunction a)
+        public static IWavefunction operator *(double b, IWavefunction a)
         {
             IWavefunction c = a.Clone();
             Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
@@ -129,13 +129,13 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             return c;
         }
 
-        public static IWavefunction operator +(IWavefunction a, decimal b) => b + a;
+        public static IWavefunction operator +(IWavefunction a, double b) => b + a;
 
-        public static IWavefunction operator -(IWavefunction a, decimal b) => b - a;
+        public static IWavefunction operator -(IWavefunction a, double b) => b - a;
 
-        public static IWavefunction operator *(IWavefunction a, decimal b) => b * a;
+        public static IWavefunction operator *(IWavefunction a, double b) => b * a;
 
-        public static IWavefunction operator /(IWavefunction a, decimal b)
+        public static IWavefunction operator /(IWavefunction a, double b)
         {
             IWavefunction c = a.Clone();
             Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
@@ -146,7 +146,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             return c;
         }
 
-        #endregion Operatoren WF-decimal
+        #endregion Operatoren WF-double
 
         #region Operatoren WF-WF
 

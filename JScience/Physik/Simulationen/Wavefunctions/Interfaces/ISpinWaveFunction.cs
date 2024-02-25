@@ -6,6 +6,6 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
     {
         EParticleType ParticleType { get; }
 
-        decimal Spin { get; }
+        double Spin { get; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.Interfaces;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
+using System.Numerics;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.BaseClasses
 {
@@ -7,20 +8,20 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potential
     {
         public string Name { get; private set; }
 
-        public decimal Potential { get; private set; }
+        public double Potential { get; private set; }
 
-        protected Potential_Base(string name, decimal Vmax)
+        protected Potential_Base(string name, double Vmax)
         {
             Name = name;
             Potential = Vmax;
         }
 
-        public decimal E(T psi)
+        public double E(T psi)
         {
-            decimal erg = 0;
+            double erg = 0;
             T erg2 = (T)((T)psi.Conj() * HPsi(psi));
             for (int i = 0; i < erg2.WFInfo.DimX * erg2.WFInfo.DimY * erg2.WFInfo.DimZ; i++)
-                erg += (erg2[i].Conj() * erg2[i]).Real;
+                erg += (Complex.Conjugate(erg2[i]) * erg2[i]).Real;
             return erg;
         }
 

@@ -1,4 +1,4 @@
-﻿using JScience.Mathe.ComplexNumbers.VarTypes;
+﻿using System.Numerics;
 using JScience.Physik.Simulationen.Spins.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
@@ -22,23 +22,23 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
         {
             WFInfo = wfinfo;
             myPlot = new Plot();
-            field = new DecComplex[wfinfo.DimX * wfinfo.DimY * wfinfo.DimZ];
+            field = new Complex[wfinfo.DimX * wfinfo.DimY * wfinfo.DimZ];
             Boundary = wfinfo.BoundaryInfo;
             rangePartitioner = Partitioner.Create(0, wfinfo.DimX * wfinfo.DimY * wfinfo.DimZ);
         }
 
         public OrderablePartitioner<Tuple<int, int>> rangePartitioner { get; private set; }
-        private DecComplex[] field { get; set; }
+        private Complex[] field { get; set; }
 
         #region Interface
 
         public ELatticeBoundary Boundary { get; private set; }
 
-        public DecComplex this[int i] { get => field[i]; protected set => field[i] = value; }
+        public Complex this[int i] { get => field[i]; protected set => field[i] = value; }
         public int DimX => field.Length;
         public int Dimensions => 1;
 
-        public decimal Norm() => field.ToList().AsParallel().Sum(x => x.Magnitude);
+        public double Norm() => Math.Sqrt(field.ToList().AsParallel().Sum(x => Math.Pow(x.Magnitude, 2)));
 
         protected virtual IWavefunction getEmptyLikeThis() => (IWavefunction)Activator.CreateInstance(GetType(), WFInfo);
 
@@ -48,7 +48,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
             Parallel.ForEach(conj.rangePartitioner, (range, loopState) =>
             {
                 for (int i = range.Item1; i < range.Item2; i++)
-                    conj.SetField(i, field[i].Conj());
+                    conj.SetField(i, Complex.Conjugate(field[i]));
             });
             return conj;
         }
@@ -81,14 +81,14 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
             }
         }
 
-        public void SetField(int x, DecComplex value) => field[x] = value;
+        public void SetField(int x, Complex value) => field[x] = value;
 
         public void Clear()
         {
             Parallel.ForEach(rangePartitioner, (range, loopState) =>
             {
                 for (int i = range.Item1; i < range.Item2; i++)
-                    field[i] = DecComplex.Zero;
+                    field[i] = Complex.Zero;
             });
         }
 
@@ -103,7 +103,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
             return conj;
         }
 
-        public decimal getNorm(int x) => field[x].Magnitude;
+        public double getNorm(int x) => field[x].Magnitude;
 
         public System.Drawing.Image GetImage(int width, int height)
         {

@@ -15,7 +15,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potential
 
         public int yEnd { get; private set; }
 
-        public Potential2D(string name, int xSTART, int ySTART, int xEND, int yEND, decimal Vmax) : base(name, Vmax)
+        public Potential2D(string name, int xSTART, int ySTART, int xEND, int yEND, double Vmax) : base(name, Vmax)
         {
             xStart = xSTART;
             xEnd = xEND;
