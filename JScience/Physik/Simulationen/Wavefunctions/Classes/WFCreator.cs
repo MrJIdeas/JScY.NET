@@ -30,7 +30,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
 
         public static IWF_1D CreateFreeWave(decimal k, int DimX, ELatticeBoundary boundary)
         {
-            IWF_1D erg = new WF_1D(DimX, boundary);
+            WFInfo wfinfo = new WFInfo(DimX, 1, 1, boundary);
+            IWF_1D erg = new WF_1D(wfinfo);
             for (int i = 0; i < DimX; i++)
                 erg.SetField(i, DecComplex.Exp(DecComplex.ImaginaryOne * k * i));
             return NormWave(erg);
@@ -38,7 +39,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
 
         public static IWF_2D CreateFreeWave(decimal kx, decimal ky, int DimX, int DimY, ELatticeBoundary boundary)
         {
-            WF_2D erg = new WF_2D(DimX, DimY, boundary);
+            WFInfo wfinfo = new WFInfo(DimX, DimY, 1, boundary);
+            WF_2D erg = new WF_2D(wfinfo);
             for (int i = 0; i < DimX; i++)
                 for (int j = 0; j < DimY; j++)
                     erg.SetField(i, j, DecComplex.Exp(DecComplex.ImaginaryOne * (kx * i + ky * j)));
@@ -51,7 +53,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
 
         public static IWF_1D CreateGaußWave(decimal k, decimal sigma, int DimX, int StartX, ELatticeBoundary boundary)
         {
-            IWF_1D erg = new WF_1D(DimX, boundary);
+            WFInfo wfinfo = new WFInfo(DimX, 1, 1, boundary);
+            IWF_1D erg = new WF_1D(wfinfo);
             for (int i = 0; i < DimX; i++)
                 erg.SetField(i, DecComplex.Exp(new DecComplex((decimal)-Math.Pow(i - StartX, 2) / sigma, 0) - DecComplex.ImaginaryOne * k * i));
             return NormWave(erg);
@@ -59,7 +62,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
 
         public static IWF_2D CreateGaußWave(decimal kx, decimal ky, decimal sigmaX, decimal sigmaY, int DimX, int DimY, int StartX, int StartY, ELatticeBoundary boundary)
         {
-            WF_2D erg = new WF_2D(DimX, DimY, boundary);
+            WFInfo wfinfo = new WFInfo(DimX, DimY, 1, boundary);
+            WF_2D erg = new WF_2D(wfinfo);
             for (int i = 0; i < DimX; i++)
                 for (int j = 0; j < DimY; j++)
                     erg.SetField(i, j, DecComplex.Exp(-decimal.Multiply(i - StartX, i - StartX) / sigmaX - decimal.Multiply(j - StartY, j - StartY) / sigmaY - DecComplex.ImaginaryOne * (kx * i + ky * j)));
@@ -72,14 +76,16 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
 
         public static IWF_1D CreateDelta(int DimX, int StartX, ELatticeBoundary boundary)
         {
-            IWF_1D erg = new WF_1D(DimX, boundary);
+            WFInfo wfinfo = new WFInfo(DimX, 1, 1, boundary);
+            IWF_1D erg = new WF_1D(wfinfo);
             erg.SetField(StartX, DecComplex.One);
             return NormWave(erg);
         }
 
         public static IWF_2D CreateDelta(int DimX, int DimY, int StartX, int StartY, ELatticeBoundary boundary)
         {
-            WF_2D erg = new WF_2D(DimX, DimY, boundary);
+            WFInfo wfinfo = new WFInfo(DimX, DimY, 1, boundary);
+            WF_2D erg = new WF_2D(wfinfo);
             erg.SetField(StartX, StartY, DecComplex.One);
             return NormWave(erg);
         }
@@ -93,7 +99,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
             if (!File.Exists(FilePath))
                 throw new FileNotFoundException("Invalid Path for Wavefunctíon File.");
             var lines = File.ReadAllLines(FilePath);
-            IWF_1D erg = new WF_1D(lines.Length, boundary);
+            WFInfo wfinfo = new WFInfo(lines.Length, 1, 1, boundary);
+            IWF_1D erg = new WF_1D(wfinfo);
             for (int i = 0; i < lines.Length; i++)
             {
                 var parts = lines[i].Split(Delimiter);
@@ -109,7 +116,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
             if (!File.Exists(FilePath))
                 throw new FileNotFoundException("Invalid Path for Wavefunctíon File.");
             var lines = File.ReadAllLines(FilePath);
-            WF_2D erg = new WF_2D(lines.Length, lines[0].Length, boundary);
+            WFInfo wfinfo = new WFInfo(lines.Length, lines[0].Length, 1, boundary);
+            WF_2D erg = new WF_2D(wfinfo);
             for (int i = 0; i < lines.Length; i++)
             {
                 var parts = lines[i].Split(Delimiter);

@@ -18,10 +18,10 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public new int Dimensions => 2;
 
-        public WF_2D(int DimX, int DimY, ELatticeBoundary boundary) : base(DimX * DimY, boundary)
+        public WF_2D(WFInfo wfinfo) : base(wfinfo)
         {
-            this.DimX = DimX;
-            this.DimY = DimY;
+            this.DimX = wfinfo.DimX;
+            this.DimY = wfinfo.DimY;
         }
 
         public DecComplex this[int x, int y]
@@ -40,7 +40,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public new IWavefunction GetShift(EShift shift)
         {
-            WF_2D neu = new WF_2D(DimX, DimY, Boundary);
+            WF_2D neu = new WF_2D(WFInfo);
             switch (shift)
             {
                 default:
@@ -118,7 +118,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public void SetField(int x, int y, DecComplex value) => this[x, y] = value;
 
-        protected override IWavefunction getEmptyLikeThis() => new WF_2D(DimX, DimY, Boundary);
+        protected override IWavefunction getEmptyLikeThis() => new WF_2D(WFInfo);
 
         public decimal getNorm(int x, int y) => getNorm(x + y * DimX);
 

@@ -8,7 +8,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
@@ -17,12 +16,15 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
     {
         protected Plot myPlot { get; set; }
 
-        public WF_1D(int DimX, ELatticeBoundary boundary)
+        protected WFInfo WFInfo { get; private set; }
+
+        public WF_1D(WFInfo wfinfo)
         {
+            WFInfo = wfinfo;
             myPlot = new Plot();
-            field = new DecComplex[DimX];
-            Boundary = boundary;
-            rangePartitioner = Partitioner.Create(0, DimX);
+            field = new DecComplex[wfinfo.DimX];
+            Boundary = wfinfo.BoundaryInfo;
+            rangePartitioner = Partitioner.Create(0, wfinfo.DimX);
         }
 
         public OrderablePartitioner<Tuple<int, int>> rangePartitioner { get; private set; }
@@ -38,7 +40,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public decimal Norm() => field.ToList().AsParallel().Sum(x => x.Magnitude);
 
-        protected virtual IWavefunction getEmptyLikeThis() => new WF_1D(DimX, Boundary);
+        protected virtual IWavefunction getEmptyLikeThis() => new WF_1D(WFInfo);
 
         public IWavefunction Conj()
         {
@@ -53,7 +55,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public IWavefunction GetShift(EShift shift)
         {
-            WF_1D neu = new WF_1D(DimX, Boundary);
+            WF_1D neu = new WF_1D(WFInfo);
             switch (shift)
             {
                 default:
