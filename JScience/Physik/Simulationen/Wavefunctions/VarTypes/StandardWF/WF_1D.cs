@@ -16,15 +16,15 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
     {
         protected Plot myPlot { get; set; }
 
-        protected WFInfo WFInfo { get; private set; }
+        public WFInfo WFInfo { get; private set; }
 
         public WF_1D(WFInfo wfinfo)
         {
             WFInfo = wfinfo;
             myPlot = new Plot();
-            field = new DecComplex[wfinfo.DimX];
+            field = new DecComplex[wfinfo.DimX * wfinfo.DimY * wfinfo.DimZ];
             Boundary = wfinfo.BoundaryInfo;
-            rangePartitioner = Partitioner.Create(0, wfinfo.DimX);
+            rangePartitioner = Partitioner.Create(0, wfinfo.DimX * wfinfo.DimY * wfinfo.DimZ);
         }
 
         public OrderablePartitioner<Tuple<int, int>> rangePartitioner { get; private set; }
@@ -40,7 +40,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public decimal Norm() => field.ToList().AsParallel().Sum(x => x.Magnitude);
 
-        protected virtual IWavefunction getEmptyLikeThis() => new WF_1D(WFInfo);
+        protected virtual IWavefunction getEmptyLikeThis() => (IWavefunction)Activator.CreateInstance(GetType(), WFInfo);
 
         public IWavefunction Conj()
         {

@@ -40,7 +40,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potential
 
         public virtual T HPsi(T psi)
         {
-            T psiV = (T)Activator.CreateInstance(psi.GetType(), psi.DimX, psi.DimY, psi.Boundary);
+            T psiV = (T)Activator.CreateInstance(psi.GetType(), psi.WFInfo);
             for (int i = xStart; i < xEnd; i++)
                 for (int j = yStart; j < yEnd; j++)
                     psiV.SetField(i, j, Potential * psi[i, j]);

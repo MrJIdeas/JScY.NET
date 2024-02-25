@@ -15,7 +15,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potential
 
         public override T HPsi(T psi)
         {
-            T psiV = (T)Activator.CreateInstance(psi.GetType(), psi.DimX, psi.Boundary);
+            T psiV = (T)Activator.CreateInstance(psi.GetType(), psi.WFInfo);
             for (int i = xStart; i < xEnd; i++)
             {
                 if ((i - xStart) % Blocksize % 2 == 0)

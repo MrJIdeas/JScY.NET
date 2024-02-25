@@ -1,6 +1,7 @@
 ﻿using JScience.Mathe.ComplexNumbers.VarTypes;
 using JScience.Physik.Simulationen.Spins.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Enums;
+using JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF;
 using System;
 using System.Collections.Concurrent;
 using System.Drawing;
@@ -12,6 +13,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
     {
         int Dimensions { get; }
         ELatticeBoundary Boundary { get; }
+
+        WFInfo WFInfo { get; }
 
         OrderablePartitioner<Tuple<int, int>> rangePartitioner { get; }
 

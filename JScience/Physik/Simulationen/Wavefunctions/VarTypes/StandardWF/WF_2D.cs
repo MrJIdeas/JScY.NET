@@ -118,8 +118,6 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public void SetField(int x, int y, DecComplex value) => this[x, y] = value;
 
-        protected override IWavefunction getEmptyLikeThis() => new WF_2D(WFInfo);
-
         public decimal getNorm(int x, int y) => getNorm(x + y * DimX);
 
         public new System.Drawing.Image GetImage(int width, int height)

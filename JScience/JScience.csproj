@@ -28,6 +28,7 @@
     <Folder Include="Physik\Events\" />
     <Folder Include="Physik\Interfaces\" />
     <Folder Include="Physik\Simulationen\Spins\Classic\Simulations\Custom\" />
+    <Folder Include="Physik\Simulationen\Wavefunctions\TimeEvolution\BaseClasses\" />
     <Folder Include="Physik\VarTypes\" />
   </ItemGroup>
 
