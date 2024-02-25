@@ -16,7 +16,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public new int Dimensions => 2;
 
-        public WF_2D(WFInfo wfinfo) : base(wfinfo)
+        public WF_2D(WFInfo wfinfo, bool UseGPU) : base(wfinfo, UseGPU)
         {
             this.DimX = wfinfo.DimX;
             this.DimY = wfinfo.DimY;
@@ -38,7 +38,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public new IWavefunction GetShift(EShift shift)
         {
-            WF_2D neu = new WF_2D(WFInfo);
+            WF_2D neu = new WF_2D(WFInfo, UseGPU);
             switch (shift)
             {
                 default:

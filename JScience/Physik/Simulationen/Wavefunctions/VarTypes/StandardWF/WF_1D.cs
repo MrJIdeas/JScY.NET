@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using JScience.Physik.Simulationen.Spins.Enums;
+﻿using JScience.Physik.Simulationen.Spins.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
 using ScottPlot;
@@ -8,6 +7,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
@@ -18,17 +18,18 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public WFInfo WFInfo { get; private set; }
 
-        public WF_1D(WFInfo wfinfo)
+        public WF_1D(WFInfo wfinfo, bool useGPU)
         {
             WFInfo = wfinfo;
             myPlot = new Plot();
             field = new Complex[wfinfo.DimX * wfinfo.DimY * wfinfo.DimZ];
             Boundary = wfinfo.BoundaryInfo;
             rangePartitioner = Partitioner.Create(0, wfinfo.DimX * wfinfo.DimY * wfinfo.DimZ);
+            UseGPU = useGPU;
         }
 
         public OrderablePartitioner<Tuple<int, int>> rangePartitioner { get; private set; }
-        private Complex[] field { get; set; }
+        public Complex[] field { get; private set; }
 
         #region Interface
 
@@ -38,9 +39,11 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
         public int DimX => field.Length;
         public int Dimensions => 1;
 
+        public bool UseGPU { get; private set; }
+
         public double Norm() => Math.Sqrt(field.ToList().AsParallel().Sum(x => Math.Pow(x.Magnitude, 2)));
 
-        protected virtual IWavefunction getEmptyLikeThis() => (IWavefunction)Activator.CreateInstance(GetType(), WFInfo);
+        protected virtual IWavefunction getEmptyLikeThis() => (IWavefunction)Activator.CreateInstance(GetType(), WFInfo, UseGPU);
 
         public IWavefunction Conj()
         {
@@ -55,7 +58,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public IWavefunction GetShift(EShift shift)
         {
-            WF_1D neu = new WF_1D(WFInfo);
+            WF_1D neu = new WF_1D(WFInfo, UseGPU);
             switch (shift)
             {
                 default:
@@ -82,6 +85,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
         }
 
         public void SetField(int x, Complex value) => field[x] = value;
+
+        public void SetField(Complex[] field) => this.field = field;
 
         public void Clear()
         {

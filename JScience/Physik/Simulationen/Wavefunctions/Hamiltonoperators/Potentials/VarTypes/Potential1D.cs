@@ -19,6 +19,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potential
 
         public override T HPsi(T psi)
         {
+            T psiV = (T)Activator.CreateInstance(psi.GetType(), psi.WFInfo, psi.UseGPU);
             for (int i = xStart; i < xEnd; i++)
                 psiV.SetField(i, psi[i]);
             return (T)(psiV * Potential);

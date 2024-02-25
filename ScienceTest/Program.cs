@@ -1,22 +1,20 @@
-﻿using JScience.Classes.Videogeneration;
+﻿using Cloo;
+using JScience.Classes.Videogeneration;
 using JScience.Physik.Simulationen.Spins.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Classes;
 using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Interfaces;
 using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.VarTypes;
 using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.TightBinding.VarTypes;
+using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
 using JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Classes;
 using JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF;
 
-//Ising_Classic_1D_Lattice test = new Ising_Classic_1D_Lattice(-1, 0, 0, 6, 10000, EParticleType.ZBoson, ELatticeBoundary.Periodic, 1);
-//Console.WriteLine(test.H());
-//test.Start();
-//Console.WriteLine(test.H());
-//Console.WriteLine(test.n);
+IWavefunction.InitKernel();
 
 //WF_1D test = (WF_1D)WFCreator.CreateGaußWave(-5, 10, 100, 25, ELatticeBoundary.Reflection);
 //WF_1D test = (WF_1D)WFCreator.CreateFreeWave(1, 100, ELatticeBoundary.Periodic);
 //WF_1D test = (WF_1D)WFCreator.CreateDelta(100, 50, ELatticeBoundary.Periodic);
-WF_2D test = (WF_2D)WFCreator.CreateGaußWave(1, 0, 25, 25, 100, 100, 25, 25, ELatticeBoundary.Reflection);
+WF_2D test = (WF_2D)WFCreator.CreateGaußWave(1, 0, 25, 25, 100, 100, 25, 25, ELatticeBoundary.Reflection, true);
 //WF_2D test = (WF_2D)WFCreator.CreateFreeWave(1, 0, 100, 100, 50, 50, ELatticeBoundary.Reflection);
 //WF_2D test = (WF_2D)WFCreator.CreateDelta(100, 100, 50, 50, ELatticeBoundary.Reflection);
 Console.WriteLine("Norm: " + test.Norm());
@@ -32,8 +30,8 @@ Console.WriteLine("Norm: " + test.Norm());
 List<IHamilton<WF_2D>> hamlist = new List<IHamilton<WF_2D>>();
 
 TightBindung2D<WF_2D> ham = new TightBindung2D<WF_2D>(1);
-Potential2D<WF_2D> pot1 = new Potential2D<WF_2D>("PotMitte", 40 * test.DimX / 100, 0, 60 * test.DimX / 100, test.DimY, 25);
-Potential2D<WF_2D> pot2 = new Potential2D<WF_2D>("PotMitte", 0, 40 * test.DimY / 100, test.DimX, 60 * test.DimY / 100, 25);
+Potential2D<WF_2D> pot1 = new Potential2D<WF_2D>("PotMitte", 40 * test.DimX / 100, 0, 60 * test.DimX / 100, test.DimY, 10);
+Potential2D<WF_2D> pot2 = new Potential2D<WF_2D>("PotMitte", 0, 40 * test.DimY / 100, test.DimX, 60 * test.DimY / 100, 10);
 AF_Potential2D<WF_2D> afpot1 = new AF_Potential2D<WF_2D>("PotMitte", 40 * test.DimX / 100, 0, 60 * test.DimX / 100, test.DimY, 1, 5);
 AF_Potential2D<WF_2D> afpot2 = new AF_Potential2D<WF_2D>("PotMitte", 0, 40 * test.DimY / 100, test.DimX, 60 * test.DimY / 100, 1, 5);
 ImaginaryPotential2D<WF_2D> imagpotl = new ImaginaryPotential2D<WF_2D>("ImagPotLinks", 0, 5 * test.DimX / 100, 0, test.DimY, 10);
