@@ -1,4 +1,5 @@
 ﻿using Cloo;
+using JScience.Enums;
 using JScience.Physik.Simulationen.Spins.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
@@ -19,14 +20,14 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public WFInfo WFInfo { get; private set; }
 
-        public WF_1D(WFInfo wfinfo, bool useGPU)
+        public WF_1D(WFInfo wfinfo, ECalculationMethod Method)
         {
             WFInfo = wfinfo;
             myPlot = new Plot();
             field = new Complex[wfinfo.DimX * wfinfo.DimY * wfinfo.DimZ];
             Boundary = wfinfo.BoundaryInfo;
             rangePartitioner = Partitioner.Create(0, wfinfo.DimX * wfinfo.DimY * wfinfo.DimZ);
-            UseGPU = useGPU;
+            CalcMethod = Method;
             result = new double[field.Length];
         }
 
@@ -43,35 +44,42 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
         public int DimX => field.Length;
         public int Dimensions => 1;
 
-        public bool UseGPU { get; private set; }
+        public ECalculationMethod CalcMethod { get; private set; }
 
         public double Norm()
         {
-            if (!UseGPU)
-                return field.ToList().AsParallel().Sum(x => Math.Pow(x.Magnitude, 2));
-            else
+            switch (CalcMethod)
             {
-                if (IWavefunction.bBuffer == null)
-                    IWavefunction.bBuffer = new ComputeBuffer<Complex>(IWavefunction.context, ComputeMemoryFlags.ReadOnly | ComputeMemoryFlags.CopyHostPointer, field);
-                else
-                    IWavefunction.queue.WriteToBuffer(field, IWavefunction.bBuffer, true, null);
-                if (IWavefunction.resultBuffer == null)
-                    IWavefunction.resultBuffer = new ComputeBuffer<double>(IWavefunction.context, ComputeMemoryFlags.WriteOnly, result.Length);
-                else
-                    IWavefunction.queue.WriteToBuffer<double>(result, IWavefunction.resultBuffer, true, null);
+                case ECalculationMethod.CPU_Multihreading:
+                    return field.ToList().AsParallel().Sum(x => Math.Pow(x.Magnitude, 2));
 
-                IWavefunction.Normkernel.SetMemoryArgument(0, IWavefunction.resultBuffer);
-                IWavefunction.Normkernel.SetMemoryArgument(1, IWavefunction.bBuffer);
+                case ECalculationMethod.OpenCL:
+                    {
+                        if (IWavefunction.bBuffer == null)
+                            IWavefunction.bBuffer = new ComputeBuffer<Complex>(IWavefunction.context, ComputeMemoryFlags.ReadOnly | ComputeMemoryFlags.CopyHostPointer, field);
+                        else
+                            IWavefunction.queue.WriteToBuffer(field, IWavefunction.bBuffer, true, null);
+                        if (IWavefunction.resultBuffer == null)
+                            IWavefunction.resultBuffer = new ComputeBuffer<double>(IWavefunction.context, ComputeMemoryFlags.WriteOnly, result.Length);
+                        else
+                            IWavefunction.queue.WriteToBuffer(result, IWavefunction.resultBuffer, true, null);
 
-                IWavefunction.queue.Execute(IWavefunction.Normkernel, null, new long[] { field.Length }, null, null);
-                double[] buf = result;
-                IWavefunction.queue.ReadFromBuffer(IWavefunction.resultBuffer, ref buf, true, null);
-                result = buf;
-                return result.Sum();
+                        IWavefunction.Normkernel.SetMemoryArgument(0, IWavefunction.resultBuffer);
+                        IWavefunction.Normkernel.SetMemoryArgument(1, IWavefunction.bBuffer);
+
+                        IWavefunction.queue.Execute(IWavefunction.Normkernel, null, new long[] { field.Length }, null, null);
+                        double[] buf = result;
+                        IWavefunction.queue.ReadFromBuffer(IWavefunction.resultBuffer, ref buf, true, null);
+                        result = buf;
+                        return result.Sum();
+                    }
+
+                default:
+                    return field.ToList().Sum(x => Math.Pow(x.Magnitude, 2));
             }
         }
 
-        protected virtual IWavefunction getEmptyLikeThis() => (IWavefunction)Activator.CreateInstance(GetType(), WFInfo, UseGPU);
+        protected virtual IWavefunction getEmptyLikeThis() => (IWavefunction)Activator.CreateInstance(GetType(), WFInfo, CalcMethod);
 
         public IWavefunction Conj()
         {
@@ -86,7 +94,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public IWavefunction GetShift(EShift shift)
         {
-            WF_1D neu = new WF_1D(WFInfo, UseGPU);
+            WF_1D neu = new WF_1D(WFInfo, CalcMethod);
             switch (shift)
             {
                 default:

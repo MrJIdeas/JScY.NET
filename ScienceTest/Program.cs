@@ -1,4 +1,5 @@
 ﻿using JScience.Classes.Videogeneration;
+using JScience.Enums;
 using JScience.Physik.Simulationen.Spins.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Classes;
 using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Interfaces;
@@ -8,14 +9,14 @@ using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
 using JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Classes;
 using JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF;
 
-IWavefunction.InitKernel();
+IWavefunction.InitOpenCL();
 
-//WF_1D test = (WF_1D)WFCreator.CreateGaußWave(-5, 10, 100, 25, ELatticeBoundary.Reflection, false);
-//WF_1D test = (WF_1D)WFCreator.CreateFreeWave(1, 100, ELatticeBoundary.Periodic, false);
-//WF_1D test = (WF_1D)WFCreator.CreateDelta(100, 50, ELatticeBoundary.Periodic, false);
-WF_2D test = (WF_2D)WFCreator.CreateGaußWave(-1, 0, 25, 25, 100, 100, 25, 25, ELatticeBoundary.Reflection, false);
-//WF_2D test = (WF_2D)WFCreator.CreateFreeWave(1, 0, 100, 100, 50, 50, ELatticeBoundary.Reflection, false);
-//WF_2D test = (WF_2D)WFCreator.CreateDelta(100, 100, 50, 50, ELatticeBoundary.Reflection, false);
+//WF_1D test = (WF_1D)WFCreator.CreateGaußWave(-5, 10, 100, 25, ELatticeBoundary.Reflection,  ECalculationMethod.OpenCL);
+//WF_1D test = (WF_1D)WFCreator.CreateFreeWave(1, 100, ELatticeBoundary.Periodic,  ECalculationMethod.OpenCL);
+//WF_1D test = (WF_1D)WFCreator.CreateDelta(100, 50, ELatticeBoundary.Periodic,  ECalculationMethod.OpenCL);
+WF_2D test = (WF_2D)WFCreator.CreateGaußWave(-1, 0, 25, 25, 100, 100, 25, 25, ELatticeBoundary.Reflection, ECalculationMethod.OpenCL);
+//WF_2D test = (WF_2D)WFCreator.CreateFreeWave(1, 0, 100, 100, 50, 50, ELatticeBoundary.Reflection,  ECalculationMethod.OpenCL);
+//WF_2D test = (WF_2D)WFCreator.CreateDelta(100, 100, 50, 50, ELatticeBoundary.Reflection,  ECalculationMethod.OpenCL);
 Console.WriteLine("Norm: " + test.Norm());
 
 //List<IHamilton<WF_1D>> hamlist = new List<IHamilton<WF_1D>>();

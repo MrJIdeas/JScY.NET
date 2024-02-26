@@ -7,6 +7,7 @@ using System.Collections.Concurrent;
 using System.Drawing;
 using System.Threading.Tasks;
 using Cloo;
+using JScience.Enums;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 {
@@ -25,7 +26,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 
         Image GetImage(int width, int height);
 
-        bool UseGPU { get; }
+        ECalculationMethod CalcMethod { get; }
 
         #region Feld
 
@@ -180,13 +181,17 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 
         protected static ComputeBuffer<double> resultBuffer { get; set; }
 
-        public static void InitKernel()
+        public static void InitOpenCL()
         {
-            context = new ComputeContext(ComputeDeviceTypes.All, new ComputeContextPropertyList(ComputePlatform.Platforms[0]), null, IntPtr.Zero);
-            queue = new ComputeCommandQueue(context, context.Devices[0], ComputeCommandQueueFlags.None);
-            program = new ComputeProgram(context, kernelSource);
-            program.Build(null, null, null, IntPtr.Zero);
-
+            if (context == null)
+                context = new ComputeContext(ComputeDeviceTypes.All, new ComputeContextPropertyList(ComputePlatform.Platforms[0]), null, IntPtr.Zero);
+            if (queue == null)
+                queue = new ComputeCommandQueue(context, context.Devices[0], ComputeCommandQueueFlags.None);
+            if (program == null)
+            {
+                program = new ComputeProgram(context, kernelSource);
+                program.Build(null, null, null, IntPtr.Zero);
+            }
             Addkernel = program.CreateKernel("AddComplex");
             AddDoublekernel = program.CreateKernel("AddDouble");
             Subkernel = program.CreateKernel("SubComplex");
@@ -207,81 +212,99 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 
         public static IWavefunction operator +(Complex b, IWavefunction a)
         {
-            if (a.UseGPU)
+            switch (a.CalcMethod)
             {
-                if (aBuffer == null)
-                    aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
-                else
-                    queue.WriteToBuffer(a.field, aBuffer, true, null);
-                AddComplexkernel.SetMemoryArgument(0, aBuffer);
-                AddComplexkernel.SetValueArgument(1, b);
+                case ECalculationMethod.OpenCL:
+                    {
+                        if (aBuffer == null)
+                            aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                        else
+                            queue.WriteToBuffer(a.field, aBuffer, true, null);
+                        AddComplexkernel.SetMemoryArgument(0, aBuffer);
+                        AddComplexkernel.SetValueArgument(1, b);
 
-                queue.Execute(AddComplexkernel, null, new long[] { a.field.Length }, null, null);
-                Complex[] cf = a.field;
-                queue.ReadFromBuffer(aBuffer, ref cf, true, null);
-                a.SetField(cf);
-            }
-            else
-            {
-                Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
-                {
-                    for (int i = range.Item1; i < range.Item2; i++)
-                        a.SetField(i, a[i] + b);
-                });
+                        queue.Execute(AddComplexkernel, null, new long[] { a.field.Length }, null, null);
+                        Complex[] cf = a.field;
+                        queue.ReadFromBuffer(aBuffer, ref cf, true, null);
+                        a.SetField(cf);
+                        break;
+                    }
+
+                default:
+                    {
+                        Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
+                        {
+                            for (int i = range.Item1; i < range.Item2; i++)
+                                a.SetField(i, a[i] + b);
+                        });
+                        break;
+                    }
             }
             return a;
         }
 
         public static IWavefunction operator -(IWavefunction a, Complex b)
         {
-            if (a.UseGPU)
+            switch (a.CalcMethod)
             {
-                if (aBuffer == null)
-                    aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
-                else
-                    queue.WriteToBuffer(a.field, aBuffer, true, null);
-                SubComplexkernel.SetMemoryArgument(0, aBuffer);
-                SubComplexkernel.SetValueArgument(1, b);
+                case ECalculationMethod.OpenCL:
+                    {
+                        if (aBuffer == null)
+                            aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                        else
+                            queue.WriteToBuffer(a.field, aBuffer, true, null);
+                        SubComplexkernel.SetMemoryArgument(0, aBuffer);
+                        SubComplexkernel.SetValueArgument(1, b);
 
-                queue.Execute(SubComplexkernel, null, new long[] { a.field.Length }, null, null);
-                Complex[] cf = a.field;
-                queue.ReadFromBuffer(aBuffer, ref cf, true, null);
-                a.SetField(cf);
-            }
-            else
-            {
-                Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
-                {
-                    for (int i = range.Item1; i < range.Item2; i++)
-                        a.SetField(i, b - a[i]);
-                });
+                        queue.Execute(SubComplexkernel, null, new long[] { a.field.Length }, null, null);
+                        Complex[] cf = a.field;
+                        queue.ReadFromBuffer(aBuffer, ref cf, true, null);
+                        a.SetField(cf);
+                        break;
+                    }
+
+                default:
+                    {
+                        Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
+                        {
+                            for (int i = range.Item1; i < range.Item2; i++)
+                                a.SetField(i, b - a[i]);
+                        });
+                        break;
+                    }
             }
             return a;
         }
 
         public static IWavefunction operator *(Complex b, IWavefunction a)
         {
-            if (a.UseGPU)
+            switch (a.CalcMethod)
             {
-                if (aBuffer == null)
-                    aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
-                else
-                    queue.WriteToBuffer(a.field, aBuffer, true, null);
-                MulComplexkernel.SetMemoryArgument(0, aBuffer);
-                MulComplexkernel.SetValueArgument(1, b);
+                case ECalculationMethod.OpenCL:
+                    {
+                        if (aBuffer == null)
+                            aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                        else
+                            queue.WriteToBuffer(a.field, aBuffer, true, null);
+                        MulComplexkernel.SetMemoryArgument(0, aBuffer);
+                        MulComplexkernel.SetValueArgument(1, b);
 
-                queue.Execute(MulComplexkernel, null, new long[] { a.field.Length }, null, null);
-                Complex[] cf = a.field;
-                queue.ReadFromBuffer(aBuffer, ref cf, true, null);
-                a.SetField(cf);
-            }
-            else
-            {
-                Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
-                {
-                    for (int i = range.Item1; i < range.Item2; i++)
-                        a.SetField(i, a[i] * b);
-                });
+                        queue.Execute(MulComplexkernel, null, new long[] { a.field.Length }, null, null);
+                        Complex[] cf = a.field;
+                        queue.ReadFromBuffer(aBuffer, ref cf, true, null);
+                        a.SetField(cf);
+                        break;
+                    }
+
+                default:
+                    {
+                        Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
+                        {
+                            for (int i = range.Item1; i < range.Item2; i++)
+                                a.SetField(i, a[i] * b);
+                        });
+                        break;
+                    }
             }
             return a;
         }
@@ -294,7 +317,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 
         public static IWavefunction operator /(IWavefunction a, Complex b)
         {
-            if (a.UseGPU)
+            if (a.CalcMethod == ECalculationMethod.OpenCL)
             {
                 if (aBuffer == null)
                     aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
@@ -325,81 +348,99 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 
         public static IWavefunction operator +(double b, IWavefunction a)
         {
-            if (a.UseGPU)
+            switch (a.CalcMethod)
             {
-                if (aBuffer == null)
-                    aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
-                else
-                    queue.WriteToBuffer(a.field, aBuffer, true, null);
-                AddDoublekernel.SetMemoryArgument(0, aBuffer);
-                AddDoublekernel.SetValueArgument(1, b);
+                case ECalculationMethod.OpenCL:
+                    {
+                        if (aBuffer == null)
+                            aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                        else
+                            queue.WriteToBuffer(a.field, aBuffer, true, null);
+                        AddDoublekernel.SetMemoryArgument(0, aBuffer);
+                        AddDoublekernel.SetValueArgument(1, b);
 
-                queue.Execute(AddDoublekernel, null, new long[] { a.field.Length }, null, null);
-                Complex[] cf = a.field;
-                queue.ReadFromBuffer(aBuffer, ref cf, true, null);
-                a.SetField(cf);
-            }
-            else
-            {
-                Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
-                {
-                    for (int i = range.Item1; i < range.Item2; i++)
-                        a.SetField(i, a[i] + b);
-                });
+                        queue.Execute(AddDoublekernel, null, new long[] { a.field.Length }, null, null);
+                        Complex[] cf = a.field;
+                        queue.ReadFromBuffer(aBuffer, ref cf, true, null);
+                        a.SetField(cf);
+                        break;
+                    }
+
+                default:
+                    {
+                        Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
+                        {
+                            for (int i = range.Item1; i < range.Item2; i++)
+                                a.SetField(i, a[i] + b);
+                        });
+                        break;
+                    }
             }
             return a;
         }
 
         public static IWavefunction operator -(IWavefunction a, double b)
         {
-            if (a.UseGPU)
+            switch (a.CalcMethod)
             {
-                if (aBuffer == null)
-                    aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
-                else
-                    queue.WriteToBuffer(a.field, aBuffer, true, null);
-                SubDoublekernel.SetMemoryArgument(0, aBuffer);
-                SubDoublekernel.SetValueArgument(1, b);
+                case ECalculationMethod.OpenCL:
+                    {
+                        if (aBuffer == null)
+                            aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                        else
+                            queue.WriteToBuffer(a.field, aBuffer, true, null);
+                        SubDoublekernel.SetMemoryArgument(0, aBuffer);
+                        SubDoublekernel.SetValueArgument(1, b);
 
-                queue.Execute(SubDoublekernel, null, new long[] { a.field.Length }, null, null);
-                Complex[] cf = a.field;
-                queue.ReadFromBuffer(aBuffer, ref cf, true, null);
-                a.SetField(cf);
-            }
-            else
-            {
-                Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
-                {
-                    for (int i = range.Item1; i < range.Item2; i++)
-                        a.SetField(i, a[i] - b);
-                });
+                        queue.Execute(SubDoublekernel, null, new long[] { a.field.Length }, null, null);
+                        Complex[] cf = a.field;
+                        queue.ReadFromBuffer(aBuffer, ref cf, true, null);
+                        a.SetField(cf);
+                        break;
+                    }
+
+                default:
+                    {
+                        Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
+                        {
+                            for (int i = range.Item1; i < range.Item2; i++)
+                                a.SetField(i, a[i] - b);
+                        });
+                        break;
+                    }
             }
             return a;
         }
 
         public static IWavefunction operator *(double b, IWavefunction a)
         {
-            if (a.UseGPU)
+            switch (a.CalcMethod)
             {
-                if (aBuffer == null)
-                    aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
-                else
-                    queue.WriteToBuffer(a.field, aBuffer, true, null);
-                MulDoublekernel.SetMemoryArgument(0, aBuffer);
-                MulDoublekernel.SetValueArgument(1, b);
+                case ECalculationMethod.OpenCL:
+                    {
+                        if (aBuffer == null)
+                            aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                        else
+                            queue.WriteToBuffer(a.field, aBuffer, true, null);
+                        MulDoublekernel.SetMemoryArgument(0, aBuffer);
+                        MulDoublekernel.SetValueArgument(1, b);
 
-                queue.Execute(MulDoublekernel, null, new long[] { a.field.Length }, null, null);
-                Complex[] cf = a.field;
-                queue.ReadFromBuffer(aBuffer, ref cf, true, null);
-                a.SetField(cf);
-            }
-            else
-            {
-                Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
-                {
-                    for (int i = range.Item1; i < range.Item2; i++)
-                        a.SetField(i, a[i] * b);
-                });
+                        queue.Execute(MulDoublekernel, null, new long[] { a.field.Length }, null, null);
+                        Complex[] cf = a.field;
+                        queue.ReadFromBuffer(aBuffer, ref cf, true, null);
+                        a.SetField(cf);
+                        break;
+                    }
+
+                default:
+                    {
+                        Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
+                        {
+                            for (int i = range.Item1; i < range.Item2; i++)
+                                a.SetField(i, a[i] * b);
+                        });
+                        break;
+                    }
             }
             return a;
         }
@@ -412,27 +453,33 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 
         public static IWavefunction operator /(IWavefunction a, double b)
         {
-            if (a.UseGPU)
+            switch (a.CalcMethod)
             {
-                if (aBuffer == null)
-                    aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
-                else
-                    queue.WriteToBuffer(a.field, aBuffer, true, null);
-                DivDoublekernel.SetMemoryArgument(0, aBuffer);
-                DivDoublekernel.SetValueArgument(1, b);
+                case ECalculationMethod.OpenCL:
+                    {
+                        if (aBuffer == null)
+                            aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                        else
+                            queue.WriteToBuffer(a.field, aBuffer, true, null);
+                        DivDoublekernel.SetMemoryArgument(0, aBuffer);
+                        DivDoublekernel.SetValueArgument(1, b);
 
-                queue.Execute(DivDoublekernel, null, new long[] { a.field.Length }, null, null);
-                Complex[] cf = a.field;
-                queue.ReadFromBuffer(aBuffer, ref cf, true, null);
-                a.SetField(cf);
-            }
-            else
-            {
-                Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
-                {
-                    for (int i = range.Item1; i < range.Item2; i++)
-                        a.SetField(i, a[i] / b);
-                });
+                        queue.Execute(DivDoublekernel, null, new long[] { a.field.Length }, null, null);
+                        Complex[] cf = a.field;
+                        queue.ReadFromBuffer(aBuffer, ref cf, true, null);
+                        a.SetField(cf);
+                        break;
+                    }
+
+                default:
+                    {
+                        Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
+                        {
+                            for (int i = range.Item1; i < range.Item2; i++)
+                                a.SetField(i, a[i] / b);
+                        });
+                        break;
+                    }
             }
             return a;
         }
@@ -445,7 +492,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
         {
             if (!(a.Dimensions == b.Dimensions))
                 throw new Exception("Error with Dimensions.");
-            if (a.UseGPU && b.UseGPU)
+            if (a.CalcMethod == ECalculationMethod.OpenCL && b.CalcMethod == ECalculationMethod.OpenCL)
             {
                 if (aBuffer == null)
                     aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
@@ -479,31 +526,37 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
         {
             if (!(a.Dimensions == b.Dimensions))
                 throw new Exception("Error with Dimensions.");
-            if (a.UseGPU && b.UseGPU)
+            switch (a.CalcMethod)
             {
-                if (aBuffer == null)
-                    aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
-                else
-                    queue.WriteToBuffer(a.field, aBuffer, true, null);
-                if (bBuffer == null)
-                    bBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, b.field);
-                else
-                    queue.WriteToBuffer(b.field, bBuffer, true, null);
-                Subkernel.SetMemoryArgument(0, aBuffer);
-                Subkernel.SetMemoryArgument(1, bBuffer);
+                case ECalculationMethod.OpenCL when b.CalcMethod == ECalculationMethod.OpenCL:
+                    {
+                        if (aBuffer == null)
+                            aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                        else
+                            queue.WriteToBuffer(a.field, aBuffer, true, null);
+                        if (bBuffer == null)
+                            bBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, b.field);
+                        else
+                            queue.WriteToBuffer(b.field, bBuffer, true, null);
+                        Subkernel.SetMemoryArgument(0, aBuffer);
+                        Subkernel.SetMemoryArgument(1, bBuffer);
 
-                queue.Execute(Subkernel, null, new long[] { a.field.Length }, null, null);
-                Complex[] cf = a.field;
-                queue.ReadFromBuffer(aBuffer, ref cf, true, null);
-                a.SetField(cf);
-            }
-            else
-            {
-                Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
-                {
-                    for (int i = range.Item1; i < range.Item2; i++)
-                        a.SetField(i, a[i] - b[i]);
-                });
+                        queue.Execute(Subkernel, null, new long[] { a.field.Length }, null, null);
+                        Complex[] cf = a.field;
+                        queue.ReadFromBuffer(aBuffer, ref cf, true, null);
+                        a.SetField(cf);
+                        break;
+                    }
+
+                default:
+                    {
+                        Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
+                        {
+                            for (int i = range.Item1; i < range.Item2; i++)
+                                a.SetField(i, a[i] - b[i]);
+                        });
+                        break;
+                    }
             }
             return a;
         }
@@ -512,31 +565,37 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
         {
             if (!(a.Dimensions == b.Dimensions))
                 throw new Exception("Error with Dimensions.");
-            if (a.UseGPU && b.UseGPU)
+            switch (a.CalcMethod)
             {
-                if (aBuffer == null)
-                    aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
-                else
-                    queue.WriteToBuffer(a.field, aBuffer, true, null);
-                if (bBuffer == null)
-                    bBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, b.field);
-                else
-                    queue.WriteToBuffer(b.field, bBuffer, true, null);
-                Mulkernel.SetMemoryArgument(0, aBuffer);
-                Mulkernel.SetMemoryArgument(1, bBuffer);
+                case ECalculationMethod.OpenCL when b.CalcMethod == ECalculationMethod.OpenCL:
+                    {
+                        if (aBuffer == null)
+                            aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                        else
+                            queue.WriteToBuffer(a.field, aBuffer, true, null);
+                        if (bBuffer == null)
+                            bBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, b.field);
+                        else
+                            queue.WriteToBuffer(b.field, bBuffer, true, null);
+                        Mulkernel.SetMemoryArgument(0, aBuffer);
+                        Mulkernel.SetMemoryArgument(1, bBuffer);
 
-                queue.Execute(Mulkernel, null, new long[] { a.field.Length }, null, null);
-                Complex[] cf = a.field;
-                queue.ReadFromBuffer(aBuffer, ref cf, true, null);
-                a.SetField(cf);
-            }
-            else
-            {
-                Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
-                {
-                    for (int i = range.Item1; i < range.Item2; i++)
-                        a.SetField(i, a[i] * b[i]);
-                });
+                        queue.Execute(Mulkernel, null, new long[] { a.field.Length }, null, null);
+                        Complex[] cf = a.field;
+                        queue.ReadFromBuffer(aBuffer, ref cf, true, null);
+                        a.SetField(cf);
+                        break;
+                    }
+
+                default:
+                    {
+                        Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
+                        {
+                            for (int i = range.Item1; i < range.Item2; i++)
+                                a.SetField(i, a[i] * b[i]);
+                        });
+                        break;
+                    }
             }
             return a;
         }

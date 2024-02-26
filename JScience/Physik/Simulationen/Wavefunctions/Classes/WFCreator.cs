@@ -1,4 +1,5 @@
-﻿using JScience.Physik.Simulationen.Spins.Enums;
+﻿using JScience.Enums;
+using JScience.Physik.Simulationen.Spins.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
 using JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF;
 using System;
@@ -28,19 +29,19 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
 
         #region Free Electron
 
-        public static IWF_1D CreateFreeWave(double k, int DimX, ELatticeBoundary boundary, bool UseGPU)
+        public static IWF_1D CreateFreeWave(double k, int DimX, ELatticeBoundary boundary, ECalculationMethod CalcMethod)
         {
             WFInfo wfinfo = new WFInfo(DimX, 1, 1, boundary);
-            IWF_1D erg = new WF_1D(wfinfo, UseGPU);
+            IWF_1D erg = new WF_1D(wfinfo, CalcMethod);
             for (int i = 0; i < DimX; i++)
                 erg.SetField(i, Complex.Exp(Complex.ImaginaryOne * k * i));
             return NormWave(erg);
         }
 
-        public static IWF_2D CreateFreeWave(double kx, double ky, int DimX, int DimY, ELatticeBoundary boundary, bool UseGPU)
+        public static IWF_2D CreateFreeWave(double kx, double ky, int DimX, int DimY, ELatticeBoundary boundary, ECalculationMethod CalcMethod)
         {
             WFInfo wfinfo = new WFInfo(DimX, DimY, 1, boundary);
-            WF_2D erg = new WF_2D(wfinfo, UseGPU);
+            WF_2D erg = new WF_2D(wfinfo, CalcMethod);
             for (int i = 0; i < DimX; i++)
                 for (int j = 0; j < DimY; j++)
                     erg.SetField(i, j, Complex.Exp(Complex.ImaginaryOne * (kx * i + ky * j)));
@@ -51,19 +52,19 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
 
         #region Gauß
 
-        public static IWF_1D CreateGaußWave(double k, double sigma, int DimX, int StartX, ELatticeBoundary boundary, bool UseGPU)
+        public static IWF_1D CreateGaußWave(double k, double sigma, int DimX, int StartX, ELatticeBoundary boundary, ECalculationMethod CalcMethod)
         {
             WFInfo wfinfo = new WFInfo(DimX, 1, 1, boundary);
-            IWF_1D erg = new WF_1D(wfinfo, UseGPU);
+            IWF_1D erg = new WF_1D(wfinfo, CalcMethod);
             for (int i = 0; i < DimX; i++)
                 erg.SetField(i, Complex.Exp(new Complex(-Math.Pow(i - StartX, 2) / sigma, 0) - Complex.ImaginaryOne * k * i));
             return NormWave(erg);
         }
 
-        public static IWF_2D CreateGaußWave(double kx, double ky, double sigmaX, double sigmaY, int DimX, int DimY, int StartX, int StartY, ELatticeBoundary boundary, bool UseGPU)
+        public static IWF_2D CreateGaußWave(double kx, double ky, double sigmaX, double sigmaY, int DimX, int DimY, int StartX, int StartY, ELatticeBoundary boundary, ECalculationMethod CalcMethod)
         {
             WFInfo wfinfo = new WFInfo(DimX, DimY, 1, boundary);
-            WF_2D erg = new WF_2D(wfinfo, UseGPU);
+            WF_2D erg = new WF_2D(wfinfo, CalcMethod);
             for (int i = 0; i < DimX; i++)
                 for (int j = 0; j < DimY; j++)
                     erg.SetField(i, j, Complex.Exp(-((i - StartX) * (i - StartX) / sigmaX) - ((j - StartY) * (j - StartY) / sigmaY) - Complex.ImaginaryOne * (kx * i + ky * j)));
@@ -74,18 +75,18 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
 
         #region Delta
 
-        public static IWF_1D CreateDelta(int DimX, int StartX, ELatticeBoundary boundary, bool UseGPU)
+        public static IWF_1D CreateDelta(int DimX, int StartX, ELatticeBoundary boundary, ECalculationMethod CalcMethod)
         {
             WFInfo wfinfo = new WFInfo(DimX, 1, 1, boundary);
-            IWF_1D erg = new WF_1D(wfinfo, UseGPU);
+            IWF_1D erg = new WF_1D(wfinfo, CalcMethod);
             erg.SetField(StartX, Complex.One);
             return NormWave(erg);
         }
 
-        public static IWF_2D CreateDelta(int DimX, int DimY, int StartX, int StartY, ELatticeBoundary boundary, bool UseGPU)
+        public static IWF_2D CreateDelta(int DimX, int DimY, int StartX, int StartY, ELatticeBoundary boundary, ECalculationMethod CalcMethod)
         {
             WFInfo wfinfo = new WFInfo(DimX, DimY, 1, boundary);
-            WF_2D erg = new WF_2D(wfinfo, UseGPU);
+            WF_2D erg = new WF_2D(wfinfo, CalcMethod);
             erg.SetField(StartX, StartY, Complex.One);
             return NormWave(erg);
         }
@@ -94,13 +95,13 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
 
         #region From File
 
-        public static IWF_1D FromFile1D(string FilePath, char Delimiter, ELatticeBoundary boundary, bool UseGPU)
+        public static IWF_1D FromFile1D(string FilePath, char Delimiter, ELatticeBoundary boundary, ECalculationMethod CalcMethod)
         {
             if (!File.Exists(FilePath))
                 throw new FileNotFoundException("Invalid Path for Wavefunctíon File.");
             var lines = File.ReadAllLines(FilePath);
             WFInfo wfinfo = new WFInfo(lines.Length, 1, 1, boundary);
-            IWF_1D erg = new WF_1D(wfinfo, UseGPU);
+            IWF_1D erg = new WF_1D(wfinfo, CalcMethod);
             for (int i = 0; i < lines.Length; i++)
             {
                 var parts = lines[i].Split(Delimiter);
@@ -111,13 +112,13 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
             return erg;
         }
 
-        public static IWF_2D FromFile2D(string FilePath, char Delimiter, ELatticeBoundary boundary, bool UseGPU)
+        public static IWF_2D FromFile2D(string FilePath, char Delimiter, ELatticeBoundary boundary, ECalculationMethod CalcMethod)
         {
             if (!File.Exists(FilePath))
                 throw new FileNotFoundException("Invalid Path for Wavefunctíon File.");
             var lines = File.ReadAllLines(FilePath);
             WFInfo wfinfo = new WFInfo(lines.Length, lines[0].Length, 1, boundary);
-            WF_2D erg = new WF_2D(wfinfo, UseGPU);
+            WF_2D erg = new WF_2D(wfinfo, CalcMethod);
             for (int i = 0; i < lines.Length; i++)
             {
                 var parts = lines[i].Split(Delimiter);

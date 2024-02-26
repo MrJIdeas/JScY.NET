@@ -1,4 +1,5 @@
-﻿using JScience.Physik.Simulationen.Spins.Enums;
+﻿using JScience.Enums;
+using JScience.Physik.Simulationen.Spins.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
 using System;
@@ -16,7 +17,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public new int Dimensions => 2;
 
-        public WF_2D(WFInfo wfinfo, bool UseGPU) : base(wfinfo, UseGPU)
+        public WF_2D(WFInfo wfinfo, ECalculationMethod CalcMethod) : base(wfinfo, CalcMethod)
         {
             this.DimX = wfinfo.DimX;
             this.DimY = wfinfo.DimY;
@@ -38,7 +39,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public new IWavefunction GetShift(EShift shift)
         {
-            WF_2D neu = new WF_2D(WFInfo, UseGPU);
+            WF_2D neu = new WF_2D(WFInfo, CalcMethod);
             switch (shift)
             {
                 default:
