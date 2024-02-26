@@ -9,6 +9,7 @@
 	  <PackageVersion>0.0.1</PackageVersion>
 	  <PackageLicenseExpression>CC-BY-SA-4.0</PackageLicenseExpression>
 	  <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+	  <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
 
   <ItemGroup>
