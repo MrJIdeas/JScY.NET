@@ -50,7 +50,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
         public double Norm()
         {
             if (!UseGPU)
-                return Math.Sqrt(field.ToList().AsParallel().Sum(x => Math.Pow(x.Magnitude, 2)));
+                return field.ToList().AsParallel().Sum(x => Math.Pow(x.Magnitude, 2));
             else
             {
                 if (IWavefunction.bBuffer == null)
