@@ -164,6 +164,9 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
         private static ComputeKernel DivDoublekernel { get; set; }
         private static ComputeKernel DivComplexkernel { get; set; }
 
+        private static ComputeBuffer<Complex> aBuffer { get; set; }
+        private static ComputeBuffer<Complex> bBuffer { get; set; }
+
         public static void InitKernel()
         {
             context = new ComputeContext(ComputeDeviceTypes.All, new ComputeContextPropertyList(ComputePlatform.Platforms[0]), null, IntPtr.Zero);
@@ -192,7 +195,10 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
         {
             if (a.UseGPU)
             {
-                ComputeBuffer<Complex> aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                if (aBuffer == null)
+                    aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                else
+                    queue.WriteToBuffer(a.field, aBuffer, true, null);
                 AddComplexkernel.SetMemoryArgument(0, aBuffer);
                 AddComplexkernel.SetValueArgument(1, b);
 
@@ -216,7 +222,10 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
         {
             if (a.UseGPU)
             {
-                ComputeBuffer<Complex> aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                if (aBuffer == null)
+                    aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                else
+                    queue.WriteToBuffer(a.field, aBuffer, true, null);
                 SubComplexkernel.SetMemoryArgument(0, aBuffer);
                 SubComplexkernel.SetValueArgument(1, b);
 
@@ -240,7 +249,10 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
         {
             if (a.UseGPU)
             {
-                ComputeBuffer<Complex> aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                if (aBuffer == null)
+                    aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                else
+                    queue.WriteToBuffer(a.field, aBuffer, true, null);
                 MulComplexkernel.SetMemoryArgument(0, aBuffer);
                 MulComplexkernel.SetValueArgument(1, b);
 
@@ -270,7 +282,10 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
         {
             if (a.UseGPU)
             {
-                ComputeBuffer<Complex> aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                if (aBuffer == null)
+                    aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                else
+                    queue.WriteToBuffer(a.field, aBuffer, true, null);
                 DivComplexkernel.SetMemoryArgument(0, aBuffer);
                 DivComplexkernel.SetValueArgument(1, b);
 
@@ -298,7 +313,10 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
         {
             if (a.UseGPU)
             {
-                ComputeBuffer<Complex> aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                if (aBuffer == null)
+                    aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                else
+                    queue.WriteToBuffer(a.field, aBuffer, true, null);
                 AddDoublekernel.SetMemoryArgument(0, aBuffer);
                 AddDoublekernel.SetValueArgument(1, b);
 
@@ -322,7 +340,10 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
         {
             if (a.UseGPU)
             {
-                ComputeBuffer<Complex> aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                if (aBuffer == null)
+                    aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                else
+                    queue.WriteToBuffer(a.field, aBuffer, true, null);
                 SubDoublekernel.SetMemoryArgument(0, aBuffer);
                 SubDoublekernel.SetValueArgument(1, b);
 
@@ -346,7 +367,10 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
         {
             if (a.UseGPU)
             {
-                ComputeBuffer<Complex> aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                if (aBuffer == null)
+                    aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                else
+                    queue.WriteToBuffer(a.field, aBuffer, true, null);
                 MulDoublekernel.SetMemoryArgument(0, aBuffer);
                 MulDoublekernel.SetValueArgument(1, b);
 
@@ -376,7 +400,10 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
         {
             if (a.UseGPU)
             {
-                ComputeBuffer<Complex> aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                if (aBuffer == null)
+                    aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                else
+                    queue.WriteToBuffer(a.field, aBuffer, true, null);
                 DivDoublekernel.SetMemoryArgument(0, aBuffer);
                 DivDoublekernel.SetValueArgument(1, b);
 
@@ -406,8 +433,14 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
                 throw new Exception("Error with Dimensions.");
             if (a.UseGPU && b.UseGPU)
             {
-                ComputeBuffer<Complex> aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
-                ComputeBuffer<Complex> bBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadOnly | ComputeMemoryFlags.CopyHostPointer, b.field);
+                if (aBuffer == null)
+                    aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                else
+                    queue.WriteToBuffer(a.field, aBuffer, true, null);
+                if (bBuffer == null)
+                    bBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, b.field);
+                else
+                    queue.WriteToBuffer(b.field, bBuffer, true, null);
 
                 Addkernel.SetMemoryArgument(0, aBuffer);
                 Addkernel.SetMemoryArgument(1, bBuffer);
@@ -434,9 +467,14 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
                 throw new Exception("Error with Dimensions.");
             if (a.UseGPU && b.UseGPU)
             {
-                ComputeBuffer<Complex> aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
-                ComputeBuffer<Complex> bBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadOnly | ComputeMemoryFlags.CopyHostPointer, b.field);
-
+                if (aBuffer == null)
+                    aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                else
+                    queue.WriteToBuffer(a.field, aBuffer, true, null);
+                if (bBuffer == null)
+                    bBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, b.field);
+                else
+                    queue.WriteToBuffer(b.field, bBuffer, true, null);
                 Subkernel.SetMemoryArgument(0, aBuffer);
                 Subkernel.SetMemoryArgument(1, bBuffer);
 
@@ -462,9 +500,14 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
                 throw new Exception("Error with Dimensions.");
             if (a.UseGPU && b.UseGPU)
             {
-                ComputeBuffer<Complex> aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
-                ComputeBuffer<Complex> bBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadOnly | ComputeMemoryFlags.CopyHostPointer, b.field);
-
+                if (aBuffer == null)
+                    aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                else
+                    queue.WriteToBuffer(a.field, aBuffer, true, null);
+                if (bBuffer == null)
+                    bBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, b.field);
+                else
+                    queue.WriteToBuffer(b.field, bBuffer, true, null);
                 Mulkernel.SetMemoryArgument(0, aBuffer);
                 Mulkernel.SetMemoryArgument(1, bBuffer);
 
