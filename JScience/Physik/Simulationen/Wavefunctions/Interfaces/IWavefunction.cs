@@ -1,13 +1,12 @@
-﻿using System.Numerics;
+﻿using Cloo;
+using JScience.Enums;
 using JScience.Physik.Simulationen.Spins.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF;
 using System;
 using System.Collections.Concurrent;
-using System.Drawing;
+using System.Numerics;
 using System.Threading.Tasks;
-using Cloo;
-using JScience.Enums;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 {
@@ -24,7 +23,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 
         void Clear();
 
-        Image GetImage(int width, int height);
+        System.Drawing.Image GetImage(int width, int height);
 
         ECalculationMethod CalcMethod { get; }
 
@@ -230,13 +229,20 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
                         break;
                     }
 
-                default:
+                case ECalculationMethod.CPU_Multihreading:
                     {
                         Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
                         {
                             for (int i = range.Item1; i < range.Item2; i++)
                                 a.SetField(i, a[i] + b);
                         });
+                        break;
+                    }
+
+                default:
+                    {
+                        for (int i = 0; i < a.field.Length; i++)
+                            a.SetField(i, a[i] + b);
                         break;
                     }
             }
@@ -263,13 +269,20 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
                         break;
                     }
 
-                default:
+                case ECalculationMethod.CPU_Multihreading:
                     {
                         Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
                         {
                             for (int i = range.Item1; i < range.Item2; i++)
                                 a.SetField(i, b - a[i]);
                         });
+                        break;
+                    }
+
+                default:
+                    {
+                        for (int i = 0; i < a.field.Length; i++)
+                            a.SetField(i, b - a[i]);
                         break;
                     }
             }
@@ -296,13 +309,20 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
                         break;
                     }
 
-                default:
+                case ECalculationMethod.CPU_Multihreading:
                     {
                         Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
                         {
                             for (int i = range.Item1; i < range.Item2; i++)
                                 a.SetField(i, a[i] * b);
                         });
+                        break;
+                    }
+
+                default:
+                    {
+                        for (int i = 0; i < a.field.Length; i++)
+                            a.SetField(i, a[i] * b);
                         break;
                     }
             }
@@ -317,27 +337,40 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 
         public static IWavefunction operator /(IWavefunction a, Complex b)
         {
-            if (a.CalcMethod == ECalculationMethod.OpenCL)
+            switch (a.CalcMethod)
             {
-                if (aBuffer == null)
-                    aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
-                else
-                    queue.WriteToBuffer(a.field, aBuffer, true, null);
-                DivComplexkernel.SetMemoryArgument(0, aBuffer);
-                DivComplexkernel.SetValueArgument(1, b);
+                case ECalculationMethod.OpenCL:
+                    {
+                        if (aBuffer == null)
+                            aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                        else
+                            queue.WriteToBuffer(a.field, aBuffer, true, null);
+                        DivComplexkernel.SetMemoryArgument(0, aBuffer);
+                        DivComplexkernel.SetValueArgument(1, b);
 
-                queue.Execute(DivComplexkernel, null, new long[] { a.field.Length }, null, null);
-                Complex[] cf = a.field;
-                queue.ReadFromBuffer(aBuffer, ref cf, true, null);
-                a.SetField(cf);
-            }
-            else
-            {
-                Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
-                {
-                    for (int i = range.Item1; i < range.Item2; i++)
-                        a.SetField(i, a[i] / b);
-                });
+                        queue.Execute(DivComplexkernel, null, new long[] { a.field.Length }, null, null);
+                        Complex[] cf = a.field;
+                        queue.ReadFromBuffer(aBuffer, ref cf, true, null);
+                        a.SetField(cf);
+                        break;
+                    }
+
+                case ECalculationMethod.CPU_Multihreading:
+                    {
+                        Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
+                        {
+                            for (int i = range.Item1; i < range.Item2; i++)
+                                a.SetField(i, a[i] / b);
+                        });
+                        break;
+                    }
+
+                default:
+                    {
+                        for (int i = 0; i < a.field.Length; i++)
+                            a.SetField(i, a[i] / b);
+                        break;
+                    }
             }
             return a;
         }
@@ -366,13 +399,19 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
                         break;
                     }
 
-                default:
+                case ECalculationMethod.CPU_Multihreading:
                     {
                         Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
                         {
                             for (int i = range.Item1; i < range.Item2; i++)
                                 a.SetField(i, a[i] + b);
                         });
+                        break;
+                    }
+                default:
+                    {
+                        for (int i = 0; i < a.field.Length; i++)
+                            a.SetField(i, a[i] + b);
                         break;
                     }
             }
@@ -399,13 +438,20 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
                         break;
                     }
 
-                default:
+                case ECalculationMethod.CPU_Multihreading:
                     {
                         Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
                         {
                             for (int i = range.Item1; i < range.Item2; i++)
                                 a.SetField(i, a[i] - b);
                         });
+                        break;
+                    }
+
+                default:
+                    {
+                        for (int i = 0; i < a.field.Length; i++)
+                            a.SetField(i, a[i] - b);
                         break;
                     }
             }
@@ -432,13 +478,20 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
                         break;
                     }
 
-                default:
+                case ECalculationMethod.CPU_Multihreading:
                     {
                         Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
                         {
                             for (int i = range.Item1; i < range.Item2; i++)
                                 a.SetField(i, a[i] * b);
                         });
+                        break;
+                    }
+
+                default:
+                    {
+                        for (int i = 0; i < a.field.Length; i++)
+                            a.SetField(i, a[i] * b);
                         break;
                     }
             }
@@ -471,13 +524,20 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
                         break;
                     }
 
-                default:
+                case ECalculationMethod.CPU_Multihreading:
                     {
                         Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
                         {
                             for (int i = range.Item1; i < range.Item2; i++)
                                 a.SetField(i, a[i] / b);
                         });
+                        break;
+                    }
+
+                default:
+                    {
+                        for (int i = 0; i < a.field.Length; i++)
+                            a.SetField(i, a[i] / b);
                         break;
                     }
             }
@@ -492,32 +552,45 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
         {
             if (!(a.Dimensions == b.Dimensions))
                 throw new Exception("Error with Dimensions.");
-            if (a.CalcMethod == ECalculationMethod.OpenCL && b.CalcMethod == ECalculationMethod.OpenCL)
+            switch (a.CalcMethod)
             {
-                if (aBuffer == null)
-                    aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
-                else
-                    queue.WriteToBuffer(a.field, aBuffer, true, null);
-                if (bBuffer == null)
-                    bBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, b.field);
-                else
-                    queue.WriteToBuffer(b.field, bBuffer, true, null);
+                case ECalculationMethod.OpenCL when b.CalcMethod == ECalculationMethod.OpenCL:
+                    {
+                        if (aBuffer == null)
+                            aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                        else
+                            queue.WriteToBuffer(a.field, aBuffer, true, null);
+                        if (bBuffer == null)
+                            bBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, b.field);
+                        else
+                            queue.WriteToBuffer(b.field, bBuffer, true, null);
 
-                Addkernel.SetMemoryArgument(0, aBuffer);
-                Addkernel.SetMemoryArgument(1, bBuffer);
+                        Addkernel.SetMemoryArgument(0, aBuffer);
+                        Addkernel.SetMemoryArgument(1, bBuffer);
 
-                queue.Execute(Addkernel, null, new long[] { a.field.Length }, null, null);
-                Complex[] cf = a.field;
-                queue.ReadFromBuffer(aBuffer, ref cf, true, null);
-                a.SetField(cf);
-            }
-            else
-            {
-                Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
-                {
-                    for (int i = range.Item1; i < range.Item2; i++)
-                        a.SetField(i, a[i] + b[i]);
-                });
+                        queue.Execute(Addkernel, null, new long[] { a.field.Length }, null, null);
+                        Complex[] cf = a.field;
+                        queue.ReadFromBuffer(aBuffer, ref cf, true, null);
+                        a.SetField(cf);
+                        break;
+                    }
+
+                case ECalculationMethod.CPU_Multihreading:
+                    {
+                        Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
+                        {
+                            for (int i = range.Item1; i < range.Item2; i++)
+                                a.SetField(i, a[i] + b[i]);
+                        });
+                        break;
+                    }
+
+                default:
+                    {
+                        for (int i = 0; i < a.field.Length; i++)
+                            a.SetField(i, a[i] + b[i]);
+                        break;
+                    }
             }
             return a;
         }
@@ -587,13 +660,20 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
                         break;
                     }
 
-                default:
+                case ECalculationMethod.CPU_Multihreading:
                     {
                         Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
                         {
                             for (int i = range.Item1; i < range.Item2; i++)
                                 a.SetField(i, a[i] * b[i]);
                         });
+                        break;
+                    }
+
+                default:
+                    {
+                        for (int i = 0; i < a.field.Length; i++)
+                            a.SetField(i, a[i] * b[i]);
                         break;
                     }
             }
