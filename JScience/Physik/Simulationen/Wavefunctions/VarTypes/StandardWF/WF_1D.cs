@@ -29,10 +29,13 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
             Boundary = wfinfo.BoundaryInfo;
             rangePartitioner = Partitioner.Create(0, wfinfo.DimX * wfinfo.DimY * wfinfo.DimZ);
             UseGPU = useGPU;
+            result = new double[field.Length];
         }
 
         public OrderablePartitioner<Tuple<int, int>> rangePartitioner { get; private set; }
         public Complex[] field { get; private set; }
+
+        private double[] result { get; set; }
 
         #region Interface
 
@@ -54,7 +57,6 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
                     IWavefunction.bBuffer = new ComputeBuffer<Complex>(IWavefunction.context, ComputeMemoryFlags.ReadOnly | ComputeMemoryFlags.CopyHostPointer, field);
                 else
                     IWavefunction.queue.WriteToBuffer(field, IWavefunction.bBuffer, true, null);
-                double[] result = new double[field.Length];
                 if (IWavefunction.resultBuffer == null)
                     IWavefunction.resultBuffer = new ComputeBuffer<double>(IWavefunction.context, ComputeMemoryFlags.WriteOnly, result.Length);
                 else
@@ -64,8 +66,9 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
                 IWavefunction.Normkernel.SetMemoryArgument(1, IWavefunction.bBuffer);
 
                 IWavefunction.queue.Execute(IWavefunction.Normkernel, null, new long[] { field.Length }, null, null);
-
-                IWavefunction.queue.ReadFromBuffer(IWavefunction.resultBuffer, ref result, true, null);
+                double[] buf = result;
+                IWavefunction.queue.ReadFromBuffer(IWavefunction.resultBuffer, ref buf, true, null);
+                result = buf;
                 return result.Sum();
             }
         }
