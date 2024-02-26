@@ -3,6 +3,8 @@ using JScience.Enums;
 using JScience.Physik.Simulationen.Spins.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF;
+using ManagedCuda;
+using ManagedCuda.BasicTypes;
 using System;
 using System.Collections.Concurrent;
 using System.Numerics;
@@ -203,6 +205,18 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             DivDoublekernel = program.CreateKernel("DivDouble");
             DivComplexkernel = program.CreateKernel("DivComplex");
             Normkernel = program.CreateKernel("NormWF");
+        }
+
+        #endregion
+
+        #region Kernel CUDA
+
+        public static void InitCUDA()
+        {
+            //for (int i = 0; i < CudaContext.GetDeviceCount(); i++)
+            //{
+            //    Console.WriteLine(CudaContext.GetDeviceInfo(i));
+            //}
         }
 
         #endregion
