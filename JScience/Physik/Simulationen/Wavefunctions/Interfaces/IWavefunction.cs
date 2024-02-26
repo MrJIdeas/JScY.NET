@@ -83,15 +83,21 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             kernel void MulComplex(global Complex* a, global const Complex* b)
             {
                 int i = get_global_id(0);
-                a[i].real *= b[i].real;
-                a[i].imag *= b[i].imag;
+                Complex temp;
+                temp.real = a[i].real * b[i].real-a[i].imag * b[i].imag;
+                temp.imag = a[i].real * b[i].imag+a[i].imag * b[i].real;
+                a[i]=temp;
             }
+
             kernel void MulSComplex(global Complex* a, Complex b)
             {
                 int i = get_global_id(0);
-                a[i].real *= b.real;
-                a[i].imag *= b.imag;
+                Complex temp;
+                temp.real = a[i].real * b.real-a[i].imag * b.imag;
+                temp.imag =a[i].real * b.imag+a[i].imag * b.real;
+                a[i]=temp;
             }
+
             kernel void MulDouble(global Complex* a, double b)
             {
                 int i = get_global_id(0);
@@ -126,6 +132,16 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
                 a[i].real /= b;
                 a[i].imag /= b;
             }
+
+            kernel void DivComplex(global Complex* a, Complex b)
+            {
+                int i = get_global_id(0);
+                double d=b.real*b.real+b.imag*b.imag;
+                Complex temp;
+                temp.real=(a[i].real*b.real+a[i].imag*b.imag)/d;
+                temp.imag=(a[i].imag*b.real-a[i].real*b.imag)/d;
+                a[i]=temp;
+            }
         ";
 
         private static ComputeContext context { get; set; }
@@ -146,6 +162,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
         private static ComputeKernel MulDoublekernel { get; set; }
         private static ComputeKernel MulComplexkernel { get; set; }
         private static ComputeKernel DivDoublekernel { get; set; }
+        private static ComputeKernel DivComplexkernel { get; set; }
 
         public static void InitKernel()
         {
@@ -164,6 +181,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             SubComplexkernel = program.CreateKernel("SubSComplex");
             MulComplexkernel = program.CreateKernel("MulSComplex");
             DivDoublekernel = program.CreateKernel("DivDouble");
+            DivComplexkernel = program.CreateKernel("DivComplex");
         }
 
         #endregion
@@ -250,11 +268,25 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 
         public static IWavefunction operator /(IWavefunction a, Complex b)
         {
-            Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
+            if (a.UseGPU)
             {
-                for (int i = range.Item1; i < range.Item2; i++)
-                    a.SetField(i, a[i] / b);
-            });
+                ComputeBuffer<Complex> aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
+                DivComplexkernel.SetMemoryArgument(0, aBuffer);
+                DivComplexkernel.SetValueArgument(1, b);
+
+                queue.Execute(DivComplexkernel, null, new long[] { a.field.Length }, null, null);
+                Complex[] cf = a.field;
+                queue.ReadFromBuffer(aBuffer, ref cf, true, null);
+                a.SetField(cf);
+            }
+            else
+            {
+                Parallel.ForEach(a.rangePartitioner, (range, loopState) =>
+                {
+                    for (int i = range.Item1; i < range.Item2; i++)
+                        a.SetField(i, a[i] / b);
+                });
+            }
             return a;
         }
 
