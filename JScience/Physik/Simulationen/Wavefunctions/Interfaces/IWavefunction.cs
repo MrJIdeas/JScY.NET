@@ -53,6 +53,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 
         #region Kernel CL
 
+        #region Kernel String
+
         private static string kernelSource = @"
             typedef struct {
                 double real;
@@ -143,6 +145,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
                 a[i]=temp;
             }
         ";
+
+        #endregion
 
         private static ComputeContext context { get; set; }
         private static ComputeCommandQueue queue { get; set; }
