@@ -11,7 +11,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
     {
         private static IWF_1D NormWave(IWF_1D wave)
         {
-            double norm = wave.Norm();
+            double norm = Math.Sqrt(wave.Norm());
             for (int i = 0; i < wave.DimX; i++)
                 wave.SetField(i, wave[i] / norm);
             return wave;
@@ -19,7 +19,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
 
         private static IWF_2D NormWave(IWF_2D wave)
         {
-            double norm = wave.Norm();
+            double norm = Math.Sqrt(wave.Norm());
             for (int i = 0; i < wave.DimX; i++)
                 for (int j = 0; j < wave.DimY; j++)
                     wave.SetField(i, j, wave[i, j] / norm);

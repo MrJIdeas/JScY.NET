@@ -144,12 +144,18 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
                 temp.imag=(a[i].imag*b.real-a[i].real*b.imag)/d;
                 a[i]=temp;
             }
+
+            kernel void NormWF( global double* result,global const Complex* data)
+            {
+                int i = get_global_id(0);
+                result[i] = data[i].real * data[i].real + data[i].imag * data[i].imag;
+            }
         ";
 
         #endregion
 
-        private static ComputeContext context { get; set; }
-        private static ComputeCommandQueue queue { get; set; }
+        protected static ComputeContext context { get; private set; }
+        protected static ComputeCommandQueue queue { get; private set; }
 
         private static ComputeProgram program { get; set; }
 
@@ -167,9 +173,12 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
         private static ComputeKernel MulComplexkernel { get; set; }
         private static ComputeKernel DivDoublekernel { get; set; }
         private static ComputeKernel DivComplexkernel { get; set; }
+        protected static ComputeKernel Normkernel { get; private set; }
 
-        private static ComputeBuffer<Complex> aBuffer { get; set; }
-        private static ComputeBuffer<Complex> bBuffer { get; set; }
+        protected static ComputeBuffer<Complex> aBuffer { get; set; }
+        protected static ComputeBuffer<Complex> bBuffer { get; set; }
+
+        protected static ComputeBuffer<double> resultBuffer { get; set; }
 
         public static void InitKernel()
         {
@@ -189,6 +198,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
             MulComplexkernel = program.CreateKernel("MulSComplex");
             DivDoublekernel = program.CreateKernel("DivDouble");
             DivComplexkernel = program.CreateKernel("DivComplex");
+            Normkernel = program.CreateKernel("NormWF");
         }
 
         #endregion

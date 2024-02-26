@@ -1,8 +1,11 @@
-﻿using JScience.Physik.Simulationen.Spins.Enums;
+﻿using Cloo;
+using FFmpeg.AutoGen;
+using JScience.Physik.Simulationen.Spins.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
 using ScottPlot;
 using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -41,7 +44,31 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public bool UseGPU { get; private set; }
 
-        public double Norm() => Math.Sqrt(field.ToList().AsParallel().Sum(x => Math.Pow(x.Magnitude, 2)));
+        public double Norm()
+        {
+            if (!UseGPU)
+                return Math.Sqrt(field.ToList().AsParallel().Sum(x => Math.Pow(x.Magnitude, 2)));
+            else
+            {
+                if (IWavefunction.bBuffer == null)
+                    IWavefunction.bBuffer = new ComputeBuffer<Complex>(IWavefunction.context, ComputeMemoryFlags.ReadOnly | ComputeMemoryFlags.CopyHostPointer, field);
+                else
+                    IWavefunction.queue.WriteToBuffer(field, IWavefunction.bBuffer, true, null);
+                double[] result = new double[field.Length];
+                if (IWavefunction.resultBuffer == null)
+                    IWavefunction.resultBuffer = new ComputeBuffer<double>(IWavefunction.context, ComputeMemoryFlags.WriteOnly, result.Length);
+                else
+                    IWavefunction.queue.WriteToBuffer<double>(result, IWavefunction.resultBuffer, true, null);
+
+                IWavefunction.Normkernel.SetMemoryArgument(0, IWavefunction.resultBuffer);
+                IWavefunction.Normkernel.SetMemoryArgument(1, IWavefunction.bBuffer);
+
+                IWavefunction.queue.Execute(IWavefunction.Normkernel, null, new long[] { field.Length }, null, null);
+
+                IWavefunction.queue.ReadFromBuffer(IWavefunction.resultBuffer, ref result, true, null);
+                return result.Sum();
+            }
+        }
 
         protected virtual IWavefunction getEmptyLikeThis() => (IWavefunction)Activator.CreateInstance(GetType(), WFInfo, UseGPU);
 
