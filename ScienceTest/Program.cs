@@ -13,7 +13,7 @@ IWavefunction.InitKernel();
 //WF_1D test = (WF_1D)WFCreator.CreateGaußWave(-5, 10, 100, 25, ELatticeBoundary.Reflection, false);
 //WF_1D test = (WF_1D)WFCreator.CreateFreeWave(1, 100, ELatticeBoundary.Periodic, false);
 //WF_1D test = (WF_1D)WFCreator.CreateDelta(100, 50, ELatticeBoundary.Periodic, false);
-WF_2D test = (WF_2D)WFCreator.CreateGaußWave(-1, 0, 25, 25, 100, 100, 25, 25, ELatticeBoundary.Reflection, true);
+WF_2D test = (WF_2D)WFCreator.CreateGaußWave(-1, 0, 25, 25, 100, 100, 25, 25, ELatticeBoundary.Reflection, false);
 //WF_2D test = (WF_2D)WFCreator.CreateFreeWave(1, 0, 100, 100, 50, 50, ELatticeBoundary.Reflection, false);
 //WF_2D test = (WF_2D)WFCreator.CreateDelta(100, 100, 50, 50, ELatticeBoundary.Reflection, false);
 Console.WriteLine("Norm: " + test.Norm());

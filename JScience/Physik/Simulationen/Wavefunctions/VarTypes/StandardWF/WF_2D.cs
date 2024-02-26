@@ -1,9 +1,9 @@
-﻿using System.Numerics;
-using JScience.Physik.Simulationen.Spins.Enums;
+﻿using JScience.Physik.Simulationen.Spins.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
 using System;
 using System.IO;
+using System.Numerics;
 using System.Threading.Tasks;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
