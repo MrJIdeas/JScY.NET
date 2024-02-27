@@ -4,7 +4,7 @@ using System;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.VarTypes
 {
-    public class AF_Potential2D<T> : Potential2D<T>, IAFBarrier where T : IWF_2D
+    public class AF_Potential2D<T> : BlockPotential<T>, IAFBarrier where T : IWF_2D
     {
         public AF_Potential2D(string name, int xSTART, int ySTART, int xEND, int yEND, double Vmax, int blocksize) : base(name, xSTART, ySTART, xEND, yEND, Vmax)
         {
