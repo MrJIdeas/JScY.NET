@@ -2,7 +2,6 @@
 using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.Interfaces;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
 using System;
-using System.Threading.Tasks;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.BaseClasses
 {
@@ -40,7 +39,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potential
         {
             T psiV = (T)Activator.CreateInstance(psi.GetType(), psi.WFInfo, psi.CalcMethod);
             int dimYZ = psi.WFInfo.DimY * psi.WFInfo.DimZ;
-            int idx,i,j,k;
+            int idx, i, j, k;
             for (i = xStart; i < xEnd; i++)
                 for (j = yStart; j < yEnd; j++)
                     for (k = zStart; k < zEnd; k++)
