@@ -1,26 +1,15 @@
-﻿using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.Interfaces;
+﻿using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.BaseClasses;
+using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.Interfaces;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
 using System;
 using System.Numerics;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.VarTypes
 {
-    public class ImaginaryPotential2D<T> : Potential2D<T>, IBarrier_X, IBarrier_Y where T : IWF_2D
+    public class ImaginaryPotential2D<T> : ImaginaryPotential_Base<T>, IBarrier_X, IBarrier_Y where T : IWF_2D
     {
-        private Complex ImagPotential { get; set; }
-
-        public ImaginaryPotential2D(string name, int xSTART, int xEND, int ySTART, int yEND, double damping) : base(name, xSTART, ySTART, xEND, yEND, -damping)
+        public ImaginaryPotential2D(string name, int xSTART, int xEND, int ySTART, int yEND, double damping) : base(name, -damping, xSTART, xEND, ySTART, yEND, 0, 1)
         {
-            ImagPotential = Potential * Complex.ImaginaryOne;
-        }
-
-        public override T HPsi(T psi)
-        {
-            T psiV = (T)Activator.CreateInstance(psi.GetType(), psi.WFInfo, psi.CalcMethod);
-            for (int i = xStart; i < xEnd; i++)
-                for (int j = yStart; j < yEnd; j++)
-                    psiV.SetField(i, j, psi[i, j]);
-            return (T)(psiV * ImagPotential);
         }
     }
 }

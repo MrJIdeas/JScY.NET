@@ -7,22 +7,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potential
 {
     public class Potential1D<T> : Potential_Base<T>, IBarrier_X where T : IWF_1D
     {
-        public int xStart { get; private set; }
-
-        public int xEnd { get; private set; }
-
-        public Potential1D(string name, int xSTART, int xEND, double Vmax) : base(name, Vmax)
+        public Potential1D(string name, int xSTART, int xEND, double Vmax) : base(name, Vmax, xSTART, xEND, 0, 1, 0, 1)
         {
-            xStart = xSTART;
-            xEnd = xEND;
-        }
-
-        public override T HPsi(T psi)
-        {
-            T psiV = (T)Activator.CreateInstance(psi.GetType(), psi.WFInfo, psi.CalcMethod);
-            for (int i = xStart; i < xEnd; i++)
-                psiV.SetField(i, psi[i]);
-            return (T)(psiV * Potential);
         }
     }
 }
