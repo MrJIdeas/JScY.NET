@@ -20,31 +20,31 @@ namespace JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Classes
 
         public T Do(T WF, List<IHamilton<T>> Hamiltons)
         {
-            T WFEnd = (T)WF.Clone();
+            IWavefunction WFEnd = WF.Clone();
             int n = 1;
-            T WF1 = PsiNTerm(WF, Hamiltons, n);
-            WFEnd = (T)(WFEnd + WF1);
+            IWavefunction WF1 = PsiNTerm(WF, Hamiltons, n);
+            WFEnd = WFEnd + WF1;
 
             while (WF1.Norm() > double.Epsilon)
             {
                 n++;
                 WF1 = PsiNTerm(WF1, Hamiltons, n);
-                WFEnd = (T)(WFEnd + WF1);
+                WFEnd = WFEnd + WF1;
             }
-            return WFEnd;
+            return (T)WFEnd;
         }
 
-        protected T PsiNTerm(T WF, List<IHamilton<T>> Hamiltons, int n)
+        protected IWavefunction PsiNTerm(IWavefunction WF, List<IHamilton<T>> Hamiltons, int n)
         {
-            T WF1 = (T)Activator.CreateInstance(WF.GetType(), WF.WFInfo, WF.CalcMethod);
+            IWavefunction WF1 = (T)Activator.CreateInstance(WF.GetType(), WF.WFInfo, WF.CalcMethod);
             List<IHamilton<T>> hamtodelete = new List<IHamilton<T>>();
 
             foreach ((IHamilton<T> ham, T hampsi) in from ham in Hamiltons
-                                                     let hampsi = ham.HPsi(WF)
+                                                     let hampsi = ham.HPsi((T)WF)
                                                      select (ham, hampsi))
             {
                 if (hampsi.Norm() > double.Epsilon || ham is IPotential<T>)
-                    WF1 = (T)(WF1 + hampsi);
+                    WF1 = WF1 + hampsi;
                 else
                     hamtodelete.Add(ham);
             }
@@ -56,7 +56,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Classes
                 Hamiltons.Remove(ham);
             }
 
-            WF1 = (T)((-Complex.ImaginaryOne * t_STEP / n) * WF1);
+            WF1 = (-Complex.ImaginaryOne * t_STEP / n) * WF1;
             return WF1;
         }
     }
