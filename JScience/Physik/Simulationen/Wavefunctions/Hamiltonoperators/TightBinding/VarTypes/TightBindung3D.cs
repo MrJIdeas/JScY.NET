@@ -10,8 +10,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.TightBind
         {
         }
 
-        public override T HPsi(T psi) => (T)(-t_Hopping * (T)((T)psi.GetShift(EShift.Xm) + (T)psi.GetShift(EShift.Xp))
-                                                            + (T)psi.GetShift(EShift.Ym) + (T)psi.GetShift(EShift.Yp)
-                                                            + (T)psi.GetShift(EShift.Zm) + (T)psi.GetShift(EShift.Zp));
+        public override T HPsi(T psi) => (T)(-t_Hopping * (T)(psi.GetShift(EShift.Xm) + psi.GetShift(EShift.Xp)
+                                                            + psi.GetShift(EShift.Ym) + psi.GetShift(EShift.Yp)
+                                                            + psi.GetShift(EShift.Zm) + psi.GetShift(EShift.Zp)));
     }
 }
