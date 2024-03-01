@@ -6,10 +6,18 @@ using System.Threading.Tasks;
 
 namespace JScience.Mathe.Zahlentheorie
 {
+    /// <summary>
+    /// Statische Klasse für Generierung von Funktionen.
+    /// </summary>
     public static class Functions
     {
         private const int twoGig = 10000;
 
+        /// <summary>
+        /// Berechnung Riemannsche Zeta-Funktion.
+        /// </summary>
+        /// <param name="x">Wert.</param>
+        /// <returns>Wert an Stelle x.</returns>
         public static double Zeta_Riemann(double x)
         {
             double[] calc = new double[twoGig];
@@ -24,6 +32,11 @@ namespace JScience.Mathe.Zahlentheorie
             return calc.AsParallel().Sum(); ;
         }
 
+        /// <summary>
+        /// Berechnung Riemannsche Zeta-Funktion.
+        /// </summary>
+        /// <param name="x">Wert.</param>
+        /// <returns>Wert an Stelle x.</returns>
         public static Complex Zeta_Riemann(Complex x)
         {
             double[] calcreal = new double[twoGig];
@@ -41,6 +54,11 @@ namespace JScience.Mathe.Zahlentheorie
             return new Complex(calcreal.AsParallel().Sum(), calcimag.AsParallel().Sum());
         }
 
+        /// <summary>
+        /// Berechnung Hasse Zeta-Funktion.
+        /// </summary>
+        /// <param name="x">Wert.</param>
+        /// <returns>Wert an Stelle x.</returns>
         public static double Zeta_Hasse(double x)
         {
             double erg = Math.Pow(x - 1, -1);

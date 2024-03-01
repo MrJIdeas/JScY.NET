@@ -3,8 +3,12 @@ using System.Collections.Generic;
 
 namespace JScience.Mathe.DifferentialEquations.Classes
 {
+    /// <summary>
+    /// Klasse für Runge-Kutta-Verfahren.
+    /// </summary>
     public class RungeKuttaSolver : IDifferentialEquationSolver
     {
+        ///<inheritdoc/>
         public Dictionary<double, double> Solve(double x0, double y0, double h, double endX, IDifferentialEquation f)
         {
             var result = new Dictionary<double, double>();

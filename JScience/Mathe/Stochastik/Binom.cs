@@ -1,7 +1,16 @@
 ﻿namespace JScience.Mathe.Stochastik
 {
+    /// <summary>
+    /// Statische Klasse für Binome.
+    /// </summary>
     public static class Binom
     {
+        /// <summary>
+        /// Binomialkoeffizient bestimmen.
+        /// </summary>
+        /// <param name="n">Pfade gesamt.</param>
+        /// <param name="k">zutreffende Pfade.</param>
+        /// <returns>Binomialkoeffizient.</returns>
         public static ulong Koeffizient(ulong n, ulong k)
         {
             if (n < k) return 0L;

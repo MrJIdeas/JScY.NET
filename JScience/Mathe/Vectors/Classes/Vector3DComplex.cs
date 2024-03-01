@@ -6,6 +6,7 @@ namespace JScience.Mathe.Vectors.Classes
 {
     public sealed class Vector3DComplex : Vector<System.Numerics.Complex>
     {
+        ///<inheritdoc/>
         public new double Abs2
         {
             get
@@ -17,10 +18,16 @@ namespace JScience.Mathe.Vectors.Classes
             }
         }
 
+        ///<inheritdoc/>
         public Vector3DComplex(string bezeichnung, System.Numerics.Complex x, System.Numerics.Complex y, System.Numerics.Complex z) : base(bezeichnung, EVecType.Column, new System.Numerics.Complex[] { x, y, z })
         {
         }
 
+        /// <summary>
+        /// Methode für Skalarprodukt.
+        /// </summary>
+        /// <param name="secondVector">Zweiter Vektor.</param>
+        /// <returns>Skalarprodukt.</returns>
         public System.Numerics.Complex Skalarprodukt(Vector3DComplex secondVector)
         {
             System.Numerics.Complex d = 0;
@@ -29,6 +36,12 @@ namespace JScience.Mathe.Vectors.Classes
             return d;
         }
 
+        /// <summary>
+        /// Addition Vektoren3D.
+        /// </summary>
+        /// <param name="a">1.</param>
+        /// <param name="b">2.</param>
+        /// <returns>Ergebnis</returns>
         public static Vector3DComplex operator +(Vector3DComplex a, Vector3DComplex b)
         {
             for (int i = 0; i < a.Dimensions; i++)
@@ -36,6 +49,12 @@ namespace JScience.Mathe.Vectors.Classes
             return a;
         }
 
+        /// <summary>
+        /// Subtraktion Vektoren3D.
+        /// </summary>
+        /// <param name="a">1.</param>
+        /// <param name="b">2.</param>
+        /// <returns>Ergebnis</returns>
         public static Vector3DComplex operator -(Vector3DComplex a, Vector3DComplex b)
         {
             for (int i = 0; i < a.Dimensions; i++)

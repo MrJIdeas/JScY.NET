@@ -3,8 +3,16 @@ using System.Linq;
 
 namespace JScience.Mathe.Zahlentheorie
 {
+    /// <summary>
+    /// Statische Klasse für Primzahlen.
+    /// </summary>
     public static class Primzahlen
     {
+        /// <summary>
+        /// Methode zur Prüfung, ob eine zahl eine Primzahl ist.
+        /// </summary>
+        /// <param name="zahl">Prüfzahl.</param>
+        /// <returns>Ja oder nein.</returns>
         public static bool IstPrimzahl(int zahl)
         {
             if (zahl < 2) return false;
@@ -15,6 +23,11 @@ namespace JScience.Mathe.Zahlentheorie
             return true;
         }
 
+        /// <summary>
+        /// Finde Primzahl bis zum Limit max
+        /// </summary>
+        /// <param name="max">Limit.</param>
+        /// <returns>Ergebnisliste.</returns>
         public static List<long> FindePrimzahl(long max)
         {
             if (max < 2) return null;
@@ -48,6 +61,11 @@ namespace JScience.Mathe.Zahlentheorie
             return primes;
         }
 
+        /// <summary>
+        /// Berechnet die Abstände zwischen Primzahlen bis zum Limit max.
+        /// </summary>
+        /// <param name="max">Limit.</param>
+        /// <returns>Ergebnisliste.</returns>
         public static Dictionary<long, long> GibPrimzahlenAbstaende(long max)
         {
             var erg = FindePrimzahl(max);
