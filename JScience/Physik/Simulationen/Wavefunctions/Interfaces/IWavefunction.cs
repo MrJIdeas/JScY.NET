@@ -336,6 +336,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 
         #endregion
 
+        public static bool CUDA_Existing { get; private set; }
         protected static CudaContext context_CUDA { get; private set; }
         protected static CudaStream stream_CUDA { get; private set; }
 
@@ -361,20 +362,28 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
 
         public static void InitCUDA()
         {
-            context_CUDA = new CudaContext(0, false);
-            stream_CUDA = new CudaStream();
-            Addkernel_CUDA = context_CUDA.LoadKernelPTX(Kernel_CUDA, "AddComplex");
-            AddDoublekernel_CUDA = context_CUDA.LoadKernelPTX(Kernel_CUDA, "AddDouble");
-            Subkernel_CUDA = context_CUDA.LoadKernelPTX(Kernel_CUDA, "SubComplex");
-            SubDoublekernel_CUDA = context_CUDA.LoadKernelPTX(Kernel_CUDA, "SubDouble");
-            Mulkernel_CUDA = context_CUDA.LoadKernelPTX(Kernel_CUDA, "MulComplex");
-            MulDoublekernel_CUDA = context_CUDA.LoadKernelPTX(Kernel_CUDA, "MulDouble");
-            AddComplexkernel_CUDA = context_CUDA.LoadKernelPTX(Kernel_CUDA, "AddSComplex");
-            SubComplexkernel_CUDA = context_CUDA.LoadKernelPTX(Kernel_CUDA, "SubSComplex");
-            MulComplexkernel_CUDA = context_CUDA.LoadKernelPTX(Kernel_CUDA, "MulSComplex");
-            DivDoublekernel_CUDA = context_CUDA.LoadKernelPTX(Kernel_CUDA, "DivDouble");
-            DivComplexkernel_CUDA = context_CUDA.LoadKernelPTX(Kernel_CUDA, "DivComplex");
-            Normkernel_CUDA = context_CUDA.LoadKernelPTX(Kernel_CUDA, "NormWF");
+            try
+            {
+                context_CUDA = new CudaContext(0, false);
+                CUDA_Existing = true;
+                stream_CUDA = new CudaStream();
+                Addkernel_CUDA = context_CUDA.LoadKernelPTX(Kernel_CUDA, "AddComplex");
+                AddDoublekernel_CUDA = context_CUDA.LoadKernelPTX(Kernel_CUDA, "AddDouble");
+                Subkernel_CUDA = context_CUDA.LoadKernelPTX(Kernel_CUDA, "SubComplex");
+                SubDoublekernel_CUDA = context_CUDA.LoadKernelPTX(Kernel_CUDA, "SubDouble");
+                Mulkernel_CUDA = context_CUDA.LoadKernelPTX(Kernel_CUDA, "MulComplex");
+                MulDoublekernel_CUDA = context_CUDA.LoadKernelPTX(Kernel_CUDA, "MulDouble");
+                AddComplexkernel_CUDA = context_CUDA.LoadKernelPTX(Kernel_CUDA, "AddSComplex");
+                SubComplexkernel_CUDA = context_CUDA.LoadKernelPTX(Kernel_CUDA, "SubSComplex");
+                MulComplexkernel_CUDA = context_CUDA.LoadKernelPTX(Kernel_CUDA, "MulSComplex");
+                DivDoublekernel_CUDA = context_CUDA.LoadKernelPTX(Kernel_CUDA, "DivDouble");
+                DivComplexkernel_CUDA = context_CUDA.LoadKernelPTX(Kernel_CUDA, "DivComplex");
+                Normkernel_CUDA = context_CUDA.LoadKernelPTX(Kernel_CUDA, "NormWF");
+            }
+            catch (DllNotFoundException)
+            {
+                CUDA_Existing = false;
+            }
         }
 
         #endregion
