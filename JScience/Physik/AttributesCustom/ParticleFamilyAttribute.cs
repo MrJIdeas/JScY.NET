@@ -3,13 +3,20 @@ using System;
 
 namespace JScience.Physik.AttributesCustom
 {
+    /// <summary>
+    /// Attribut für Partikelfamilie.
+    /// </summary>
     public class ParticleFamilyAttribute : Attribute
     {
+        /// <summary>
+        /// Partikelfamilie.
+        /// </summary>
         public EParticleFamily Family { get; private set; }
 
-        public ParticleFamilyAttribute(EParticleFamily family)
-        {
-            Family = family;
-        }
+        /// <summary>
+        /// Konstruktor.
+        /// </summary>
+        /// <param name="family">Elementfamilie.</param>
+        public ParticleFamilyAttribute(EParticleFamily family) => Family = family;
     }
 }

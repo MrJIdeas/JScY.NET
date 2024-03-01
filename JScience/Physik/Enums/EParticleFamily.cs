@@ -1,5 +1,8 @@
 ﻿namespace JScience.Physik.Enums
 {
+    /// <summary>
+    /// Enum für Partikelfamilien
+    /// </summary>
     public enum EParticleFamily
     {
         None = 0,

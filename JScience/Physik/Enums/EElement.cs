@@ -2,6 +2,9 @@
 
 namespace JScience.Physik.Enums
 {
+    /// <summary>
+    /// Enum für Elemente.
+    /// </summary>
     public enum EElement : uint
     {
         [ElementSymbol("n")]

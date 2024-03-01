@@ -2,6 +2,9 @@
 
 namespace JScience.Physik.Enums
 {
+    /// <summary>
+    /// Partikeltyp.
+    /// </summary>
     public enum EParticleType
     {
         None = 0,

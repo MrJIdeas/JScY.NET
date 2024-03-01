@@ -1,5 +1,8 @@
 ﻿namespace JScience.Physik.Enums
 {
+    /// <summary>
+    /// Enum für Elementkategorien.
+    /// </summary>
     public enum EElementkategorie
     {
         Alkalimetall,
