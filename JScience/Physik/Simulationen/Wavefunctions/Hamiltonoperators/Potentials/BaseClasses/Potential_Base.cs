@@ -35,9 +35,9 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potential
             zEnd = zEND;
         }
 
-        protected T getPsiV(T psi)
+        protected IWavefunction getPsiV(T psi)
         {
-            T psiV = (T)Activator.CreateInstance(psi.GetType(), psi.WFInfo, psi.CalcMethod);
+            IWavefunction psiV = (IWavefunction)Activator.CreateInstance(psi.GetType(), psi.WFInfo, psi.CalcMethod);
             int dimYZ = psi.WFInfo.DimY * psi.WFInfo.DimZ;
             int idx, i, j, k;
             for (i = xStart; i < xEnd; i++)
