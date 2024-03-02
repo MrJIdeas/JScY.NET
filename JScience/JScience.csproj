@@ -35,7 +35,6 @@
   <ItemGroup>
     <PackageReference Include="Cloo.clSharp" Version="1.0.1" />
     <PackageReference Include="FFMediaToolkit" Version="4.5.1" />
-    <PackageReference Include="ManagedCuda.NETStandard" Version="9.1.300" />
     <PackageReference Include="ScottPlot" Version="5.0.21" />
     <PackageReference Include="System.Drawing.Common" Version="8.0.2" />
   </ItemGroup>

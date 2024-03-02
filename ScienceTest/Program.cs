@@ -10,7 +10,7 @@ using JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Classes;
 using JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF;
 
 IWavefunction.InitOpenCL();
-IWavefunction.InitCUDA();
+
 //WF_1D test = (WF_1D)WFCreator.CreateGaußWave(-5, 10, 100, 25, ELatticeBoundary.Reflection, ECalculationMethod.OpenCL);
 //WF_1D test = (WF_1D)WFCreator.CreateFreeWave(1, 100, ELatticeBoundary.Periodic,  ECalculationMethod.OpenCL);
 //WF_1D test = (WF_1D)WFCreator.CreateDelta(100, 50, ELatticeBoundary.Periodic,  ECalculationMethod.OpenCL);
