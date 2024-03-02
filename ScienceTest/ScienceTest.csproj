@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	  <Prefer32Bit>false</Prefer32Bit>
+	  <PackageLicenseExpression>CC-BY-NC-SA-4.0</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
