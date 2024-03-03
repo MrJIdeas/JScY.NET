@@ -29,7 +29,9 @@ namespace JScience.Physik.Simulationen.Spins.Classic.VarTypes
 
         public void AddNeighbor<T>(T neighbor) where T : ISpin_Classic
         {
-            if (!Neighbors.Contains(neighbor))
+            if (neighbor.spinType == spinType
+                && !neighbor.Equals(this)
+                && !Neighbors.Contains(neighbor))
                 Neighbors.Add(neighbor);
         }
 
