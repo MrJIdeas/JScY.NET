@@ -29,6 +29,14 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
 
         #region Free Electron
 
+        /// <summary>
+        /// Erstellt eine 1D Freie Welle
+        /// </summary>
+        /// <param name="k">Wellenzahl.</param>
+        /// <param name="DimX">Anzahl Gitterplätze x</param>
+        /// <param name="boundary">Randbedingungen.</param>
+        /// <param name="CalcMethod">Kalkulationsmethode.</param>
+        /// <returns>Wellenfunktion.</returns>
         public static IWF_1D CreateFreeWave(double k, int DimX, ELatticeBoundary boundary, ECalculationMethod CalcMethod)
         {
             WFInfo wfinfo = new WFInfo(DimX, 1, 1, boundary);
@@ -38,6 +46,16 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
             return NormWave(erg);
         }
 
+        /// <summary>
+        /// Erstellt eine 2D Freie Welle
+        /// </summary>
+        /// <param name="kx">Wellenzahl x.</param>
+        /// <param name="ky">Wellenzahl y.</param>
+        /// <param name="DimX">Anzahl Gitterplätze x</param>
+        /// <param name="DimY">Anzahl Gitterplätze y</param>
+        /// <param name="boundary">Randbedingungen.</param>
+        /// <param name="CalcMethod">Kalkulationsmethode.</param>
+        /// <returns>Wellenfunktion.</returns>
         public static IWF_2D CreateFreeWave(double kx, double ky, int DimX, int DimY, ELatticeBoundary boundary, ECalculationMethod CalcMethod)
         {
             WFInfo wfinfo = new WFInfo(DimX, DimY, 1, boundary);
@@ -52,6 +70,16 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
 
         #region Gauß
 
+        /// <summary>
+        /// Erstellt eine 1D Gaußsche Welle.
+        /// </summary>
+        /// <param name="k">Wellenzahl x.</param>
+        /// <param name="DimX">Anzahl Gitterplätze x</param>
+        /// <param name="StartX">Startwert x</param>
+        /// <param name="sigma">Breite Gaußkurve x.</param>
+        /// <param name="boundary">Randbedingungen.</param>
+        /// <param name="CalcMethod">Kalkulationsmethode.</param>
+        /// <returns>Wellenfunktion.</returns>
         public static IWF_1D CreateGaußWave(double k, double sigma, int DimX, int StartX, ELatticeBoundary boundary, ECalculationMethod CalcMethod)
         {
             WFInfo wfinfo = new WFInfo(DimX, 1, 1, boundary);
@@ -61,6 +89,20 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
             return NormWave(erg);
         }
 
+        /// <summary>
+        /// Erstellt eine 2D Gaußsche Welle
+        /// </summary>
+        /// <param name="kx">Wellenzahl x.</param>
+        /// <param name="ky">Wellenzahl y.</param>
+        /// <param name="DimX">Anzahl Gitterplätze x</param>
+        /// <param name="DimY">Anzahl Gitterplätze y</param>
+        /// <param name="sigmaX">Breite Gaußkurve x.</param>
+        /// <param name="sigmaY">Breite Gaußkurve y.</param>
+        /// <param name="StartX">Startwert x</param>
+        /// <param name="StartY">Startwert y</param>
+        /// <param name="boundary">Randbedingungen.</param>
+        /// <param name="CalcMethod">Kalkulationsmethode.</param>
+        /// <returns>Wellenfunktion.</returns>
         public static IWF_2D CreateGaußWave(double kx, double ky, double sigmaX, double sigmaY, int DimX, int DimY, int StartX, int StartY, ELatticeBoundary boundary, ECalculationMethod CalcMethod)
         {
             WFInfo wfinfo = new WFInfo(DimX, DimY, 1, boundary);
@@ -75,6 +117,14 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
 
         #region Delta
 
+        /// <summary>
+        /// Erstellt eine 1D Delta Peak.
+        /// </summary>
+        /// <param name="DimX">Anzahl Gitterplätze x</param>
+        /// <param name="StartX">Startwert x</param>
+        /// <param name="boundary">Randbedingungen.</param>
+        /// <param name="CalcMethod">Kalkulationsmethode.</param>
+        /// <returns>Wellenfunktion.</returns>
         public static IWF_1D CreateDelta(int DimX, int StartX, ELatticeBoundary boundary, ECalculationMethod CalcMethod)
         {
             WFInfo wfinfo = new WFInfo(DimX, 1, 1, boundary);
@@ -83,6 +133,16 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
             return NormWave(erg);
         }
 
+        /// <summary>
+        /// Erstellt einen 2D Delta-Peak.
+        /// </summary>
+        /// <param name="DimX">Anzahl Gitterplätze x</param>
+        /// <param name="DimY">Anzahl Gitterplätze y</param>
+        /// <param name="StartX">Startwert x</param>
+        /// <param name="StartY">Startwert y</param>
+        /// <param name="boundary">Randbedingungen.</param>
+        /// <param name="CalcMethod">Kalkulationsmethode.</param>
+        /// <returns>Wellenfunktion.</returns>
         public static IWF_2D CreateDelta(int DimX, int DimY, int StartX, int StartY, ELatticeBoundary boundary, ECalculationMethod CalcMethod)
         {
             WFInfo wfinfo = new WFInfo(DimX, DimY, 1, boundary);
@@ -95,6 +155,16 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
 
         #region From File
 
+        /// <summary>
+        /// Erstellt eine Wellenfunktion anhand einer Datei.
+        /// </summary>
+        /// <param name="FilePath">Dateipfad.</param>
+        /// <param name="Delimiter">Trennzeichen für Real-/Imaginärteil.</param>
+        /// <param name="boundary">Randbedingungen.</param>
+        /// <param name="CalcMethod">Kalulationsmethode.</param>
+        /// <returns>Wellenfunktion.</returns>
+        /// <exception cref="FileNotFoundException">Wenn Datei nicht gefunden wird.</exception>
+        /// <exception cref="ArgumentException">Falsches Trennzeichen?</exception>
         public static IWF_1D FromFile1D(string FilePath, char Delimiter, ELatticeBoundary boundary, ECalculationMethod CalcMethod)
         {
             if (!File.Exists(FilePath))
@@ -112,6 +182,16 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
             return erg;
         }
 
+        /// <summary>
+        /// Erstellt eine Wellenfunktion anhand einer Datei.
+        /// </summary>
+        /// <param name="FilePath">Dateipfad.</param>
+        /// <param name="Delimiter">Trennzeichen für Real-/Imaginärteil.</param>
+        /// <param name="boundary">Randbedingungen.</param>
+        /// <param name="CalcMethod">Kalulationsmethode.</param>
+        /// <returns>Wellenfunktion.</returns>
+        /// <exception cref="FileNotFoundException">Wenn Datei nicht gefunden wird.</exception>
+        /// <exception cref="ArgumentException">Falsches Trennzeichen?</exception>
         public static IWF_2D FromFile2D(string FilePath, char Delimiter, ELatticeBoundary boundary, ECalculationMethod CalcMethod)
         {
             if (!File.Exists(FilePath))
