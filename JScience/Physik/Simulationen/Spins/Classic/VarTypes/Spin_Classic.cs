@@ -1,6 +1,7 @@
 ﻿using JScience.Physik.AttributesCustom;
 using JScience.Physik.Enums;
 using JScience.Physik.Simulationen.Spins.Classic.Interfaces;
+using JScience.Physik.Simulationen.Spins.Enums;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
@@ -17,6 +18,8 @@ namespace JScience.Physik.Simulationen.Spins.Classic.VarTypes
             ParticleType = pType;
             Spin = (double)(ParticleType.GetType().GetTypeInfo().GetDeclaredField(ParticleType.ToString()).GetCustomAttribute(typeof(SpinAttribute)) as SpinAttribute).val;
         }
+
+        public ESpinType spinType { get; protected set; }
 
         public double Spin { get; protected set; }
         protected List<ISpin_Classic> Neighbors { get; private set; }
@@ -42,7 +45,7 @@ namespace JScience.Physik.Simulationen.Spins.Classic.VarTypes
                 Neighbors.Remove(neighbor);
         }
 
-        public bool Equals(ISpin_Classic other) => PositionXYZ.Equals(other.PositionXYZ);
+        public bool Equals(ISpin_Classic other) => spinType == other.spinType && PositionXYZ.Equals(other.PositionXYZ);
 
         public List<ISpin_Classic> getNeighbors() => Neighbors;
     }

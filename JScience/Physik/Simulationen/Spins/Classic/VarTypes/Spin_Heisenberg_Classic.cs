@@ -1,5 +1,6 @@
 ﻿using JScience.Physik.Enums;
 using JScience.Physik.Simulationen.Spins.Classic.Interfaces;
+using JScience.Physik.Simulationen.Spins.Enums;
 using System;
 
 namespace JScience.Physik.Simulationen.Spins.Classic.VarTypes
@@ -12,7 +13,11 @@ namespace JScience.Physik.Simulationen.Spins.Classic.VarTypes
 
         public double Spin_Z { get; private set; }
 
-        public Spin_Heisenberg_Classic(EParticleType eParticleType, uint x, uint y, uint z) : base(x, y, z, eParticleType) => Spin_Z = 1;
+        public Spin_Heisenberg_Classic(EParticleType eParticleType, uint x, uint y, uint z) : base(x, y, z, eParticleType)
+        {
+            Spin_Z = 1;
+            spinType = ESpinType.Heisenberg;
+        }
 
         public override double getComponent(uint index)
         {

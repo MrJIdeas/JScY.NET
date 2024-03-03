@@ -1,4 +1,5 @@
 ﻿using JScience.Physik.Enums;
+using JScience.Physik.Simulationen.Spins.Enums;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -9,6 +10,11 @@ namespace JScience.Physik.Simulationen.Spins.Classic.Interfaces
     /// </summary>
     public interface ISpin_Classic
     {
+        /// <summary>
+        /// Art des Spins.
+        /// </summary>
+        ESpinType spinType { get; }
+
         /// <summary>
         /// Partikeltyp.
         /// </summary>
