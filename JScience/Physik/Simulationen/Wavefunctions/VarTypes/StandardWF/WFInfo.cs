@@ -1,13 +1,19 @@
 ﻿using JScience.Physik.Simulationen.Spins.Enums;
+using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
 using System;
+using System.Collections.Generic;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 {
     public struct WFInfo
     {
-        public WFInfo(int dimX, int dimY, int dimZ, ELatticeBoundary boundaryInfo)
+        private Dictionary<string, object> DynamicInfo { get; set; }
+
+        public WFInfo(int dimX, int dimY, int dimZ, ELatticeBoundary boundaryInfo, EWaveType eWaveType)
         {
+            waveType = eWaveType;
+            DynamicInfo = new Dictionary<string, object>();
             DimX = dimX;
             DimY = dimY;
             DimZ = dimZ;
@@ -27,5 +33,15 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
         public int DimZ { get; private set; }
 
         public ELatticeBoundary BoundaryInfo { get; private set; }
+
+        public EWaveType waveType { get; private set; }
+
+        public void AddAdditionalInfo<T>(string key, T val)
+        {
+            if (!DynamicInfo.ContainsKey(key))
+                DynamicInfo.Add(key, val);
+        }
+
+        public Dictionary<string, object> GetAllAdditionalInfos() => DynamicInfo;
     }
 }

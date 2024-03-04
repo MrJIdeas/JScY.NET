@@ -1,7 +1,9 @@
 ﻿using JScience.Enums;
 using JScience.Physik.Simulationen.Spins.Enums;
+using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
 using JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF;
+using ScottPlot.Plottables;
 using System;
 using System.IO;
 using System.Numerics;
@@ -39,7 +41,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
         /// <returns>Wellenfunktion.</returns>
         public static IWF_1D CreateFreeWave(double k, int DimX, ELatticeBoundary boundary, ECalculationMethod CalcMethod)
         {
-            WFInfo wfinfo = new WFInfo(DimX, 1, 1, boundary);
+            WFInfo wfinfo = new WFInfo(DimX, 1, 1, boundary, EWaveType.FreeWave);
+            wfinfo.AddAdditionalInfo("k", k);
             IWF_1D erg = new WF_1D(wfinfo, CalcMethod);
             for (int i = 0; i < DimX; i++)
                 erg.SetField(i, Complex.Exp(Complex.ImaginaryOne * k * i));
@@ -58,7 +61,9 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
         /// <returns>Wellenfunktion.</returns>
         public static IWF_2D CreateFreeWave(double kx, double ky, int DimX, int DimY, ELatticeBoundary boundary, ECalculationMethod CalcMethod)
         {
-            WFInfo wfinfo = new WFInfo(DimX, DimY, 1, boundary);
+            WFInfo wfinfo = new WFInfo(DimX, DimY, 1, boundary, EWaveType.FreeWave);
+            wfinfo.AddAdditionalInfo("kx", kx);
+            wfinfo.AddAdditionalInfo("ky", ky);
             WF_2D erg = new WF_2D(wfinfo, CalcMethod);
             for (int i = 0; i < DimX; i++)
                 for (int j = 0; j < DimY; j++)
@@ -82,7 +87,10 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
         /// <returns>Wellenfunktion.</returns>
         public static IWF_1D CreateGaußWave(double k, double sigma, int DimX, int StartX, ELatticeBoundary boundary, ECalculationMethod CalcMethod)
         {
-            WFInfo wfinfo = new WFInfo(DimX, 1, 1, boundary);
+            WFInfo wfinfo = new WFInfo(DimX, 1, 1, boundary, EWaveType.Gauß);
+            wfinfo.AddAdditionalInfo("k", k);
+            wfinfo.AddAdditionalInfo("sigma", sigma);
+            wfinfo.AddAdditionalInfo("startX", StartX);
             IWF_1D erg = new WF_1D(wfinfo, CalcMethod);
             for (int i = 0; i < DimX; i++)
                 erg.SetField(i, Complex.Exp(new Complex(-Math.Pow(i - StartX, 2) / sigma, 0) - Complex.ImaginaryOne * k * i));
@@ -105,7 +113,13 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
         /// <returns>Wellenfunktion.</returns>
         public static IWF_2D CreateGaußWave(double kx, double ky, double sigmaX, double sigmaY, int DimX, int DimY, int StartX, int StartY, ELatticeBoundary boundary, ECalculationMethod CalcMethod)
         {
-            WFInfo wfinfo = new WFInfo(DimX, DimY, 1, boundary);
+            WFInfo wfinfo = new WFInfo(DimX, DimY, 1, boundary, EWaveType.Gauß);
+            wfinfo.AddAdditionalInfo("kx", kx);
+            wfinfo.AddAdditionalInfo("ky", ky);
+            wfinfo.AddAdditionalInfo("sigmaX", sigmaX);
+            wfinfo.AddAdditionalInfo("sigmaY", sigmaY);
+            wfinfo.AddAdditionalInfo("startX", StartX);
+            wfinfo.AddAdditionalInfo("startY", StartY);
             WF_2D erg = new WF_2D(wfinfo, CalcMethod);
             for (int i = 0; i < DimX; i++)
                 for (int j = 0; j < DimY; j++)
@@ -127,7 +141,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
         /// <returns>Wellenfunktion.</returns>
         public static IWF_1D CreateDelta(int DimX, int StartX, ELatticeBoundary boundary, ECalculationMethod CalcMethod)
         {
-            WFInfo wfinfo = new WFInfo(DimX, 1, 1, boundary);
+            WFInfo wfinfo = new WFInfo(DimX, 1, 1, boundary, EWaveType.Delta);
+            wfinfo.AddAdditionalInfo("startX", StartX);
             IWF_1D erg = new WF_1D(wfinfo, CalcMethod);
             erg.SetField(StartX, Complex.One);
             return NormWave(erg);
@@ -145,7 +160,9 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
         /// <returns>Wellenfunktion.</returns>
         public static IWF_2D CreateDelta(int DimX, int DimY, int StartX, int StartY, ELatticeBoundary boundary, ECalculationMethod CalcMethod)
         {
-            WFInfo wfinfo = new WFInfo(DimX, DimY, 1, boundary);
+            WFInfo wfinfo = new WFInfo(DimX, DimY, 1, boundary, EWaveType.Delta);
+            wfinfo.AddAdditionalInfo("startX", StartX);
+            wfinfo.AddAdditionalInfo("startY", StartY);
             WF_2D erg = new WF_2D(wfinfo, CalcMethod);
             erg.SetField(StartX, StartY, Complex.One);
             return NormWave(erg);
@@ -170,7 +187,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
             if (!File.Exists(FilePath))
                 throw new FileNotFoundException("Invalid Path for Wavefunctíon File.");
             var lines = File.ReadAllLines(FilePath);
-            WFInfo wfinfo = new WFInfo(lines.Length, 1, 1, boundary);
+            WFInfo wfinfo = new WFInfo(lines.Length, 1, 1, boundary, EWaveType.Custom);
             IWF_1D erg = new WF_1D(wfinfo, CalcMethod);
             for (int i = 0; i < lines.Length; i++)
             {
@@ -197,7 +214,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
             if (!File.Exists(FilePath))
                 throw new FileNotFoundException("Invalid Path for Wavefunctíon File.");
             var lines = File.ReadAllLines(FilePath);
-            WFInfo wfinfo = new WFInfo(lines.Length, lines[0].Length, 1, boundary);
+            WFInfo wfinfo = new WFInfo(lines.Length, lines[0].Length, 1, boundary, EWaveType.Custom);
             WF_2D erg = new WF_2D(wfinfo, CalcMethod);
             for (int i = 0; i < lines.Length; i++)
             {
