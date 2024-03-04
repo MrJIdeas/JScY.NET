@@ -42,6 +42,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
                 DynamicInfo.Add(key, val);
         }
 
+        public T GetAdditionalInfo<T>(string key) => DynamicInfo.ContainsKey(key) ? (T)DynamicInfo[key] : default;
+
         public Dictionary<string, object> GetAllAdditionalInfos() => DynamicInfo;
     }
 }
