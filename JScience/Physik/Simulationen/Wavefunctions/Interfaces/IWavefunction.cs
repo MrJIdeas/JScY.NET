@@ -5,6 +5,7 @@ using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Numerics;
 using System.Threading.Tasks;
 
@@ -50,6 +51,16 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
         double getNorm(int x);
 
         #endregion Norm
+
+        #region C alpha beta
+
+        void AddCabExitAuto();
+
+        void AddExit(string ExitName, IWavefunction exitWF);
+
+        Dictionary<string, Complex> CalcCab();
+
+        #endregion
 
         #region Kernel CL
 

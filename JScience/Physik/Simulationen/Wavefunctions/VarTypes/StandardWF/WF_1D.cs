@@ -1,6 +1,7 @@
 ﻿using Cloo;
 using JScience.Enums;
 using JScience.Physik.Simulationen.Spins.Enums;
+using JScience.Physik.Simulationen.Wavefunctions.Classes;
 using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
 using ScottPlot;
@@ -29,10 +30,16 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
             rangePartitioner = Partitioner.Create(0, wfinfo.DimX * wfinfo.DimY * wfinfo.DimZ);
             CalcMethod = Method;
             result = new double[field.Length];
+            CabExits = new Dictionary<string, IWavefunction>();
+            CabCalc = new Dictionary<string, Complex>();
         }
 
         public OrderablePartitioner<Tuple<int, int>> rangePartitioner { get; private set; }
         public Complex[] field { get; private set; }
+
+        protected Dictionary<string, IWavefunction> CabExits { get; private set; }
+
+        private Dictionary<string, Complex> CabCalc { get; set; }
 
         private double[] result { get; set; }
 
@@ -158,6 +165,56 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
             myPlot.Add.Bars(x, y);
             var img = System.Drawing.Image.FromStream(new MemoryStream(myPlot.GetImage(width, height).GetImageBytes()));
             return img;
+        }
+
+        public void AddCabExitAuto()
+        {
+            int startx = WFInfo.GetAdditionalInfo<int>("startX");
+            if (startx <= 0)
+                throw new Exception("Not enough Data to Auto Set Cab Exits!");
+            AddCabExit(startx);
+            AddCabExit(DimX - startx);
+        }
+
+        public void AddExit(string ExitName, IWavefunction exitWF)
+        {
+            if (!CabExits.ContainsKey(ExitName))
+                CabExits.Add(ExitName, exitWF);
+        }
+
+        private void AddCabExit(int x)
+        {
+            IWavefunction clone;
+            switch (WFInfo.waveType)
+            {
+                default:
+                    throw new Exception("Not enough Data to Auto Set Cab Exits!");
+
+                case EWaveType.Delta:
+                    clone = (WF_1D)WFCreator.CreateDelta(DimX, x, Boundary, CalcMethod);
+                    break;
+
+                case EWaveType.Gauß:
+                    double k = WFInfo.GetAdditionalInfo<double>("k");
+                    double sigma = WFInfo.GetAdditionalInfo<double>("sigma");
+                    clone = (WF_1D)WFCreator.CreateGaußWave(k, sigma, DimX, x, Boundary, CalcMethod);
+                    break;
+            }
+            if (clone != null)
+                CabExits.Add(x.ToString(), clone);
+        }
+
+        public Dictionary<string, Complex> CalcCab()
+        {
+            CabCalc.Clear();
+            foreach (var exit in CabExits)
+            {
+                Complex calc = new Complex();
+                foreach (var item in (exit.Value * this).field)
+                    calc += item;
+                CabCalc.Add(exit.Key, calc);
+            }
+            return CabCalc;
         }
 
         #endregion Interface

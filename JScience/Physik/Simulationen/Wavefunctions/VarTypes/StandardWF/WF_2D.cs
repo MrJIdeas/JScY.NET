@@ -1,5 +1,6 @@
 ﻿using JScience.Enums;
 using JScience.Physik.Simulationen.Spins.Enums;
+using JScience.Physik.Simulationen.Wavefunctions.Classes;
 using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
 using System;
@@ -131,6 +132,42 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
             myPlot.Add.ColorBar(hm1);
             var img = System.Drawing.Image.FromStream(new MemoryStream(myPlot.GetImage(width, height).GetImageBytes()));
             return img;
+        }
+
+        public new void AddCabExitAuto()
+        {
+            int startx = WFInfo.GetAdditionalInfo<int>("startX");
+            int starty = WFInfo.GetAdditionalInfo<int>("startY");
+            if (startx <= 0 || starty <= 0)
+                throw new Exception("Not enough Data to Auto Set Cab Exits!");
+            AddCabExit(startx, starty);
+            AddCabExit(startx, DimY - starty);
+            AddCabExit(DimX - startx, starty);
+            AddCabExit(DimX - startx, DimY - starty);
+        }
+
+        private void AddCabExit(int x, int y)
+        {
+            IWavefunction clone;
+            switch (WFInfo.waveType)
+            {
+                default:
+                    throw new Exception("Not enough Data to Auto Set Cab Exits!");
+
+                case EWaveType.Delta:
+                    clone = (WF_2D)WFCreator.CreateDelta(DimX, DimY, x, y, Boundary, CalcMethod);
+                    break;
+
+                case EWaveType.Gauß:
+                    double kx = WFInfo.GetAdditionalInfo<double>("kx");
+                    double ky = WFInfo.GetAdditionalInfo<double>("ky");
+                    double sigmax = WFInfo.GetAdditionalInfo<double>("sigmaX");
+                    double sigmay = WFInfo.GetAdditionalInfo<double>("sigmaY");
+                    clone = (WF_2D)WFCreator.CreateGaußWave(kx, ky, sigmax, sigmay, DimX, DimY, x, y, Boundary, CalcMethod);
+                    break;
+            }
+            if (clone != null)
+                CabExits.Add(string.Format("{0}_{1}", x, y), clone);
         }
 
         #endregion Interface
