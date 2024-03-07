@@ -193,7 +193,6 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
                     break;
             }
             if (clone != null)
-                CabExits.Add(string.Format("{0}_{1}", x, y), clone);
             {
                 var key = string.Format("x_{0}_y_{1}", x, y);
                 while (CabExits.ContainsKey(key))
