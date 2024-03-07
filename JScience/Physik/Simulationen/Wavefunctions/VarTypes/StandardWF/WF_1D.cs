@@ -232,7 +232,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
             CabCalc.Clear();
             foreach (var exit in CabExits)
             {
-                var cal = Conj() * exit.Value;
+                IWavefunction cal = this * exit.Value.Conj();
                 Complex calc = new Complex();
                 for (int i = 0; i < cal.field.Length; i++)
                 {
