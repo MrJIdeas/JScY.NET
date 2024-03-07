@@ -3,8 +3,11 @@ using JScience.Physik.Simulationen.Spins.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Classes;
 using JScience.Physik.Simulationen.Wavefunctions.Enums;
 using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
+using ScottPlot;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 
@@ -127,6 +130,25 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
             for (int i = 0; i < DimX; i++)
                 for (int j = 0; j < DimY; j++)
                     data[i, j] = (double)getNorm(i, j);
+            var hm1 = myPlot.Add.Heatmap(data);
+            hm1.Colormap = new ScottPlot.Colormaps.Turbo();
+            myPlot.Add.ColorBar(hm1);
+            var img = System.Drawing.Image.FromStream(new MemoryStream(myPlot.GetImage(width, height).GetImageBytes()));
+            return img;
+        }
+
+        public new System.Drawing.Image GetCabExitImage(int width, int height)
+        {
+            myPlot.Clear();
+            IWavefunction super = (WF_2D)CabExits.Values.First();
+            if (super == null)
+                return null;
+            for (int i = 1; i < CabExits.Count; i++)
+                super += CabExits.Values.ElementAt(i);
+            double[,] data = new double[DimX, DimY];
+            for (int i = 0; i < DimX; i++)
+                for (int j = 0; j < DimY; j++)
+                    data[i, j] = (double)((WF_2D)super).getNorm(i, j);
             var hm1 = myPlot.Add.Heatmap(data);
             hm1.Colormap = new ScottPlot.Colormaps.Turbo();
             myPlot.Add.ColorBar(hm1);
