@@ -140,10 +140,36 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
             int starty = WFInfo.GetAdditionalInfo<int>("startY");
             if (startx <= 0 || starty <= 0)
                 throw new Exception("Not enough Data to Auto Set Cab Exits!");
+            double kx = 0, ky = 0;
+            switch (WFInfo.waveType)
+            {
+                default:
+                    throw new Exception("Not enough Data to Auto Set Cab Exits!");
+
+                case EWaveType.Delta:
+
+                    break;
+
+                case EWaveType.Gauß:
+                    kx = WFInfo.GetAdditionalInfo<double>("kx");
+                    ky = WFInfo.GetAdditionalInfo<double>("ky");
+                    break;
+            }
             AddCabExit(startx, starty);
-            AddCabExit(startx, DimY - starty);
-            AddCabExit(DimX - startx, starty);
-            AddCabExit(DimX - startx, DimY - starty);
+            if (kx != 0)
+            {
+                AddCabExit(DimX - startx, starty);
+            }
+            if (ky != 0)
+            {
+                AddCabExit(startx, DimY - starty);
+            }
+            if (kx != 0 && ky != 0)
+            {
+                AddCabExit(DimX - startx, DimY - starty);
+            }
+
+            WFInfo.CabExits = CabExits;
         }
 
         private void AddCabExit(int x, int y)
@@ -168,6 +194,12 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
             }
             if (clone != null)
                 CabExits.Add(string.Format("{0}_{1}", x, y), clone);
+            {
+                var key = string.Format("x_{0}_y_{1}", x, y);
+                while (CabExits.ContainsKey(key))
+                    key += "_b";
+                CabExits.Add(key, clone);
+            }
         }
 
         #endregion Interface

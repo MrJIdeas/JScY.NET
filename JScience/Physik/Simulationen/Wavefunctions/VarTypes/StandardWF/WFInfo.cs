@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 {
-    public struct WFInfo
+    public class WFInfo
     {
         private Dictionary<string, object> DynamicInfo { get; set; }
 
@@ -45,5 +45,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
         public T GetAdditionalInfo<T>(string key) => DynamicInfo.ContainsKey(key) ? (T)DynamicInfo[key] : default;
 
         public Dictionary<string, object> GetAllAdditionalInfos() => DynamicInfo;
+
+        internal Dictionary<string, IWavefunction> CabExits { get; set; }
     }
 }

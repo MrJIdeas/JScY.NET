@@ -30,7 +30,10 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
             rangePartitioner = Partitioner.Create(0, wfinfo.DimX * wfinfo.DimY * wfinfo.DimZ);
             CalcMethod = Method;
             result = new double[field.Length];
-            CabExits = new Dictionary<string, IWavefunction>();
+            if (wfinfo.CabExits != null && wfinfo.CabExits.Count > 0)
+                CabExits = wfinfo.CabExits;
+            else
+                CabExits = new Dictionary<string, IWavefunction>();
             CabCalc = new Dictionary<string, Complex>();
         }
 
@@ -167,6 +170,25 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
             return img;
         }
 
+        public System.Drawing.Image GetCabExitImage(int width, int height)
+        {
+            myPlot.Clear();
+            IWavefunction super = CabExits.Values.First();
+            if (super == null)
+                return null;
+            for (int i = 1; i < CabExits.Count; i++)
+                super += CabExits.Values.ElementAt(i);
+            List<double> x = new List<double>();
+            for (int i = 0; i < DimX; i++)
+                x.Add(i);
+            List<double> y = new List<double>();
+            for (int i = 0; i < DimX; i++)
+                y.Add((double)super.getNorm(i));
+            myPlot.Add.Bars(x, y);
+            var img = System.Drawing.Image.FromStream(new MemoryStream(myPlot.GetImage(width, height).GetImageBytes()));
+            return img;
+        }
+
         public void AddCabExitAuto()
         {
             int startx = WFInfo.GetAdditionalInfo<int>("startX");
@@ -174,6 +196,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
                 throw new Exception("Not enough Data to Auto Set Cab Exits!");
             AddCabExit(startx);
             AddCabExit(DimX - startx);
+            WFInfo.CabExits = CabExits;
         }
 
         public void AddExit(string ExitName, IWavefunction exitWF)
