@@ -1,13 +1,10 @@
 ﻿using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
 using JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.VarTypes;
 using ScottPlot;
-using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Numerics;
-using System.Text;
 
 namespace JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Classes
 {
