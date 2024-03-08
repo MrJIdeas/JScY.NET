@@ -14,7 +14,7 @@ IWavefunction.InitOpenCL();
 //WF_1D test = (WF_1D)WFCreator.CreateGaußWave(-5, 10, 100, 25, ELatticeBoundary.Reflection, ECalculationMethod.OpenCL);
 //WF_1D test = (WF_1D)WFCreator.CreateFreeWave(1, 100, ELatticeBoundary.Periodic,  ECalculationMethod.OpenCL);
 //WF_1D test = (WF_1D)WFCreator.CreateDelta(100, 50, ELatticeBoundary.Periodic,  ECalculationMethod.OpenCL);
-WF_2D test = (WF_2D)WFCreator.CreateGaußWave(5, 0, 1, 1, 100, 50, 25, 25, ELatticeBoundary.Reflection, ECalculationMethod.OpenCL);
+WF_2D test = (WF_2D)WFCreator.CreateGaußWave(5, 0, 100, 100, 100, 50, 25, 25, ELatticeBoundary.Reflection, ECalculationMethod.OpenCL);
 //WF_2D test = (WF_2D)WFCreator.CreateFreeWave(1, 0, 100, 100, 50, 50, ELatticeBoundary.Reflection,  ECalculationMethod.OpenCL);
 //WF_2D test = (WF_2D)WFCreator.CreateDelta(100, 100, 50, 50, ELatticeBoundary.Reflection,  ECalculationMethod.OpenCL);
 Console.WriteLine("Norm: " + test.Norm());
