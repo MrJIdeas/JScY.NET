@@ -217,9 +217,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
             if (clone != null)
             {
                 var key = string.Format("x_{0}_y_{1}", x, y);
-                while (CabExits.ContainsKey(key))
-                    key += "_b";
-                CabExits.Add(key, clone);
+                if (!CabExits.ContainsKey(key))
+                    CabExits.Add(key, clone);
             }
         }
 
