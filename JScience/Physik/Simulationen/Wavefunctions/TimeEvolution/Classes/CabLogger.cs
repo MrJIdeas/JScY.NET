@@ -19,6 +19,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Classes
             myPlot = new Plot();
         }
 
+        public List<CabEntry> GetEntries() => entries;
+
         public void AddCab(double t, IWavefunction wavefunction)
         {
             foreach (var item in wavefunction.CalcCab())
