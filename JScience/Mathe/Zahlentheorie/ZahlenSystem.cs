@@ -1,4 +1,7 @@
-﻿namespace JScience.Mathe.Zahlentheorie
+﻿using System.Collections.Generic;
+using System;
+
+namespace JScience.Mathe.Zahlentheorie
 {
     /// <summary>
     /// Statische Klasse zur Umrechnung in Zahlensysteme.
@@ -84,5 +87,26 @@
         public static string To9Base(long Zahl10) => ToNBase(Zahl10, 9);
 
         #endregion Dezimal zu Zahlensystem
+
+        #region Dezimal zu PI Basis
+
+        public static List<int> ConvertToPiBase(double number, int maxPrecision)
+        {
+            const double PI = Math.PI; // Basis: π
+            List<int> coefficients = new List<int>(); // Speichert die Koeffizienten
+            double remaining = number; // Restwert, der umgerechnet wird
+
+            for (int exponent = (int)Math.Floor(Math.Log(number) / Math.Log(PI)); exponent >= -maxPrecision; exponent--)
+            {
+                double powerOfPi = Math.Pow(PI, exponent); // π^exponent
+                int coefficient = (int)(remaining / powerOfPi); // Ganzzahliger Teil
+                coefficients.Add(coefficient);
+                remaining -= coefficient * powerOfPi; // Restwert reduzieren
+            }
+
+            return coefficients;
+        }
+
+        #endregion Dezimal zu PI Basis
     }
 }
