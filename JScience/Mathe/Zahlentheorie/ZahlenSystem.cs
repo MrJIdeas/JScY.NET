@@ -88,17 +88,16 @@ namespace JScience.Mathe.Zahlentheorie
 
         #endregion Dezimal zu Zahlensystem
 
-        #region Dezimal zu PI Basis
+        #region Basis irrational
 
-        public static List<int> ConvertToPiBase(double number, int maxPrecision)
+        private static List<int> ConvertToIRRBase(double number, int maxPrecision, double IrrZahl)
         {
-            const double PI = Math.PI; // Basis: π
             List<int> coefficients = new List<int>(); // Speichert die Koeffizienten
             double remaining = number; // Restwert, der umgerechnet wird
 
-            for (int exponent = (int)Math.Floor(Math.Log(number) / Math.Log(PI)); exponent >= -maxPrecision; exponent--)
+            for (int exponent = (int)Math.Floor(Math.Log(number) / Math.Log(IrrZahl)); exponent >= -maxPrecision; exponent--)
             {
-                double powerOfPi = Math.Pow(PI, exponent); // π^exponent
+                double powerOfPi = Math.Pow(IrrZahl, exponent); // π^exponent
                 int coefficient = (int)(remaining / powerOfPi); // Ganzzahliger Teil
                 coefficients.Add(coefficient);
                 remaining -= coefficient * powerOfPi; // Restwert reduzieren
@@ -107,6 +106,10 @@ namespace JScience.Mathe.Zahlentheorie
             return coefficients;
         }
 
-        #endregion Dezimal zu PI Basis
+        public static List<int> ConvertToPiBase(double number, int maxPrecision) => ConvertToIRRBase(number, maxPrecision, Math.PI);
+
+        public static List<int> ConvertToEBase(double number, int maxPrecision) => ConvertToIRRBase(number, maxPrecision, Math.E);
+
+        #endregion Basis irrational
     }
 }
