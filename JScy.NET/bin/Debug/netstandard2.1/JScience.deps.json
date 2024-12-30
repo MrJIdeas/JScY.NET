@@ -1,0 +1,146 @@
+{
+  "runtimeTarget": {
+    "name": ".NETStandard,Version=v2.1/",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETStandard,Version=v2.1": {},
+    ".NETStandard,Version=v2.1/": {
+      "JScience/1.0.0": {
+        "dependencies": {
+          "Cloo.clSharp": "1.0.1",
+          "FFMediaToolkit": "4.5.1",
+          "ScottPlot": "5.0.21",
+          "System.Drawing.Common": "8.0.2"
+        },
+        "runtime": {
+          "JScience.dll": {}
+        }
+      },
+      "Cloo.clSharp/1.0.1": {
+        "runtime": {
+          "lib/netstandard2.0/Cloo.dll": {
+            "assemblyVersion": "1.0.1.0",
+            "fileVersion": "1.0.1.0"
+          }
+        }
+      },
+      "FFMediaToolkit/4.5.1": {
+        "dependencies": {
+          "FFmpeg.AutoGen": "6.0.0.2"
+        },
+        "runtime": {
+          "lib/netstandard2.1/FFMediaToolkit.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.5.1.0"
+          }
+        }
+      },
+      "FFmpeg.AutoGen/6.0.0.2": {
+        "runtime": {
+          "lib/netstandard2.1/FFmpeg.AutoGen.dll": {
+            "assemblyVersion": "6.0.0.2",
+            "fileVersion": "6.0.0.2"
+          }
+        }
+      },
+      "ScottPlot/5.0.21": {
+        "dependencies": {
+          "SkiaSharp": "2.88.7"
+        },
+        "runtime": {
+          "lib/netstandard2.0/ScottPlot.dll": {
+            "assemblyVersion": "5.0.21.0",
+            "fileVersion": "5.0.21.0"
+          }
+        }
+      },
+      "SkiaSharp/2.88.7": {
+        "dependencies": {
+          "SkiaSharp.NativeAssets.Win32": "2.88.7",
+          "SkiaSharp.NativeAssets.macOS": "2.88.7"
+        },
+        "runtime": {
+          "lib/netstandard2.1/SkiaSharp.dll": {
+            "assemblyVersion": "2.88.0.0",
+            "fileVersion": "2.88.7.0"
+          }
+        }
+      },
+      "SkiaSharp.NativeAssets.macOS/2.88.7": {},
+      "SkiaSharp.NativeAssets.Win32/2.88.7": {},
+      "System.Drawing.Common/8.0.2": {
+        "runtime": {
+          "lib/netstandard2.0/System.Drawing.Common.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.224.6803"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "JScience/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Cloo.clSharp/1.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-IobfnbM8xi2HjBN3lKYhomwwsp5Nk8MKNxT6Aag7A/0u/wuN6/ZwNh4AGMKZPutNwpa8UZfOJEoYWDB9Pr1jJg==",
+      "path": "cloo.clsharp/1.0.1",
+      "hashPath": "cloo.clsharp.1.0.1.nupkg.sha512"
+    },
+    "FFMediaToolkit/4.5.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-9lU12cpFLvOXYh4Lg4/08lZn7Ie9IRfb1jBWP8hUsa+dBI1u0TumFGF6JV9JtosRTS7aGROgDWmXCuFLFUfCSA==",
+      "path": "ffmediatoolkit/4.5.1",
+      "hashPath": "ffmediatoolkit.4.5.1.nupkg.sha512"
+    },
+    "FFmpeg.AutoGen/6.0.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-49FmWsgV06yh9tJQiWT4L+/tt/kLLoDzojeAMwCcU19vstCQENe9H/iRdPuDwQL1cAqEIgjlnotEoawfypXFpQ==",
+      "path": "ffmpeg.autogen/6.0.0.2",
+      "hashPath": "ffmpeg.autogen.6.0.0.2.nupkg.sha512"
+    },
+    "ScottPlot/5.0.21": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-RrzYd6blgiZ8xfdgE7xN3j4u8PCpRs6Cu7H3QVdhyEnGrRMqnsNsJHzKmfVVHIFUrU9CL5FloK392DpbW0lk0A==",
+      "path": "scottplot/5.0.21",
+      "hashPath": "scottplot.5.0.21.nupkg.sha512"
+    },
+    "SkiaSharp/2.88.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-LJHAMrbWO00J7jXWLWehyjqFo29T4VzABimfJb4nICqpEe3c/KvQGWL4ItON8ymzhxYOeFgyxeRzuNzO4GHSug==",
+      "path": "skiasharp/2.88.7",
+      "hashPath": "skiasharp.2.88.7.nupkg.sha512"
+    },
+    "SkiaSharp.NativeAssets.macOS/2.88.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3jNzco4VjcYPFNxR9aNWcgweFXbTSdM1VpNRzCS4X0i1A1OuNqcaulrAvmntNpujeWxHo9e6WGh6FN8Jf5+XhA==",
+      "path": "skiasharp.nativeassets.macos/2.88.7",
+      "hashPath": "skiasharp.nativeassets.macos.2.88.7.nupkg.sha512"
+    },
+    "SkiaSharp.NativeAssets.Win32/2.88.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-BCXmWdQ0oVck9vRwC8U3ocSaTHEx28VB+6qw9OxGIMQ86iO5bp4Flqk3IXH0l9Pbr7vWAUOpI212iaL9mTaUZQ==",
+      "path": "skiasharp.nativeassets.win32/2.88.7",
+      "hashPath": "skiasharp.nativeassets.win32.2.88.7.nupkg.sha512"
+    },
+    "System.Drawing.Common/8.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-oDedGrYVyzvtGZhgtURpeneHq9D3HQtrvU7q6iCRa+BbIXvTZayGFo0iK3b7qHrwQ/OOAn9B0ghzQH6AbW5LHg==",
+      "path": "system.drawing.common/8.0.2",
+      "hashPath": "system.drawing.common.8.0.2.nupkg.sha512"
+    }
+  }
+}
