@@ -13,23 +13,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Physik\Spindynamics\**" />
     <Compile Remove="VarTypes\**" />
-    <EmbeddedResource Remove="Physik\Spindynamics\**" />
     <EmbeddedResource Remove="VarTypes\**" />
-    <None Remove="Physik\Spindynamics\**" />
     <None Remove="VarTypes\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="BaseClasses\" />
     <Folder Include="Events\" />
-    <Folder Include="Physik\BaseClasses\" />
-    <Folder Include="Physik\Events\" />
-    <Folder Include="Physik\Interfaces\" />
-    <Folder Include="Physik\Simulationen\Spins\Classic\Simulations\Custom\" />
-    <Folder Include="Physik\Simulationen\Wavefunctions\TimeEvolution\BaseClasses\" />
-    <Folder Include="Physik\VarTypes\" />
   </ItemGroup>
 
   <ItemGroup>

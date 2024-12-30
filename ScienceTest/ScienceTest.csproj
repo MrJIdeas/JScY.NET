@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\JScience\JScy.NET.csproj" />
-    <ProjectReference Include="..\JScy.NET.Math\JScy.NET.Math.csproj" />
+    <ProjectReference Include="..\JScy.NET.Math\JScy.NET.Mathmatics.csproj" />
     <ProjectReference Include="..\JScy.NET.Physics\JScy.NET.Physics.csproj" />
     <ProjectReference Include="..\JScy.NET\JScy.NET.csproj" />
   </ItemGroup>

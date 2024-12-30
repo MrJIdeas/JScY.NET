@@ -1,13 +1,13 @@
 ﻿using JScy.NET.Classes.Videogeneration;
 using JScy.NET.Enums;
-using JScy.NET.Physik.Simulationen.Spins.Enums;
-using JScy.NET.Physik.Simulationen.Wavefunctions.Classes;
-using JScy.NET.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Interfaces;
-using JScy.NET.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.VarTypes;
-using JScy.NET.Physik.Simulationen.Wavefunctions.Hamiltonoperators.TightBinding.VarTypes;
-using JScy.NET.Physik.Simulationen.Wavefunctions.Interfaces;
-using JScy.NET.Physik.Simulationen.Wavefunctions.TimeEvolution.Classes;
-using JScy.NET.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF;
+using JScy.NET.Physics.Simulationen.Spins.Enums;
+using JScy.NET.Physics.Simulationen.Wavefunctions.Classes;
+using JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Interfaces;
+using JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.VarTypes;
+using JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.TightBinding.VarTypes;
+using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
+using JScy.NET.Physics.Simulationen.Wavefunctions.TimeEvolution.Classes;
+using JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF;
 
 IWavefunction.InitOpenCL();
 

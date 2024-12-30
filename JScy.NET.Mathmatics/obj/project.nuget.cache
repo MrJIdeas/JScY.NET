@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "dgSpecHash": "eCdimVoeqlI=",
+  "success": true,
+  "projectFilePath": "C:\\LiveProjekte\\Programmbasis\\JScience\\JScy.NET.Mathmatics\\JScy.NET.Mathmatics.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\mj\\.nuget\\packages\\cloo.clsharp\\1.0.1\\cloo.clsharp.1.0.1.nupkg.sha512",
+    "C:\\Users\\mj\\.nuget\\packages\\ffmediatoolkit\\4.5.1\\ffmediatoolkit.4.5.1.nupkg.sha512",
+    "C:\\Users\\mj\\.nuget\\packages\\ffmpeg.autogen\\6.0.0.2\\ffmpeg.autogen.6.0.0.2.nupkg.sha512",
+    "C:\\Users\\mj\\.nuget\\packages\\harfbuzzsharp\\7.3.0.3\\harfbuzzsharp.7.3.0.3.nupkg.sha512",
+    "C:\\Users\\mj\\.nuget\\packages\\harfbuzzsharp.nativeassets.linux\\7.3.0.3\\harfbuzzsharp.nativeassets.linux.7.3.0.3.nupkg.sha512",
+    "C:\\Users\\mj\\.nuget\\packages\\harfbuzzsharp.nativeassets.macos\\7.3.0.3\\harfbuzzsharp.nativeassets.macos.7.3.0.3.nupkg.sha512",
+    "C:\\Users\\mj\\.nuget\\packages\\harfbuzzsharp.nativeassets.win32\\7.3.0.3\\harfbuzzsharp.nativeassets.win32.7.3.0.3.nupkg.sha512",
+    "C:\\Users\\mj\\.nuget\\packages\\microsoft.win32.systemevents\\9.0.0\\microsoft.win32.systemevents.9.0.0.nupkg.sha512",
+    "C:\\Users\\mj\\.nuget\\packages\\scottplot\\5.0.47\\scottplot.5.0.47.nupkg.sha512",
+    "C:\\Users\\mj\\.nuget\\packages\\skiasharp\\2.88.9\\skiasharp.2.88.9.nupkg.sha512",
+    "C:\\Users\\mj\\.nuget\\packages\\skiasharp.harfbuzz\\2.88.9\\skiasharp.harfbuzz.2.88.9.nupkg.sha512",
+    "C:\\Users\\mj\\.nuget\\packages\\skiasharp.nativeassets.linux.nodependencies\\2.88.9\\skiasharp.nativeassets.linux.nodependencies.2.88.9.nupkg.sha512",
+    "C:\\Users\\mj\\.nuget\\packages\\skiasharp.nativeassets.macos\\2.88.9\\skiasharp.nativeassets.macos.2.88.9.nupkg.sha512",
+    "C:\\Users\\mj\\.nuget\\packages\\skiasharp.nativeassets.win32\\2.88.9\\skiasharp.nativeassets.win32.2.88.9.nupkg.sha512",
+    "C:\\Users\\mj\\.nuget\\packages\\system.drawing.common\\9.0.0\\system.drawing.common.9.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

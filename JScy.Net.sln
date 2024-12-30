@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JScy.NET", "JScy.NET\JScy.N
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScienceTest", "ScienceTest\ScienceTest.csproj", "{E0987924-82A0-49C2-85D0-8B32B0109D9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JScy.NET.Math", "JScy.NET.Math\JScy.NET.Math.csproj", "{F03EBE12-14EA-4215-9D9C-EB36238BBCBB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JScy.NET.Mathmatics", "JScy.NET.Mathmatics\JScy.NET.Mathmatics.csproj", "{F03EBE12-14EA-4215-9D9C-EB36238BBCBB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JScy.NET.Physics", "JScy.NET.Physics\JScy.NET.Physics.csproj", "{B476B8F2-2B61-4919-972C-12BB8DAAD485}"
 EndProject
