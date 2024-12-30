@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JScience\JScience.csproj" />
+    <ProjectReference Include="..\JScience\JScy.NET.csproj" />
   </ItemGroup>
 
 </Project>
