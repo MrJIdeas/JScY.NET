@@ -1,7 +1,7 @@
-﻿using JScience.Physik.Enums;
+﻿using JScy.NET.Physik.Enums;
 using System;
 
-namespace JScience.Physik.AttributesCustom
+namespace JScy.NET.Physik.AttributesCustom
 {
     /// <summary>
     /// Attribut-Klasse für Elementtypen.

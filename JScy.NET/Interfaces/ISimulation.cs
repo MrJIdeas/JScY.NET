@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace JScience.Interfaces
+namespace JScy.NET.Interfaces
 {
     /// <summary>
     /// Interface für Simulationen.

@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyCopyrightAttribute("Michael Joppe")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6ceb81ef0a89a6e2754839f6a6d6b867bc535752")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f3f1b257ab767599e86c2d643212f74c9a0615dd")]
 [assembly: System.Reflection.AssemblyProductAttribute("JScy.NET")]
 [assembly: System.Reflection.AssemblyTitleAttribute("JScy.NET")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

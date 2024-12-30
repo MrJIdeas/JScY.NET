@@ -1,11 +1,11 @@
-﻿using JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.VarTypes;
+﻿using JScy.NET.Physik.Simulationen.Wavefunctions.TimeEvolution.VarTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
 
-namespace JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Classes
+namespace JScy.NET.Physik.Simulationen.Wavefunctions.TimeEvolution.Classes
 {
     public abstract class Sab
     {

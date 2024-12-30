@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace JScience.Physik.AttributesCustom
+namespace JScy.NET.Physik.AttributesCustom
 {
     /// <summary>
     /// Attribut für Elementsymbole.

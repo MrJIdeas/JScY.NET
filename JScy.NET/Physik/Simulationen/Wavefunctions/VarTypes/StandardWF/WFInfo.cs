@@ -1,10 +1,10 @@
-﻿using JScience.Physik.Simulationen.Spins.Enums;
-using JScience.Physik.Simulationen.Wavefunctions.Enums;
-using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
+﻿using JScy.NET.Physik.Simulationen.Spins.Enums;
+using JScy.NET.Physik.Simulationen.Wavefunctions.Enums;
+using JScy.NET.Physik.Simulationen.Wavefunctions.Interfaces;
 using System;
 using System.Collections.Generic;
 
-namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
+namespace JScy.NET.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 {
     public class WFInfo
     {

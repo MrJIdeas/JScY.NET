@@ -1,8 +1,8 @@
-﻿using JScience.Mathe.Vectors.Enums;
-using JScience.Mathe.Vectors.Interfaces;
+﻿using JScy.NET.Mathe.Vectors.Enums;
+using JScy.NET.Mathe.Vectors.Interfaces;
 using System;
 
-namespace JScience.Mathe.Vectors.BaseClasses
+namespace JScy.NET.Mathe.Vectors.BaseClasses
 {
     /// <summary>
     /// Basis-Klasse für Vektoren.

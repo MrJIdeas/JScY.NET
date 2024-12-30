@@ -1,4 +1,4 @@
-﻿namespace JScience.Mathe.Vectors.Enums
+﻿namespace JScy.NET.Mathe.Vectors.Enums
 {
     /// <summary>
     /// Enum für Vektortypen.

@@ -1,4 +1,4 @@
-﻿namespace JScience.Physik.Enums
+﻿namespace JScy.NET.Physik.Enums
 {
     /// <summary>
     /// Enum für Partikelfamilien

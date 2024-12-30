@@ -1,8 +1,8 @@
-﻿using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.Interfaces;
-using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
+﻿using JScy.NET.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.Interfaces;
+using JScy.NET.Physik.Simulationen.Wavefunctions.Interfaces;
 using System;
 
-namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.VarTypes
+namespace JScy.NET.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.VarTypes
 {
     public class AF_Potential<T> : BlockPotential<T>, IAFBarrier where T : IWF_2D
     {

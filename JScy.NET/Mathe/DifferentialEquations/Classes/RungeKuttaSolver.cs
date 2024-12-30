@@ -1,7 +1,7 @@
-﻿using JScience.Mathe.DifferentialEquations.Interfaces;
+﻿using JScy.NET.Mathe.DifferentialEquations.Interfaces;
 using System.Collections.Generic;
 
-namespace JScience.Mathe.DifferentialEquations.Classes
+namespace JScy.NET.Mathe.DifferentialEquations.Classes
 {
     /// <summary>
     /// Klasse für Runge-Kutta-Verfahren.

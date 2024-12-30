@@ -1,4 +1,4 @@
-﻿namespace JScience.Mathe.Stochastik
+﻿namespace JScy.NET.Mathe.Stochastik
 {
     /// <summary>
     /// Statische Klasse für Binome.

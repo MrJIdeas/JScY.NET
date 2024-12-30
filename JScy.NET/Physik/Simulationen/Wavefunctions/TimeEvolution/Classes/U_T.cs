@@ -1,13 +1,13 @@
-﻿using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Interfaces;
-using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.Interfaces;
-using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
-using JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Interfaces;
+﻿using JScy.NET.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Interfaces;
+using JScy.NET.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.Interfaces;
+using JScy.NET.Physik.Simulationen.Wavefunctions.Interfaces;
+using JScy.NET.Physik.Simulationen.Wavefunctions.TimeEvolution.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 
-namespace JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Classes
+namespace JScy.NET.Physik.Simulationen.Wavefunctions.TimeEvolution.Classes
 {
     public class U_T<T> : IU_T<T> where T : IWavefunction
     {

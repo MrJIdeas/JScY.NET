@@ -1,10 +1,10 @@
-﻿using JScience.Physik.Enums;
-using JScience.Physik.Simulationen.Spins.Classic.VarTypes;
-using JScience.Physik.Simulationen.Spins.Enums;
+﻿using JScy.NET.Physik.Enums;
+using JScy.NET.Physik.Simulationen.Spins.Classic.VarTypes;
+using JScy.NET.Physik.Simulationen.Spins.Enums;
 using System;
 using System.Xml.Linq;
 
-namespace JScience.Physik.Simulationen.Spins.Classic.Simulations.Lattice
+namespace JScy.NET.Physik.Simulationen.Spins.Classic.Simulations.Lattice
 {
     public class ANNNI_Classic_3D_Lattice : Ising_Classic_3D_Lattice
     {

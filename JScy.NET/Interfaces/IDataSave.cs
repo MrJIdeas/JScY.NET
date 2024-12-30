@@ -1,4 +1,4 @@
-﻿namespace JScience.Interfaces
+﻿namespace JScy.NET.Interfaces
 {
     /// <summary>
     /// Interface zum Speichern von Mess- und Simulationsdaten.

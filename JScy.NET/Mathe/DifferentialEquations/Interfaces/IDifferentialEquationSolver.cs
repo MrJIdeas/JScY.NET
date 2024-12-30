@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace JScience.Mathe.DifferentialEquations.Interfaces
+namespace JScy.NET.Mathe.DifferentialEquations.Interfaces
 {
     /// <summary>
     /// Interface für Lösungstool für Differentialgleichungen.

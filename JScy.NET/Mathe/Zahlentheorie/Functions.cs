@@ -1,10 +1,10 @@
-﻿using JScience.Mathe.Stochastik;
+﻿using JScy.NET.Mathe.Stochastik;
 using System;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 
-namespace JScience.Mathe.Zahlentheorie
+namespace JScy.NET.Mathe.Zahlentheorie
 {
     /// <summary>
     /// Statische Klasse für Generierung von Funktionen.

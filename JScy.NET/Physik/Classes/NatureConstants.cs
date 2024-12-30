@@ -1,7 +1,7 @@
-﻿using JScience.AttributesCustom;
+﻿using JScy.NET.AttributesCustom;
 using System;
 
-namespace JScience.Physik.Classes
+namespace JScy.NET.Physik.Classes
 {
     /// <summary>
     /// Static Class With Values for nature constants in SI-Units

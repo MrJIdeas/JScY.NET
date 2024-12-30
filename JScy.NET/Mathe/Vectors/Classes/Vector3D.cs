@@ -1,8 +1,8 @@
-﻿using JScience.Mathe.Vectors.BaseClasses;
-using JScience.Mathe.Vectors.Enums;
+﻿using JScy.NET.Mathe.Vectors.BaseClasses;
+using JScy.NET.Mathe.Vectors.Enums;
 using System;
 
-namespace JScience.Mathe.Vectors.Classes
+namespace JScy.NET.Mathe.Vectors.Classes
 {
     /// <summary>
     /// Klasse für 3D-Vektor.

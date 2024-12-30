@@ -7,7 +7,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 
-namespace JScience.Classes.Videogeneration
+namespace JScy.NET.Classes.Videogeneration
 {
     public class FFMpeg_ImageToVideo : IDisposable
     {
@@ -30,7 +30,7 @@ namespace JScience.Classes.Videogeneration
             using var ms = new MemoryStream();
             img.Save(ms, img.RawFormat);
 
-            Bitmap pic = (Bitmap)Bitmap.FromStream(ms);
+            Bitmap pic = (Bitmap)Image.FromStream(ms);
             var rect = new Rectangle(Point.Empty, pic.Size);
             var bitLock = pic.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
             var bitmapData = ImageData.FromPointer(bitLock.Scan0, ImagePixelFormat.Bgr24, pic.Size);

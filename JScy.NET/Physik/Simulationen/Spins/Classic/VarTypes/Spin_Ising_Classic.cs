@@ -1,9 +1,9 @@
-﻿using JScience.Physik.Enums;
-using JScience.Physik.Simulationen.Spins.Classic.Interfaces;
-using JScience.Physik.Simulationen.Spins.Enums;
+﻿using JScy.NET.Physik.Enums;
+using JScy.NET.Physik.Simulationen.Spins.Classic.Interfaces;
+using JScy.NET.Physik.Simulationen.Spins.Enums;
 using System;
 
-namespace JScience.Physik.Simulationen.Spins.Classic.VarTypes
+namespace JScy.NET.Physik.Simulationen.Spins.Classic.VarTypes
 {
     public class Spin_Ising_Classic : Spin_Classic, IEquatable<ISpin_Classic>
     {

@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.VarTypes
+namespace JScy.NET.Physik.Simulationen.Wavefunctions.TimeEvolution.VarTypes
 {
     public struct CabEntry
     {

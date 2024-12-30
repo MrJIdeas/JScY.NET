@@ -1,14 +1,14 @@
-﻿using JScience.Interfaces;
-using JScience.Physik.Enums;
-using JScience.Physik.Simulationen.Spins.Classic.Interfaces;
-using JScience.Physik.Simulationen.Spins.Classic.VarTypes;
-using JScience.Physik.Simulationen.Spins.Enums;
+﻿using JScy.NET.Interfaces;
+using JScy.NET.Physik.Enums;
+using JScy.NET.Physik.Simulationen.Spins.Classic.Interfaces;
+using JScy.NET.Physik.Simulationen.Spins.Classic.VarTypes;
+using JScy.NET.Physik.Simulationen.Spins.Enums;
 using System;
 using System.Data;
 using System.IO;
 using System.Xml.Linq;
 
-namespace JScience.Physik.Simulationen.Spins.Classic.Simulations.Lattice
+namespace JScy.NET.Physik.Simulationen.Spins.Classic.Simulations.Lattice
 {
     public class Ising_Classic_3D_Lattice : ISimulation, ISpinSimulation
     {

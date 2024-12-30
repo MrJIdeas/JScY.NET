@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32611.2
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JScy.NET", "JScience\JScy.NET.csproj", "{016ADD44-06ED-4901-9D73-3A7AB10BA6DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JScy.NET", "JScy.NET\JScy.NET.csproj", "{016ADD44-06ED-4901-9D73-3A7AB10BA6DF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScienceTest", "ScienceTest\ScienceTest.csproj", "{E0987924-82A0-49C2-85D0-8B32B0109D9F}"
 EndProject

@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>
 	  <Nullable>disable</Nullable>
 	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-	  <Title>JScience</Title>
+	  <Title>JScy.NET</Title>
 	  <Copyright>Michael Joppe</Copyright>
 	  <PackageVersion>0.0.1</PackageVersion>
 	  <PackageLicenseExpression>CC-BY-NC-SA-4.0</PackageLicenseExpression>

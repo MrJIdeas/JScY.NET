@@ -1,4 +1,4 @@
-﻿namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
+﻿namespace JScy.NET.Physik.Simulationen.Wavefunctions.Interfaces
 {
     public interface IWF_1D : IWavefunction
     {

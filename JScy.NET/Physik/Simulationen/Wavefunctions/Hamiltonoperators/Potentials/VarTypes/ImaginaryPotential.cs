@@ -1,8 +1,8 @@
-﻿using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.BaseClasses;
-using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.Interfaces;
-using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
+﻿using JScy.NET.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.BaseClasses;
+using JScy.NET.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.Interfaces;
+using JScy.NET.Physik.Simulationen.Wavefunctions.Interfaces;
 
-namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.VarTypes
+namespace JScy.NET.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.VarTypes
 {
     public class ImaginaryPotential<T> : ImaginaryPotential_Base<T>, IBarrier_X where T : IWF_1D
     {

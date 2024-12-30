@@ -1,4 +1,4 @@
-﻿namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.Interfaces
+﻿namespace JScy.NET.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.Interfaces
 {
     public interface IBarrier_X : IBarrier
     {

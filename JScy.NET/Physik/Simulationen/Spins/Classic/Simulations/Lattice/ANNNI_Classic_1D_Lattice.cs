@@ -1,7 +1,7 @@
-﻿using JScience.Physik.Enums;
-using JScience.Physik.Simulationen.Spins.Enums;
+﻿using JScy.NET.Physik.Enums;
+using JScy.NET.Physik.Simulationen.Spins.Enums;
 
-namespace JScience.Physik.Simulationen.Spins.Classic.Simulations.Lattice
+namespace JScy.NET.Physik.Simulationen.Spins.Classic.Simulations.Lattice
 {
     public class ANNNI_Classic_1D_Lattice : ANNNI_Classic_2D_Lattice
     {

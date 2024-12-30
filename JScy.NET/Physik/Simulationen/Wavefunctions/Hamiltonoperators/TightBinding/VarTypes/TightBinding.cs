@@ -1,11 +1,11 @@
-﻿using JScience.Physik.Simulationen.Wavefunctions.Enums;
-using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.BaseClasses;
-using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
-using JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF;
+﻿using JScy.NET.Physik.Simulationen.Wavefunctions.Enums;
+using JScy.NET.Physik.Simulationen.Wavefunctions.Hamiltonoperators.BaseClasses;
+using JScy.NET.Physik.Simulationen.Wavefunctions.Interfaces;
+using JScy.NET.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.TightBinding.VarTypes
+namespace JScy.NET.Physik.Simulationen.Wavefunctions.Hamiltonoperators.TightBinding.VarTypes
 {
     public class TightBinding<T> : Hamilton_Base<T> where T : IWavefunction
     {

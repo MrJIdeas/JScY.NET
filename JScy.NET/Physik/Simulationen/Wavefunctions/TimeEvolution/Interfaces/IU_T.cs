@@ -1,8 +1,8 @@
-﻿using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Interfaces;
-using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
+﻿using JScy.NET.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Interfaces;
+using JScy.NET.Physik.Simulationen.Wavefunctions.Interfaces;
 using System.Collections.Generic;
 
-namespace JScience.Physik.Simulationen.Wavefunctions.TimeEvolution.Interfaces
+namespace JScy.NET.Physik.Simulationen.Wavefunctions.TimeEvolution.Interfaces
 {
     public interface IU_T<T> where T : IWavefunction
     {

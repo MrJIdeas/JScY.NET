@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace JScience.AttributesCustom
+namespace JScy.NET.AttributesCustom
 {
     /// <summary>
     /// Attribut für Zeichen.

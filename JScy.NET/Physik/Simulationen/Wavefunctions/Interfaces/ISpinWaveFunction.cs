@@ -1,6 +1,6 @@
-﻿using JScience.Physik.Enums;
+﻿using JScy.NET.Physik.Enums;
 
-namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
+namespace JScy.NET.Physik.Simulationen.Wavefunctions.Interfaces
 {
     public interface ISpinWaveFunction : IWavefunction
     {

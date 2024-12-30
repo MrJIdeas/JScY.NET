@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Numerics;
 
-namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
+namespace JScy.NET.Physik.Simulationen.Wavefunctions.Interfaces
 {
     public interface IWF_2D : IWF_1D
     {

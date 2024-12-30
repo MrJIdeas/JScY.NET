@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace JScience.Mathe.Zahlentheorie
+namespace JScy.NET.Mathe.Zahlentheorie
 {
     /// <summary>
     /// Methodensammlung.

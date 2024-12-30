@@ -1,9 +1,9 @@
-﻿using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.BaseClasses;
-using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.Interfaces;
-using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
+﻿using JScy.NET.Physik.Simulationen.Wavefunctions.Hamiltonoperators.BaseClasses;
+using JScy.NET.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.Interfaces;
+using JScy.NET.Physik.Simulationen.Wavefunctions.Interfaces;
 using System;
 
-namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.BaseClasses
+namespace JScy.NET.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.BaseClasses
 {
     public abstract class Potential_Base<T> : Hamilton_Base<T>, IPotential<T> where T : IWavefunction
     {

@@ -1,4 +1,4 @@
-﻿namespace JScience.Enums
+﻿namespace JScy.NET.Enums
 {
     /// <summary>
     /// Enum für technische Berechnungsmethoden-

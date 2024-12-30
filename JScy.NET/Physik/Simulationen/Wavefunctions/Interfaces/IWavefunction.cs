@@ -1,15 +1,15 @@
 ﻿using Cloo;
-using JScience.Enums;
-using JScience.Physik.Simulationen.Spins.Enums;
-using JScience.Physik.Simulationen.Wavefunctions.Enums;
-using JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF;
+using JScy.NET.Enums;
+using JScy.NET.Physik.Simulationen.Spins.Enums;
+using JScy.NET.Physik.Simulationen.Wavefunctions.Enums;
+using JScy.NET.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Threading.Tasks;
 
-namespace JScience.Physik.Simulationen.Wavefunctions.Interfaces
+namespace JScy.NET.Physik.Simulationen.Wavefunctions.Interfaces
 {
     public interface IWavefunction
     {

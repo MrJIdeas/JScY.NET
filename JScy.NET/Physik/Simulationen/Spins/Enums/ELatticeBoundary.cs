@@ -1,4 +1,4 @@
-﻿namespace JScience.Physik.Simulationen.Spins.Enums
+﻿namespace JScy.NET.Physik.Simulationen.Spins.Enums
 {
     /// <summary>
     /// Enum für Gitterbegrenzungen.

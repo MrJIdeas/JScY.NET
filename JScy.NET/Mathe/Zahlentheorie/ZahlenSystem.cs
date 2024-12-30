@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 
-namespace JScience.Mathe.Zahlentheorie
+namespace JScy.NET.Mathe.Zahlentheorie
 {
     /// <summary>
     /// Statische Klasse zur Umrechnung in Zahlensysteme.

@@ -1,4 +1,4 @@
-﻿namespace JScience.Physik.Simulationen.Wavefunctions.Enums
+﻿namespace JScy.NET.Physik.Simulationen.Wavefunctions.Enums
 {
     public enum EWaveType
     {

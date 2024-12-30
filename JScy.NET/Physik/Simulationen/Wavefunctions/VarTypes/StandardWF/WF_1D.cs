@@ -1,9 +1,9 @@
 ﻿using Cloo;
-using JScience.Enums;
-using JScience.Physik.Simulationen.Spins.Enums;
-using JScience.Physik.Simulationen.Wavefunctions.Classes;
-using JScience.Physik.Simulationen.Wavefunctions.Enums;
-using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
+using JScy.NET.Enums;
+using JScy.NET.Physik.Simulationen.Spins.Enums;
+using JScy.NET.Physik.Simulationen.Wavefunctions.Classes;
+using JScy.NET.Physik.Simulationen.Wavefunctions.Enums;
+using JScy.NET.Physik.Simulationen.Wavefunctions.Interfaces;
 using ScottPlot;
 using System;
 using System.Collections.Concurrent;
@@ -13,7 +13,7 @@ using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 
-namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
+namespace JScy.NET.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 {
     public class WF_1D : IWF_1D
     {

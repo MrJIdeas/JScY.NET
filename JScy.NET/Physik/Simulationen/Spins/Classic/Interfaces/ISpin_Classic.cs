@@ -1,9 +1,9 @@
-﻿using JScience.Physik.Enums;
-using JScience.Physik.Simulationen.Spins.Enums;
+﻿using JScy.NET.Physik.Enums;
+using JScy.NET.Physik.Simulationen.Spins.Enums;
 using System.Collections.Generic;
 using System.Numerics;
 
-namespace JScience.Physik.Simulationen.Spins.Classic.Interfaces
+namespace JScy.NET.Physik.Simulationen.Spins.Classic.Interfaces
 {
     /// <summary>
     /// Interface für Klassischen Spin.

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace JScience.Mathe.Zahlentheorie
+namespace JScy.NET.Mathe.Zahlentheorie
 {
     /// <summary>
     /// Statische Klasse für Primzahlen.

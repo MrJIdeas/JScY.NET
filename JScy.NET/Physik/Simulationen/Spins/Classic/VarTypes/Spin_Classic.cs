@@ -1,13 +1,13 @@
-﻿using JScience.Physik.AttributesCustom;
-using JScience.Physik.Enums;
-using JScience.Physik.Simulationen.Spins.Classic.Interfaces;
-using JScience.Physik.Simulationen.Spins.Enums;
+﻿using JScy.NET.Physik.AttributesCustom;
+using JScy.NET.Physik.Enums;
+using JScy.NET.Physik.Simulationen.Spins.Classic.Interfaces;
+using JScy.NET.Physik.Simulationen.Spins.Enums;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Reflection;
 
-namespace JScience.Physik.Simulationen.Spins.Classic.VarTypes
+namespace JScy.NET.Physik.Simulationen.Spins.Classic.VarTypes
 {
     public abstract class Spin_Classic : ISpin_Classic, IEquatable<ISpin_Classic>
     {

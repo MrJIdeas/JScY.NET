@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\JScience\JScy.NET.csproj" />
+    <ProjectReference Include="..\JScy.NET\JScy.NET.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
-﻿using JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Interfaces;
-using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
+﻿using JScy.NET.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Interfaces;
+using JScy.NET.Physik.Simulationen.Wavefunctions.Interfaces;
 
-namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.BaseClasses
+namespace JScy.NET.Physik.Simulationen.Wavefunctions.Hamiltonoperators.BaseClasses
 {
     public abstract class Hamilton_Base<T> : IHamilton<T> where T : IWavefunction
     {

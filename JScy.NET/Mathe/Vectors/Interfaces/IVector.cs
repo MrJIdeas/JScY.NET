@@ -1,6 +1,6 @@
-﻿using JScience.Mathe.Vectors.Enums;
+﻿using JScy.NET.Mathe.Vectors.Enums;
 
-namespace JScience.Mathe.Vectors.Interfaces
+namespace JScy.NET.Mathe.Vectors.Interfaces
 {
     /// <summary>
     /// Interface für einen Vektor.

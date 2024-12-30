@@ -1,6 +1,6 @@
-﻿using JScience.Physik.AttributesCustom;
+﻿using JScy.NET.Physik.AttributesCustom;
 
-namespace JScience.Physik.Enums
+namespace JScy.NET.Physik.Enums
 {
     /// <summary>
     /// Enum für Elemente.

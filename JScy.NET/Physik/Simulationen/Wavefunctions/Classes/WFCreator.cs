@@ -1,14 +1,14 @@
-﻿using JScience.Enums;
-using JScience.Physik.Simulationen.Spins.Enums;
-using JScience.Physik.Simulationen.Wavefunctions.Enums;
-using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
-using JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF;
+﻿using JScy.NET.Enums;
+using JScy.NET.Physik.Simulationen.Spins.Enums;
+using JScy.NET.Physik.Simulationen.Wavefunctions.Enums;
+using JScy.NET.Physik.Simulationen.Wavefunctions.Interfaces;
+using JScy.NET.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF;
 using ScottPlot.Plottables;
 using System;
 using System.IO;
 using System.Numerics;
 
-namespace JScience.Physik.Simulationen.Wavefunctions.Classes
+namespace JScy.NET.Physik.Simulationen.Wavefunctions.Classes
 {
     public static class WFCreator
     {
@@ -123,7 +123,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.Classes
             WF_2D erg = new WF_2D(wfinfo, CalcMethod);
             for (int i = 0; i < DimX; i++)
                 for (int j = 0; j < DimY; j++)
-                    erg.SetField(i, j, Complex.Exp(-((i - StartX) * (i - StartX) / sigmaX) - ((j - StartY) * (j - StartY) / sigmaY) - Complex.ImaginaryOne * (kx * i + ky * j)));
+                    erg.SetField(i, j, Complex.Exp(-((i - StartX) * (i - StartX) / sigmaX) - (j - StartY) * (j - StartY) / sigmaY - Complex.ImaginaryOne * (kx * i + ky * j)));
             return NormWave(erg);
         }
 

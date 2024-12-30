@@ -1,15 +1,15 @@
-﻿using JScience.Enums;
-using JScience.Physik.Simulationen.Spins.Enums;
-using JScience.Physik.Simulationen.Wavefunctions.Classes;
-using JScience.Physik.Simulationen.Wavefunctions.Enums;
-using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
+﻿using JScy.NET.Enums;
+using JScy.NET.Physik.Simulationen.Spins.Enums;
+using JScy.NET.Physik.Simulationen.Wavefunctions.Classes;
+using JScy.NET.Physik.Simulationen.Wavefunctions.Enums;
+using JScy.NET.Physik.Simulationen.Wavefunctions.Interfaces;
 using System;
 using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 
-namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
+namespace JScy.NET.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 {
     public class WF_2D : WF_1D, IWF_2D
     {
@@ -21,8 +21,8 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public WF_2D(WFInfo wfinfo, ECalculationMethod CalcMethod) : base(wfinfo, CalcMethod)
         {
-            this.DimX = wfinfo.DimX;
-            this.DimY = wfinfo.DimY;
+            DimX = wfinfo.DimX;
+            DimY = wfinfo.DimY;
         }
 
         public Complex this[int x, int y]
@@ -127,7 +127,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
             double[,] data = new double[DimX, DimY];
             for (int i = 0; i < DimX; i++)
                 for (int j = 0; j < DimY; j++)
-                    data[i, j] = (double)getNorm(i, j);
+                    data[i, j] = getNorm(i, j);
             var hm1 = myPlot.Add.Heatmap(data);
             hm1.Colormap = new ScottPlot.Colormaps.Turbo();
             myPlot.Add.ColorBar(hm1);
@@ -146,7 +146,7 @@ namespace JScience.Physik.Simulationen.Wavefunctions.VarTypes.StandardWF
             double[,] data = new double[DimX, DimY];
             for (int i = 0; i < DimX; i++)
                 for (int j = 0; j < DimY; j++)
-                    data[i, j] = (double)((WF_2D)super).getNorm(i, j);
+                    data[i, j] = ((WF_2D)super).getNorm(i, j);
             var hm1 = myPlot.Add.Heatmap(data);
             hm1.Colormap = new ScottPlot.Colormaps.Turbo();
             myPlot.Add.ColorBar(hm1);

@@ -1,6 +1,6 @@
-﻿using JScience.Physik.Simulationen.Wavefunctions.Interfaces;
+﻿using JScy.NET.Physik.Simulationen.Wavefunctions.Interfaces;
 
-namespace JScience.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Interfaces
+namespace JScy.NET.Physik.Simulationen.Wavefunctions.Hamiltonoperators.Interfaces
 {
     public interface IHamilton<T> where T : IWavefunction
     {
