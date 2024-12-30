@@ -16,7 +16,6 @@
     <Folder Include="Interfaces\" />
     <Folder Include="Simulationen\Spins\Classic\Simulations\Custom\" />
     <Folder Include="Simulationen\Wavefunctions\Gruppengeschwindigkeit\" />
-    <Folder Include="Simulationen\Wavefunctions\Gewichtungsfunktion\" />
     <Folder Include="VarTypes\" />
   </ItemGroup>
 
