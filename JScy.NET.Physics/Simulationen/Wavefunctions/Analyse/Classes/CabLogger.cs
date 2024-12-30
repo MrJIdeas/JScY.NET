@@ -1,12 +1,12 @@
-﻿using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
-using JScy.NET.Physics.Simulationen.Wavefunctions.TimeEvolution.VarTypes;
+﻿using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.VarTypes;
+using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
 using ScottPlot;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Numerics;
 
-namespace JScy.NET.Physics.Simulationen.Wavefunctions.TimeEvolution.Classes
+namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes
 {
     public class CabLogger
     {

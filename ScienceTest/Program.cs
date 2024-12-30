@@ -1,6 +1,8 @@
 ﻿using JScy.NET.Classes.Videogeneration;
 using JScy.NET.Enums;
 using JScy.NET.Physics.Simulationen.Spins.Enums;
+using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.BaseClasses;
+using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Classes;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Interfaces;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.VarTypes;
@@ -70,5 +72,12 @@ for (int i1 = 0; i1 < img.Count; i1++)
     System.Drawing.Image? im = img[i1];
     im.Save(Environment.CurrentDirectory + Path.DirectorySeparatorChar + "CAB_" + i1 + ".png");
 }
-
+//Sab sablogger = new Sab();
+//sablogger.CalcSab(logger, -5, 5);
+//img = sablogger.GetImage(800, 600);
+//for (int i1 = 0; i1 < img.Count; i1++)
+//{
+//    System.Drawing.Image? im = img[i1];
+//    im.Save(Environment.CurrentDirectory + Path.DirectorySeparatorChar + "SAB_" + i1 + ".png");
+//}
 recorder.Dispose();
