@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	  <Prefer32Bit>false</Prefer32Bit>
@@ -11,6 +11,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\JScience\JScy.NET.csproj" />
+    <ProjectReference Include="..\JScy.NET.Math\JScy.NET.Math.csproj" />
+    <ProjectReference Include="..\JScy.NET.Physics\JScy.NET.Physics.csproj" />
     <ProjectReference Include="..\JScy.NET\JScy.NET.csproj" />
   </ItemGroup>
 
