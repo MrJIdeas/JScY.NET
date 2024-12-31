@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Numerics;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Gewichtungsfunktion.BaseClasses;
-using JScy.NET.Physics.Simulationen.Wavefunctions.Gewichtungsfunktion.VarTypes;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Gewichtungsfunktion.Classes
 {
@@ -17,20 +16,17 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Gewichtungsfunktion.Classe
             this.k_min = k_min;
             this.k_max = k_max;
             this.deltak = deltak;
-            double lauf = k_min;
-            List<Eta_K> laufliste = [];
-            while (lauf < k_max)
-            {
-                laufliste.Add(new Eta_K() { k = lauf, Eta = Math.Exp(-Math.Pow(lauf, 2) / Math.Pow(deltak, 2)) });
-                lauf += deltak;
-            }
-            _raw = laufliste.ToArray();
-            double norm = GetNorm();
-            _field = new Eta_K[_raw.Length];
-            for (int i = 0; i < _field.Length; i++)
-            {
-                _field[i] = _raw[i] / norm;
-            }
+            for (double lauf = k_min; lauf < k_max; lauf += deltak)
+                Add(lauf, Calculate(lauf));
+        }
+
+        public override Complex Calculate(double k) => Math.Exp(-Math.Pow(k, 2) / Math.Pow(deltak, 2));
+
+        public override Complex GetEta(double k)
+        {
+            if (k < k_min || k > k_max)
+                throw new ArgumentOutOfRangeException("k liegt außerhalb der Limit von k_min und k_max.");
+            return base.GetEta(k);
         }
     }
 }

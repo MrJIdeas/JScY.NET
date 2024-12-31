@@ -1,20 +1,29 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Gewichtungsfunktion.Interfaces;
-using JScy.NET.Physics.Simulationen.Wavefunctions.Gewichtungsfunktion.VarTypes;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Gewichtungsfunktion.BaseClasses
 {
-    public abstract class Eta_Base : IEta
+    public abstract class Eta_Base : Dictionary<double, Complex>, IEta
     {
-        protected Eta_K[] _field { get; set; }
-        protected Eta_K[] _raw { get; set; }
+        public virtual Complex GetEta(double k)
+        {
+            if (ContainsKey(k))
+            {
+                return this[k];
+            }
+            else
+            {
+                var value = Calculate(k);
+                Add(k, value);
+                return value;
+            }
+        }
 
-        public Eta_K GetEta(int idx) => idx >= 0 && idx < _field.Length ? _field[idx] : throw new IndexOutOfRangeException();
+        public abstract Complex Calculate(double k);
 
-        public Eta_K[] GetEta() => _field;
-
-        public double GetNorm() => (from a in _raw
-                                    select a.Norm()).Sum();
+        public double GetNorm() => (from a in this
+                                    select (a.Value * Complex.Conjugate(a.Value)).Real).Sum();
     }
 }
