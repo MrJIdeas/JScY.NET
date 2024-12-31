@@ -2,6 +2,7 @@
 using JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.Interfaces;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
 using JScy.NET.Physics.Simulationen.Wavefunctions.TimeEvolution.Interfaces;
+using JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.Orbitale;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,11 +22,11 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.TimeEvolution.Classes
 
         private List<IHamilton<T>> hamtodelete { get; set; }
 
-        public T Do(T WF, List<IHamilton<T>> Hamiltons)
+        public Orbital Do(Orbital orb, List<IHamilton<T>> Hamiltons)
         {
-            IWavefunction WFEnd = WF.Clone();
+            IWavefunction WFEnd = orb.WF.Clone();
             int n = 1;
-            IWavefunction WF1 = PsiNTerm(WF, Hamiltons, n);
+            IWavefunction WF1 = PsiNTerm(orb.WF, Hamiltons, n);
             WFEnd += WF1;
 
             while (WF1.Norm() > double.Epsilon)
@@ -34,7 +35,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.TimeEvolution.Classes
                 WF1 = PsiNTerm(WF1, Hamiltons, n);
                 WFEnd += WF1;
             }
-            return (T)WFEnd;
+            return new Orbital(WFEnd, orb.Spin, orb.OrbitalBezeichnung);
         }
 
         protected IWavefunction PsiNTerm(IWavefunction WF, List<IHamilton<T>> Hamiltons, int n)
