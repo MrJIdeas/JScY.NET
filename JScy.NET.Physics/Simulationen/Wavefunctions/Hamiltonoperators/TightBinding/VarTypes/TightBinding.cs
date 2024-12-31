@@ -1,9 +1,8 @@
-﻿using JScy.NET.Physics.Simulationen.Wavefunctions.Enums;
+﻿using System.Collections.Generic;
+using System.Linq;
+using JScy.NET.Physics.Simulationen.Wavefunctions.Enums;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.BaseClasses;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
-using JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.TightBinding.VarTypes
 {
@@ -15,12 +14,12 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.TightBin
         {
             t_Hopping = t_hop;
             Shifts = new List<EShift>();
-            if (typeof(T).Equals(typeof(WF_1D)))
+            if (typeof(T).Equals(typeof(IWF_1D)))
             {
                 Shifts.Add(EShift.Xm);
                 Shifts.Add(EShift.Xp);
             }
-            else if (typeof(T).Equals(typeof(WF_2D)))
+            else if (typeof(T).Equals(typeof(IWF_2D)))
             {
                 Shifts.Add(EShift.Xm);
                 Shifts.Add(EShift.Xp);
