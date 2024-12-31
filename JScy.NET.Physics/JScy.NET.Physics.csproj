@@ -15,10 +15,6 @@
   <ItemGroup>
     <Folder Include="Interfaces\" />
     <Folder Include="Simulationen\Spins\Classic\Simulations\Custom\" />
-    <Folder Include="Simulationen\Wavefunctions\Gruppengeschwindigkeit\BaseClasses\" />
-    <Folder Include="Simulationen\Wavefunctions\Gruppengeschwindigkeit\Classes\" />
-    <Folder Include="Simulationen\Wavefunctions\Gruppengeschwindigkeit\Interfaces\" />
-    <Folder Include="Simulationen\Wavefunctions\Gruppengeschwindigkeit\VarTypes\" />
     <Folder Include="VarTypes\" />
   </ItemGroup>
 

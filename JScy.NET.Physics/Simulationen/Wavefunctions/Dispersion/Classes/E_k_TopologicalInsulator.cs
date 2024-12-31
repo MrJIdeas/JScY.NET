@@ -8,9 +8,9 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Dispersion.Classes
     public class E_k_TopologicalInsulator : E_k_Base
     {
         public readonly TPI_MaterialInfo Material;
-        private double vorfaktor_vorsign;
-        private double faktor_ende;
-        private double A2Quadrat;
+        private readonly double vorfaktor_vorsign;
+        private readonly double faktor_ende;
+        private readonly double A2Quadrat;
 
         public E_k_TopologicalInsulator(TPI_MaterialInfo material, Eta_Base eta) : base(eta)
         {
