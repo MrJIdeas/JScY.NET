@@ -1,48 +1,35 @@
-﻿using Cloo;
-using JScy.NET.Enums;
-using JScy.NET.Physics.Simulationen.Spins.Enums;
-using JScy.NET.Physics.Simulationen.Wavefunctions.Classes;
-using JScy.NET.Physics.Simulationen.Wavefunctions.Enums;
-using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
-using ScottPlot;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
+using Cloo;
+using JScy.NET.Enums;
+using JScy.NET.Physics.Simulationen.Spins.Enums;
+using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.VarTypes;
+using JScy.NET.Physics.Simulationen.Wavefunctions.Classes;
+using JScy.NET.Physics.Simulationen.Wavefunctions.Enums;
+using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 {
     public class WF_1D : IWF_1D
     {
-        protected Plot myPlot { get; set; }
-
         public WFInfo WFInfo { get; private set; }
 
         public WF_1D(WFInfo wfinfo, ECalculationMethod Method)
         {
             WFInfo = wfinfo;
-            myPlot = new Plot();
             field = new Complex[wfinfo.DimX * wfinfo.DimY * wfinfo.DimZ];
             Boundary = wfinfo.BoundaryInfo;
             rangePartitioner = Partitioner.Create(0, wfinfo.DimX * wfinfo.DimY * wfinfo.DimZ);
             CalcMethod = Method;
             result = new double[field.Length];
-            if (wfinfo.CabExits != null && wfinfo.CabExits.Count > 0)
-                CabExits = wfinfo.CabExits;
-            else
-                CabExits = new Dictionary<string, IWavefunction>();
-            CabCalc = new Dictionary<string, Complex>();
         }
 
         public OrderablePartitioner<Tuple<int, int>> rangePartitioner { get; private set; }
         public Complex[] field { get; private set; }
-
-        protected Dictionary<string, IWavefunction> CabExits { get; private set; }
-
-        private Dictionary<string, Complex> CabCalc { get; set; }
 
         private double[] result { get; set; }
 
@@ -156,58 +143,18 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public double getNorm(int x) => field[x].Magnitude;
 
-        public System.Drawing.Image GetImage(int width, int height)
-        {
-            myPlot.Clear();
-            List<double> x = new List<double>();
-            for (int i = 0; i < DimX; i++)
-                x.Add(i);
-            List<double> y = new List<double>();
-            for (int i = 0; i < DimX; i++)
-                y.Add((double)getNorm(i));
-            myPlot.Add.Bars(x, y);
-            var img = System.Drawing.Image.FromStream(new MemoryStream(myPlot.GetImage(width, height).GetImageBytes()));
-            return img;
-        }
-
         #region Cab
 
-        public System.Drawing.Image GetCabExitImage(int width, int height)
-        {
-            myPlot.Clear();
-            IWavefunction super = CabExits.Values.First();
-            if (super == null)
-                return null;
-            for (int i = 1; i < CabExits.Count; i++)
-                super += CabExits.Values.ElementAt(i);
-            List<double> x = new List<double>();
-            for (int i = 0; i < DimX; i++)
-                x.Add(i);
-            List<double> y = new List<double>();
-            for (int i = 0; i < DimX; i++)
-                y.Add((double)super.getNorm(i));
-            myPlot.Add.Bars(x, y);
-            var img = System.Drawing.Image.FromStream(new MemoryStream(myPlot.GetImage(width, height).GetImageBytes()));
-            return img;
-        }
-
-        public void AddCabExitAuto()
+        public List<CabExit> CreateCabExitAuto()
         {
             int startx = WFInfo.GetAdditionalInfo<int>("startX");
             if (startx <= 0)
                 throw new Exception("Not enough Data to Auto Set Cab Exits!");
-            AddCabExit(startx);
-            AddCabExit(DimX - startx);
-            WFInfo.CabExits = CabExits;
+            List<CabExit> Exits = [CreateCabExit(startx), CreateCabExit(DimX - startx)];
+            return Exits;
         }
 
-        public void AddExit(string ExitName, IWavefunction exitWF)
-        {
-            if (!CabExits.ContainsKey(ExitName))
-                CabExits.Add(ExitName, exitWF);
-        }
-
-        private void AddCabExit(int x)
+        private CabExit CreateCabExit(int x)
         {
             IWavefunction clone;
             switch (WFInfo.waveType)
@@ -225,25 +172,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
                     clone = (WF_1D)WFCreator.CreateGaußWave(k, sigma, DimX, x, Boundary, CalcMethod);
                     break;
             }
-            if (clone != null)
-                CabExits.Add(x.ToString(), clone);
-        }
-
-        public Dictionary<string, Complex> CalcCab()
-        {
-            CabCalc.Clear();
-            foreach (var exit in CabExits)
-            {
-                IWavefunction cal = Clone() * exit.Value.Conj();
-                Complex calc = new Complex();
-                for (int i = 0; i < cal.field.Length; i++)
-                {
-                    calc += cal.field[i];
-                }
-
-                CabCalc.Add(exit.Key, calc);
-            }
-            return CabCalc;
+            return clone != null ? new CabExit(x.ToString(), clone) : null;
         }
 
         #endregion Cab

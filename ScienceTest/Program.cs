@@ -47,37 +47,37 @@ U_T<WF_2D> ze = new U_T<WF_2D>(0.5);
 
 FFMpeg_ImageToVideo recorder = new(@"C:\ffmpeg\bin\", Environment.CurrentDirectory + Path.DirectorySeparatorChar + "out.mp4", 800, 600, 50);
 
-var erg = test.GetImage(800, 600);
-recorder.AddNextImage(erg);
-test.AddCabExitAuto();
-var cabimg = test.GetCabExitImage(800, 600);
-cabimg.Save(Environment.CurrentDirectory + Path.DirectorySeparatorChar + "CAB_Exits.png");
-CabLogger logger = new();
-for (int i = 0; i < 200; i++)
-{
-    DateTime start = DateTime.Now;
-    test = ze.Do(test, hamlist);
-    logger.AddCab(i * ze.t_STEP, test);
-    Console.WriteLine("Dauer Sek: " + (DateTime.Now - start).TotalSeconds);
-    Console.WriteLine("Norm: " + test.Norm());
-    if (i % 2 == 0)
-    {
-        erg = test.GetImage(800, 600);
-        recorder.AddNextImage(erg);
-    }
-}
-var img = logger.GetImage(800, 600);
-for (int i1 = 0; i1 < img.Count; i1++)
-{
-    System.Drawing.Image? im = img[i1];
-    im.Save(Environment.CurrentDirectory + Path.DirectorySeparatorChar + "CAB_" + i1 + ".png");
-}
-//Sab sablogger = new Sab();
-//sablogger.CalcSab(logger, -5, 5);
-//img = sablogger.GetImage(800, 600);
+//var erg = test.GetImage(800, 600);
+//recorder.AddNextImage(erg);
+//test.AddCabExitAuto();
+//var cabimg = test.GetCabExitImage(800, 600);
+//cabimg.Save(Environment.CurrentDirectory + Path.DirectorySeparatorChar + "CAB_Exits.png");
+//CabLogger logger = new();
+//for (int i = 0; i < 200; i++)
+//{
+//    DateTime start = DateTime.Now;
+//    test = ze.Do(test, hamlist);
+//    logger.AddCab(i * ze.t_STEP, test);
+//    Console.WriteLine("Dauer Sek: " + (DateTime.Now - start).TotalSeconds);
+//    Console.WriteLine("Norm: " + test.Norm());
+//    if (i % 2 == 0)
+//    {
+//        erg = test.GetImage(800, 600);
+//        recorder.AddNextImage(erg);
+//    }
+//}
+//var img = logger.GetImage(800, 600);
 //for (int i1 = 0; i1 < img.Count; i1++)
 //{
 //    System.Drawing.Image? im = img[i1];
-//    im.Save(Environment.CurrentDirectory + Path.DirectorySeparatorChar + "SAB_" + i1 + ".png");
+//    im.Save(Environment.CurrentDirectory + Path.DirectorySeparatorChar + "CAB_" + i1 + ".png");
 //}
-recorder.Dispose();
+////Sab sablogger = new Sab();
+////sablogger.CalcSab(logger, -5, 5);
+////img = sablogger.GetImage(800, 600);
+////for (int i1 = 0; i1 < img.Count; i1++)
+////{
+////    System.Drawing.Image? im = img[i1];
+////    im.Save(Environment.CurrentDirectory + Path.DirectorySeparatorChar + "SAB_" + i1 + ".png");
+////}
+//recorder.Dispose();

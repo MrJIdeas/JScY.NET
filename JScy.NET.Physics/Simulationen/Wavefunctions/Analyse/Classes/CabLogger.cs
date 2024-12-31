@@ -1,10 +1,10 @@
-﻿using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.VarTypes;
-using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
-using ScottPlot;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Numerics;
+using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.VarTypes;
+using JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.Orbitale;
+using ScottPlot;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes
 {
@@ -21,7 +21,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes
 
         public List<CabEntry> GetEntries() => entries;
 
-        public void AddCab(double t, IWavefunction wavefunction)
+        public void AddCab(double t, Orbital wavefunction)
         {
             foreach (var item in wavefunction.CalcCab())
             {

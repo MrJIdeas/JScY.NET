@@ -1,6 +1,7 @@
 ﻿using Cloo;
 using JScy.NET.Enums;
 using JScy.NET.Physics.Simulationen.Spins.Enums;
+using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.VarTypes;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Enums;
 using JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF;
 using System;
@@ -23,8 +24,6 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
         IWavefunction GetShift(EShift shift);
 
         void Clear();
-
-        System.Drawing.Image GetImage(int width, int height);
 
         ECalculationMethod CalcMethod { get; }
 
@@ -54,11 +53,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
 
         #region C alpha beta
 
-        void AddCabExitAuto();
-
-        void AddExit(string ExitName, IWavefunction exitWF);
-
-        Dictionary<string, Complex> CalcCab();
+        List<CabExit> CreateCabExitAuto();
 
         #endregion
 

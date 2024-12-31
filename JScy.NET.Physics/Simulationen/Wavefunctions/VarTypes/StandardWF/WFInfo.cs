@@ -1,4 +1,5 @@
 ﻿using JScy.NET.Physics.Simulationen.Spins.Enums;
+using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.VarTypes;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Enums;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
 using System;
@@ -46,6 +47,6 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public Dictionary<string, object> GetAllAdditionalInfos() => DynamicInfo;
 
-        internal Dictionary<string, IWavefunction> CabExits { get; set; }
+        internal List<CabExit> CabExits { get; set; }
     }
 }

@@ -1,13 +1,13 @@
-﻿using JScy.NET.Enums;
+﻿using System;
+using System.Collections.Generic;
+using System.Numerics;
+using System.Threading.Tasks;
+using JScy.NET.Enums;
 using JScy.NET.Physics.Simulationen.Spins.Enums;
+using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.VarTypes;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Classes;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Enums;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
-using System;
-using System.IO;
-using System.Linq;
-using System.Numerics;
-using System.Threading.Tasks;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 {
@@ -121,47 +121,15 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public double getNorm(int x, int y) => getNorm(x + y * DimX);
 
-        public new System.Drawing.Image GetImage(int width, int height)
-        {
-            myPlot.Clear();
-            double[,] data = new double[DimX, DimY];
-            for (int i = 0; i < DimX; i++)
-                for (int j = 0; j < DimY; j++)
-                    data[i, j] = getNorm(i, j);
-            var hm1 = myPlot.Add.Heatmap(data);
-            hm1.Colormap = new ScottPlot.Colormaps.Turbo();
-            myPlot.Add.ColorBar(hm1);
-            var img = System.Drawing.Image.FromStream(new MemoryStream(myPlot.GetImage(width, height).GetImageBytes()));
-            return img;
-        }
-
         #region Cab
 
-        public new System.Drawing.Image GetCabExitImage(int width, int height)
-        {
-            myPlot.Clear();
-            IWavefunction super = (WF_2D)CabExits.Values.First();
-            if (super == null)
-                return null;
-            for (int i = 1; i < CabExits.Count; i++)
-                super += CabExits.Values.ElementAt(i);
-            double[,] data = new double[DimX, DimY];
-            for (int i = 0; i < DimX; i++)
-                for (int j = 0; j < DimY; j++)
-                    data[i, j] = ((WF_2D)super).getNorm(i, j);
-            var hm1 = myPlot.Add.Heatmap(data);
-            hm1.Colormap = new ScottPlot.Colormaps.Turbo();
-            myPlot.Add.ColorBar(hm1);
-            var img = System.Drawing.Image.FromStream(new MemoryStream(myPlot.GetImage(width, height).GetImageBytes()));
-            return img;
-        }
-
-        public new void AddCabExitAuto()
+        public new List<CabExit> CreateCabExitAuto()
         {
             int startx = WFInfo.GetAdditionalInfo<int>("startX");
             int starty = WFInfo.GetAdditionalInfo<int>("startY");
             if (startx <= 0 || starty <= 0)
                 throw new Exception("Not enough Data to Auto Set Cab Exits!");
+            List<CabExit> Exits = new();
             double kx = 0, ky = 0;
             switch (WFInfo.waveType)
             {
@@ -177,24 +145,24 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
                     ky = WFInfo.GetAdditionalInfo<double>("ky");
                     break;
             }
-            AddCabExit(startx, starty);
+            Exits.Add(CreateCabExit(startx, starty));
             if (kx != 0)
             {
-                AddCabExit(DimX - startx, starty);
+                Exits.Add(CreateCabExit(DimX - startx, starty));
             }
             if (ky != 0)
             {
-                AddCabExit(startx, DimY - starty);
+                Exits.Add(CreateCabExit(startx, DimY - starty));
             }
             if (kx != 0 && ky != 0)
             {
-                AddCabExit(DimX - startx, DimY - starty);
+                Exits.Add(CreateCabExit(DimX - startx, DimY - starty));
             }
 
-            WFInfo.CabExits = CabExits;
+            return Exits;
         }
 
-        private void AddCabExit(int x, int y)
+        private CabExit CreateCabExit(int x, int y)
         {
             IWavefunction clone;
             switch (WFInfo.waveType)
@@ -217,9 +185,10 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
             if (clone != null)
             {
                 var key = string.Format("x_{0}_y_{1}", x, y);
-                if (!CabExits.ContainsKey(key))
-                    CabExits.Add(key, clone);
+                return new CabExit(key, clone);
             }
+            else
+                return null;
         }
 
         #endregion Cab
