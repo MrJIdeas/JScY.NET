@@ -13,7 +13,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.Orbitale
 {
     public class Orbital : IEquatable<Orbital>, IEquatable<IWavefunction>
     {
-        public IWavefunction WF { get; private set; }
+        public IWavefunction WF { get; internal set; }
 
         public string Bezeichnung => $"DIM{WF.Dimensions}_{OrbitalBezeichnung}{(Math.Sign(Spin) > 0 ? "-UP-" : "-DOWN-")}{Spin}";
         public readonly float Spin;

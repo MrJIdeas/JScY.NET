@@ -35,7 +35,8 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.TimeEvolution.Classes
                 WF1 = PsiNTerm(WF1, Hamiltons, n);
                 WFEnd += WF1;
             }
-            return new Orbital(WFEnd, orb.Spin, orb.OrbitalBezeichnung);
+            orb.WF = WFEnd;
+            return orb;
         }
 
         protected IWavefunction PsiNTerm(IWavefunction WF, List<IHamilton<T>> Hamiltons, int n)
