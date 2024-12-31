@@ -1,21 +1,25 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Dispersion.BaseClasses;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Gewichtungsfunktion.BaseClasses;
 using JScy.NET.Physics.Simulationen.Wavefunctions.TopologicalInsulator.VarTypes;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Dispersion.Classes
 {
-    internal class E_k_TopologicalInsulator : E_k_Base
+    public class E_k_TopologicalInsulator : E_k_Base
     {
         public readonly TPI_MaterialInfo Material;
+        private double vorfaktor_vorsign;
+        private double faktor_ende;
+        private double A2Quadrat;
 
-        public E_k_TopologicalInsulator(TPI_MaterialInfo material, Eta_Base eta) : base(eta) => Material = material;
-
-        public override double Calculate(double k)
+        public E_k_TopologicalInsulator(TPI_MaterialInfo material, Eta_Base eta) : base(eta)
         {
-            throw new NotImplementedException();
+            Material = material;
+            vorfaktor_vorsign = Material.M * Material.D2 / Material.B2;
+            faktor_ende = (Math.Pow(Material.B2, 2) - Math.Pow(Material.D2, 2)) / Math.Pow(Material.B2, 2);
+            A2Quadrat = Math.Pow(Material.A2, 2);
         }
+
+        public override double Calculate(double k) => vorfaktor_vorsign + Math.Sign(k) * Math.Sqrt(A2Quadrat * Math.Pow(Math.Sin(k), 2) * faktor_ende);
     }
 }
