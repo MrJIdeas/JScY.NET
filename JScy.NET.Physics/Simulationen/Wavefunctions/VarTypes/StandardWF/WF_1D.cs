@@ -170,6 +170,8 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
             return img;
         }
 
+        #region Cab
+
         public System.Drawing.Image GetCabExitImage(int width, int height)
         {
             myPlot.Clear();
@@ -243,6 +245,8 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
             }
             return CabCalc;
         }
+
+        #endregion Cab
 
         #endregion Interface
     }
