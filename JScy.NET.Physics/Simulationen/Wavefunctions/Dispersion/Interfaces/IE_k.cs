@@ -1,4 +1,4 @@
-﻿namespace JScy.NET.Physics.Simulationen.Wavefunctions.Dispersion
+﻿namespace JScy.NET.Physics.Simulationen.Wavefunctions.Dispersion.Interfaces
 {
     public interface IE_k
     {

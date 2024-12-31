@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using JScy.NET.Physics.Simulationen.Wavefunctions.Dispersion.Interfaces;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Gewichtungsfunktion.BaseClasses;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Dispersion.BaseClasses
