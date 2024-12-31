@@ -1,12 +1,12 @@
-﻿using JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Interfaces;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.Interfaces;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
 using JScy.NET.Physics.Simulationen.Wavefunctions.TimeEvolution.Interfaces;
 using JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.Orbitale;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.TimeEvolution.Classes
 {

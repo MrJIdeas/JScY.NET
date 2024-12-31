@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using JScy.NET.Physics.Simulationen.Wavefunctions.Dispersion.BaseClasses;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Dispersion.Classes;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Gruppengeschwindigkeit.BaseClasses;
 using JScy.NET.Physics.Simulationen.Wavefunctions.TopologicalInsulator.VarTypes;

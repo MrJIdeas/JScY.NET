@@ -44,7 +44,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.TightBin
             IWavefunction erg = psi.GetShift(Shifts.First());
             for (int i = 1; i < Shifts.Count; i++)
             {
-                var erg2= psi.GetShift(Shifts[i]);
+                var erg2 = psi.GetShift(Shifts[i]);
                 if (erg2 == null)
                     continue;
                 erg += erg2;

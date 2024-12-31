@@ -1,7 +1,6 @@
 ﻿using JScy.NET.Classes.Videogeneration;
 using JScy.NET.Enums;
 using JScy.NET.Physics.Simulationen.Spins.Enums;
-using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.BaseClasses;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Classes;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Enums;

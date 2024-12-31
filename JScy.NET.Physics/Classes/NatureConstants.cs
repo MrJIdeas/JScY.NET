@@ -1,5 +1,5 @@
-﻿using JScy.NET.AttributesCustom;
-using System;
+﻿using System;
+using JScy.NET.AttributesCustom;
 
 namespace JScy.NET.Physics.Classes
 {

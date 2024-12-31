@@ -1,8 +1,8 @@
-﻿using JScy.NET.Physics.Enums;
+﻿using System;
+using System.Xml.Linq;
+using JScy.NET.Physics.Enums;
 using JScy.NET.Physics.Simulationen.Spins.Classic.VarTypes;
 using JScy.NET.Physics.Simulationen.Spins.Enums;
-using System;
-using System.Xml.Linq;
 
 namespace JScy.NET.Physics.Simulationen.Spins.Classic.Simulations.Lattice
 {

@@ -1,11 +1,11 @@
-﻿using FFMediaToolkit;
-using FFMediaToolkit.Encoding;
-using FFMediaToolkit.Graphics;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using FFMediaToolkit;
+using FFMediaToolkit.Encoding;
+using FFMediaToolkit.Graphics;
 
 namespace JScy.NET.Classes.Videogeneration
 {

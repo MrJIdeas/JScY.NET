@@ -1,12 +1,11 @@
-﻿using JScy.NET.Enums;
+﻿using System;
+using System.IO;
+using System.Numerics;
+using JScy.NET.Enums;
 using JScy.NET.Physics.Simulationen.Spins.Enums;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Enums;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
 using JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF;
-using ScottPlot.Plottables;
-using System;
-using System.IO;
-using System.Numerics;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Classes
 {

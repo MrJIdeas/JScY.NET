@@ -1,7 +1,7 @@
-﻿using JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.BaseClasses;
+﻿using System;
+using JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.BaseClasses;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.Interfaces;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
-using System;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.BaseClasses
 {

@@ -1,9 +1,9 @@
-﻿using JScy.NET.Physics.Simulationen.Spins.Enums;
+﻿using System;
+using System.Collections.Generic;
+using JScy.NET.Physics.Simulationen.Spins.Enums;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.VarTypes;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Enums;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
-using System;
-using System.Collections.Generic;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 {
