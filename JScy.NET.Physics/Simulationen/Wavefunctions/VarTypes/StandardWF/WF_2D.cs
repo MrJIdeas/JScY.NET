@@ -35,18 +35,21 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
             if (direction == 0) return null;
             var coord = getCoordinates(i);
             int newX = coord.Item1 + direction;
-            if (WFInfo.BoundaryInfo == ELatticeBoundary.Periodic)
+            if (newX < 0 || newX >= WFInfo.DimInfo.DimX)
             {
-                if (newX < 0 || newX >= WFInfo.DimInfo.DimX)
-                    newX = WFInfo.DimInfo.DimX + direction;
+                switch (WFInfo.BoundaryInfo)
+                {
+                    case ELatticeBoundary.Periodic:
+                        newX = WFInfo.DimInfo.DimX + direction;
+                        break;
+
+                    case ELatticeBoundary.Reflection:
+                        return null;
+
+                    default:
+                        return null;
+                }
             }
-            else if (WFInfo.BoundaryInfo == ELatticeBoundary.Reflection)
-            {
-                if (newX < 0 || newX >= WFInfo.DimInfo.DimX)
-                    return null;
-            }
-            else
-                return null;
             var left = newX + coord.Item2 * WFInfo.DimInfo.DimX;
             return left < 0 || left >= field.Length ? null : left;
         }
@@ -62,18 +65,21 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
             if (direction == 0) return null;
             var coord = getCoordinates(i);
             var newY = coord.Item2 + direction;
-            if (WFInfo.BoundaryInfo == ELatticeBoundary.Periodic)
+            if (newY < 0 || newY >= WFInfo.DimInfo.DimY)
             {
-                if (newY < 0 || newY >= WFInfo.DimInfo.DimY)
-                    newY = WFInfo.DimInfo.DimY + direction;
+                switch (WFInfo.BoundaryInfo)
+                {
+                    case ELatticeBoundary.Periodic:
+                        newY = WFInfo.DimInfo.DimY + direction;
+                        break;
+
+                    case ELatticeBoundary.Reflection:
+                        return null;
+
+                    default:
+                        return null;
+                }
             }
-            else if (WFInfo.BoundaryInfo == ELatticeBoundary.Reflection)
-            {
-                if (newY < 0 || newY >= WFInfo.DimInfo.DimY)
-                    return null;
-            }
-            else
-                return null;
             var left = newY * WFInfo.DimInfo.DimX + coord.Item1;
             return left < 0 || left >= field.Length ? null : left;
         }
