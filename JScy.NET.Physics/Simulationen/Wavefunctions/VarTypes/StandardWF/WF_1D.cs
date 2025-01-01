@@ -34,6 +34,26 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         #region Interface
 
+        #region X-Nachbarn ermitteln
+
+        public int?[] getNeighborsX(int i, int positions = 1) => [getNeightborX(i, -positions), getNeightborX(i, positions)];
+
+        public int? getNeightborX(int i, int direction)
+        {
+            if (direction == 0) return null;
+            var idx = i + direction;
+            if (WFInfo.BoundaryInfo == ELatticeBoundary.Periodic)
+            {
+                if (idx < 0)
+                    return field.Length - 1 + idx;
+                else if (idx >= field.Length)
+                    return idx - field.Length;
+            }
+            return idx < 0 || idx >= field.Length ? null : idx;
+        }
+
+        #endregion X-Nachbarn ermitteln
+
         public ELatticeBoundary Boundary { get; private set; }
 
         public Complex this[int i] { get => field[i]; protected set => field[i] = value; }
