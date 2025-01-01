@@ -7,6 +7,7 @@
     <Nullable>enable</Nullable>
 	  <Prefer32Bit>false</Prefer32Bit>
 	  <PackageLicenseExpression>CC-BY-NC-SA-4.0</PackageLicenseExpression>
+	  <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
