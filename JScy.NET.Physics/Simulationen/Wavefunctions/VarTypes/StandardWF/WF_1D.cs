@@ -102,31 +102,69 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
                     return null;
 
                 case EShift.Xm: // Verschiebung nach links
-                    Parallel.For(0, dimX, i =>
+                    if (WFInfo.CalcMethod == ECalculationMethod.CPU)
                     {
-                        int sourceIndex = (i + positions) % dimX; // Berechnung des neuen Indexes
-                        neu.field[i] = field[sourceIndex];
-                    });
-                    if (Boundary == ELatticeBoundary.Periodic)
-                    {
-                        for (int i = dimX - positions; i < dimX; i++)
+                        for (int i = 0; i < dimX - positions; i++)
                         {
-                            neu.field[i % dimX] = field[(i + positions) % dimX];
+                            int sourceIndex = (i + positions) % dimX; // Berechnung des neuen Indexes
+                            neu.field[i] = field[sourceIndex];
+                        }
+                        if (Boundary == ELatticeBoundary.Periodic)
+                        {
+                            for (int i = dimX - positions; i < dimX; i++)
+                            {
+                                neu.field[i % dimX] = field[(i + positions) % dimX];
+                            }
+                        }
+                    }
+                    else if (WFInfo.CalcMethod is ECalculationMethod.CPU_Multihreading
+                        or ECalculationMethod.OpenCL)
+                    {
+                        Parallel.For(0, dimX - positions, i =>
+                        {
+                            int sourceIndex = (i + positions) % dimX; // Berechnung des neuen Indexes
+                            neu.field[i] = field[sourceIndex];
+                        });
+                        if (Boundary == ELatticeBoundary.Periodic)
+                        {
+                            Parallel.For(dimX - positions, dimX, i =>
+                            {
+                                neu.field[i % dimX] = field[(i + positions) % dimX];
+                            });
                         }
                     }
                     return neu;
 
                 case EShift.Xp: // Verschiebung nach rechts
-                    Parallel.For(0, dimX, i =>
+                    if (WFInfo.CalcMethod == ECalculationMethod.CPU)
                     {
-                        int sourceIndex = (i - positions + dimX) % dimX; // Berechnung des neuen Indexes
-                        neu.field[i] = field[sourceIndex];
-                    });
-                    if (Boundary == ELatticeBoundary.Periodic)
-                    {
-                        for (int i = 0; i < positions; i++)
+                        for (int i = 0; i < dimX - positions; i++)
                         {
-                            neu.field[i] = field[(dimX + i - positions) % dimX];
+                            int sourceIndex = (i - positions + dimX) % dimX; // Berechnung des neuen Indexes
+                            neu.field[i] = field[sourceIndex];
+                        }
+                        if (Boundary == ELatticeBoundary.Periodic)
+                        {
+                            for (int i = 0; i < positions; i++)
+                            {
+                                neu.field[i] = field[(dimX + i - positions) % dimX];
+                            }
+                        }
+                    }
+                    else if (WFInfo.CalcMethod is ECalculationMethod.CPU_Multihreading
+                        or ECalculationMethod.OpenCL)
+                    {
+                        Parallel.For(0, dimX - positions, i =>
+                        {
+                            int sourceIndex = (i - positions + dimX) % dimX; // Berechnung des neuen Indexes
+                            neu.field[i] = field[sourceIndex];
+                        });
+                        if (Boundary == ELatticeBoundary.Periodic)
+                        {
+                            Parallel.For(0, positions, i =>
+                            {
+                                neu.field[i] = field[(dimX + i - positions) % dimX];
+                            });
                         }
                     }
                     return neu;
