@@ -40,7 +40,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
                 switch (WFInfo.BoundaryInfo)
                 {
                     case ELatticeBoundary.Periodic:
-                        newX = WFInfo.DimInfo.DimX + direction;
+                        newX = WFInfo.DimInfo.DimX - Math.Abs(newX);
                         break;
 
                     case ELatticeBoundary.Reflection:
@@ -70,7 +70,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
                 switch (WFInfo.BoundaryInfo)
                 {
                     case ELatticeBoundary.Periodic:
-                        newY = WFInfo.DimInfo.DimY + direction;
+                        newY = WFInfo.DimInfo.DimY - Math.Abs(newY);
                         break;
 
                     case ELatticeBoundary.Reflection:
