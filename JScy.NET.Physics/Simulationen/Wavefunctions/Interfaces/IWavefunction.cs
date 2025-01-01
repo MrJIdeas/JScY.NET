@@ -20,7 +20,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
 
         OrderablePartitioner<Tuple<int, int>> rangePartitioner { get; }
 
-        IWavefunction GetShift(EShift shift);
+        IWavefunction GetShift(EShift shift, int positions = 1);
 
         void Clear();
 

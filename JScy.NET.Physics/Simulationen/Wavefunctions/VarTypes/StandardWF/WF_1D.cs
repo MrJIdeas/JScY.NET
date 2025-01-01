@@ -86,30 +86,49 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         #region Shifting
 
-        public IWavefunction GetShift(EShift shift)
+        public IWavefunction GetShift(EShift shift, int positions = 1)
         {
+            if (positions < 0) throw new ArgumentException("Positions must be non-negative.");
+
             WF_1D neu = new(WFInfo);
+            int dimX = WFInfo.DimInfo.DimX;
+
+            // Normalisierung der Positionen, falls die Verschiebung größer als die Dimension ist
+            positions %= dimX;
+
             switch (shift)
             {
                 default:
                     return null;
 
-                case EShift.Xm:
-                    Parallel.For(0, neu.WFInfo.DimInfo.DimX - 1, (i) =>
+                case EShift.Xm: // Verschiebung nach links
+                    Parallel.For(0, dimX, i =>
                     {
-                        neu.field[i] = field[i + 1];
+                        int sourceIndex = (i + positions) % dimX; // Berechnung des neuen Indexes
+                        neu.field[i] = field[sourceIndex];
                     });
                     if (Boundary == ELatticeBoundary.Periodic)
-                        neu.field[neu.WFInfo.DimInfo.DimX - 1] = field[0];
+                    {
+                        for (int i = dimX - positions; i < dimX; i++)
+                        {
+                            neu.field[i % dimX] = field[(i + positions) % dimX];
+                        }
+                    }
                     return neu;
 
-                case EShift.Xp:
-                    Parallel.For(1, neu.WFInfo.DimInfo.DimX, (i) =>
+                case EShift.Xp: // Verschiebung nach rechts
+                    Parallel.For(0, dimX, i =>
                     {
-                        neu.field[i] = field[i - 1];
+                        int sourceIndex = (i - positions + dimX) % dimX; // Berechnung des neuen Indexes
+                        neu.field[i] = field[sourceIndex];
                     });
                     if (Boundary == ELatticeBoundary.Periodic)
-                        neu.field[0] = field[WFInfo.DimInfo.DimX - 1];
+                    {
+                        for (int i = 0; i < positions; i++)
+                        {
+                            neu.field[i] = field[(dimX + i - positions) % dimX];
+                        }
+                    }
                     return neu;
             }
         }

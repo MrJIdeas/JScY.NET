@@ -27,78 +27,66 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         #region Interface
 
-        public new IWavefunction GetShift(EShift shift)
+        public new IWavefunction GetShift(EShift shift, int positions = 1)
         {
+            if (positions < 0) throw new ArgumentException("Positions must be non-negative.");
+
             WF_2D neu = new(WFInfo);
+            int dimX = WFInfo.DimInfo.DimX;
+            int dimY = WFInfo.DimInfo.DimY;
+
+            // Normalisierung der Positionen
+            positions %= (shift == EShift.Xm || shift == EShift.Xp) ? dimX : dimY;
+
             switch (shift)
             {
                 default:
                     return null;
 
-                case EShift.Xm:
+                case EShift.Xm: // Verschiebung nach links
                     Parallel.ForEach(neu.rangePartitioner, (range, loopState) =>
                     {
                         for (int i = range.Item1; i < range.Item2; i++)
                         {
                             var coord = getCoordinates(i);
-                            if (coord.Item1 < WFInfo.DimInfo.DimX - 1)
-                                neu[i] = this[coord.Item1 + 1, coord.Item2];
-                            else
-                            {
-                                if (Boundary == ELatticeBoundary.Periodic)
-                                    neu[i] = this[0, coord.Item2];
-                            }
+                            int sourceX = (coord.Item1 + positions) % dimX;
+                            neu[i] = this[sourceX, coord.Item2];
                         }
                     });
                     return neu;
 
-                case EShift.Xp:
+                case EShift.Xp: // Verschiebung nach rechts
                     Parallel.ForEach(neu.rangePartitioner, (range, loopState) =>
                     {
                         for (int i = range.Item1; i < range.Item2; i++)
                         {
                             var coord = getCoordinates(i);
-                            if (coord.Item1 > 0)
-                                neu[i] = this[coord.Item1 - 1, coord.Item2];
-                            else
-                            {
-                                if (Boundary == ELatticeBoundary.Periodic)
-                                    neu[i] = this[WFInfo.DimInfo.DimX - 1, coord.Item2];
-                            }
+                            int sourceX = (coord.Item1 - positions + dimX) % dimX;
+                            neu[i] = this[sourceX, coord.Item2];
                         }
                     });
                     return neu;
 
-                case EShift.Ym:
+                case EShift.Ym: // Verschiebung nach unten
                     Parallel.ForEach(neu.rangePartitioner, (range, loopState) =>
                     {
                         for (int i = range.Item1; i < range.Item2; i++)
                         {
                             var coord = getCoordinates(i);
-                            if (coord.Item2 < WFInfo.DimInfo.DimY - 1)
-                                neu[i] = this[coord.Item1, coord.Item2 + 1];
-                            else
-                            {
-                                if (Boundary == ELatticeBoundary.Periodic)
-                                    neu[i] = this[coord.Item1, 0];
-                            }
+                            int sourceY = (coord.Item2 + positions) % dimY;
+                            neu[i] = this[coord.Item1, sourceY];
                         }
                     });
                     return neu;
 
-                case EShift.Yp:
+                case EShift.Yp: // Verschiebung nach oben
                     Parallel.ForEach(neu.rangePartitioner, (range, loopState) =>
                     {
                         for (int i = range.Item1; i < range.Item2; i++)
                         {
                             var coord = getCoordinates(i);
-                            if (coord.Item2 > 0)
-                                neu[i] = this[coord.Item1, coord.Item2 - 1];
-                            else
-                            {
-                                if (Boundary == ELatticeBoundary.Periodic)
-                                    neu[i] = this[coord.Item1, WFInfo.DimInfo.DimY - 1];
-                            }
+                            int sourceY = (coord.Item2 - positions + dimY) % dimY;
+                            neu[i] = this[coord.Item1, sourceY];
                         }
                     });
                     return neu;
