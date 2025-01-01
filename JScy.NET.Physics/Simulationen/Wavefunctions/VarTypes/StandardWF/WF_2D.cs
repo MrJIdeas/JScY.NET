@@ -34,7 +34,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
             if (direction == 0) return null;
             var coord = getCoordinates(i);
             var left = coord.Item1 + direction + coord.Item2 * WFInfo.DimInfo.DimX;
-            return left < 0 || left>=field.Length ? null : left;
+            return left < 0 || left >= field.Length ? null : left;
         }
 
         #endregion X-Nachbarn ermitteln
@@ -78,10 +78,9 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
                     {
                         for (int i = range.Item1; i < range.Item2; i++)
                         {
-                            var coord = getCoordinates(i);
-                            int sourceX = (coord.Item1 + positions) % dimX;
-                            if (sourceX <= dimX - positions)
-                                neu[i] = this[sourceX, coord.Item2];
+                            int? neighbor = getNeightborX(i, -positions);
+                            if (neighbor != null)
+                                neu[i] = field[(int)neighbor];
                         }
                     });
                     return neu;
@@ -91,10 +90,9 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
                     {
                         for (int i = range.Item1; i < range.Item2; i++)
                         {
-                            var coord = getCoordinates(i);
-                            int sourceX = (coord.Item1 - positions + dimX) % dimX;
-                            if (sourceX > positions)
-                                neu[i] = this[sourceX, coord.Item2];
+                            int? neighbor = getNeightborX(i, positions);
+                            if (neighbor != null)
+                                neu[i] = field[(int)neighbor];
                         }
                     });
                     return neu;
@@ -104,10 +102,9 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
                     {
                         for (int i = range.Item1; i < range.Item2; i++)
                         {
-                            var coord = getCoordinates(i);
-                            int sourceY = (coord.Item2 + positions) % dimY;
-                            if (sourceY <= dimY - positions)
-                                neu[i] = this[coord.Item1, sourceY];
+                            int? neighbor = getNeightborY(i, -positions);
+                            if (neighbor != null)
+                                neu[i] = field[(int)neighbor];
                         }
                     });
                     return neu;
@@ -117,10 +114,9 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
                     {
                         for (int i = range.Item1; i < range.Item2; i++)
                         {
-                            var coord = getCoordinates(i);
-                            int sourceY = (coord.Item2 - positions + dimY) % dimY;
-                            if (sourceY > positions)
-                                neu[i] = this[coord.Item1, sourceY];
+                            int? neighbor = getNeightborY(i, positions);
+                            if (neighbor != null)
+                                neu[i] = field[(int)neighbor];
                         }
                     });
                     return neu;
