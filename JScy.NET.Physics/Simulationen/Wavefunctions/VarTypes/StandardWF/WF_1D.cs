@@ -84,6 +84,8 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
             return conj;
         }
 
+        #region Shifting
+
         public IWavefunction GetShift(EShift shift)
         {
             WF_1D neu = new(WFInfo);
@@ -112,6 +114,10 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
             }
         }
 
+        #endregion Shifting
+
+        #region Feldwerte setzen
+
         public void SetField(int x, Complex value) => field[x] = value;
 
         public void SetField(Complex value, params int[] x)
@@ -121,6 +127,8 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
         }
 
         public void SetField(Complex[] field) => this.field = field;
+
+        #endregion Feldwerte setzen
 
         public void Clear()
         {

@@ -60,7 +60,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
 
         #region Kernel String
 
-        private static string kernelSource = @"
+        private static readonly string kernelSource = @"
             typedef struct {
                 double real;
                 double imag;
@@ -187,10 +187,8 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
 
         public static void InitOpenCL()
         {
-            if (context == null)
-                context = new ComputeContext(ComputeDeviceTypes.All, new ComputeContextPropertyList(ComputePlatform.Platforms[0]), null, nint.Zero);
-            if (queue == null)
-                queue = new ComputeCommandQueue(context, context.Devices[0], ComputeCommandQueueFlags.None);
+            context ??= new ComputeContext(ComputeDeviceTypes.All, new ComputeContextPropertyList(ComputePlatform.Platforms[0]), null, nint.Zero);
+            queue ??= new ComputeCommandQueue(context, context.Devices[0], ComputeCommandQueueFlags.None);
             if (program == null)
             {
                 program = new ComputeProgram(context, kernelSource);
@@ -227,7 +225,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
                         AddComplexkernel.SetMemoryArgument(0, aBuffer);
                         AddComplexkernel.SetValueArgument(1, b);
 
-                        queue.Execute(AddComplexkernel, null, new long[] { a.field.Length }, null, null);
+                        queue.Execute(AddComplexkernel, null, [a.field.Length], null, null);
                         Complex[] cf = a.field;
                         queue.ReadFromBuffer(aBuffer, ref cf, true, null);
                         a.SetField(cf);
@@ -267,7 +265,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
                         SubComplexkernel.SetMemoryArgument(0, aBuffer);
                         SubComplexkernel.SetValueArgument(1, b);
 
-                        queue.Execute(SubComplexkernel, null, new long[] { a.field.Length }, null, null);
+                        queue.Execute(SubComplexkernel, null, [a.field.Length], null, null);
                         Complex[] cf = a.field;
                         queue.ReadFromBuffer(aBuffer, ref cf, true, null);
                         a.SetField(cf);
@@ -307,7 +305,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
                         MulComplexkernel.SetMemoryArgument(0, aBuffer);
                         MulComplexkernel.SetValueArgument(1, b);
 
-                        queue.Execute(MulComplexkernel, null, new long[] { a.field.Length }, null, null);
+                        queue.Execute(MulComplexkernel, null, [a.field.Length], null, null);
                         Complex[] cf = a.field;
                         queue.ReadFromBuffer(aBuffer, ref cf, true, null);
                         a.SetField(cf);
@@ -353,7 +351,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
                         DivComplexkernel.SetMemoryArgument(0, aBuffer);
                         DivComplexkernel.SetValueArgument(1, b);
 
-                        queue.Execute(DivComplexkernel, null, new long[] { a.field.Length }, null, null);
+                        queue.Execute(DivComplexkernel, null, [a.field.Length], null, null);
                         Complex[] cf = a.field;
                         queue.ReadFromBuffer(aBuffer, ref cf, true, null);
                         a.SetField(cf);
@@ -397,7 +395,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
                         AddDoublekernel.SetMemoryArgument(0, aBuffer);
                         AddDoublekernel.SetValueArgument(1, b);
 
-                        queue.Execute(AddDoublekernel, null, new long[] { a.field.Length }, null, null);
+                        queue.Execute(AddDoublekernel, null, [a.field.Length], null, null);
                         Complex[] cf = a.field;
                         queue.ReadFromBuffer(aBuffer, ref cf, true, null);
                         a.SetField(cf);
@@ -436,7 +434,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
                         SubDoublekernel.SetMemoryArgument(0, aBuffer);
                         SubDoublekernel.SetValueArgument(1, b);
 
-                        queue.Execute(SubDoublekernel, null, new long[] { a.field.Length }, null, null);
+                        queue.Execute(SubDoublekernel, null, [a.field.Length], null, null);
                         Complex[] cf = a.field;
                         queue.ReadFromBuffer(aBuffer, ref cf, true, null);
                         a.SetField(cf);
@@ -476,7 +474,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
                         MulDoublekernel.SetMemoryArgument(0, aBuffer);
                         MulDoublekernel.SetValueArgument(1, b);
 
-                        queue.Execute(MulDoublekernel, null, new long[] { a.field.Length }, null, null);
+                        queue.Execute(MulDoublekernel, null, [a.field.Length], null, null);
                         Complex[] cf = a.field;
                         queue.ReadFromBuffer(aBuffer, ref cf, true, null);
                         a.SetField(cf);
@@ -522,7 +520,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
                         DivDoublekernel.SetMemoryArgument(0, aBuffer);
                         DivDoublekernel.SetValueArgument(1, b);
 
-                        queue.Execute(DivDoublekernel, null, new long[] { a.field.Length }, null, null);
+                        queue.Execute(DivDoublekernel, null, [a.field.Length], null, null);
                         Complex[] cf = a.field;
                         queue.ReadFromBuffer(aBuffer, ref cf, true, null);
                         a.SetField(cf);
@@ -573,7 +571,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
                         Addkernel.SetMemoryArgument(0, aBuffer);
                         Addkernel.SetMemoryArgument(1, bBuffer);
 
-                        queue.Execute(Addkernel, null, new long[] { a.field.Length }, null, null);
+                        queue.Execute(Addkernel, null, [a.field.Length], null, null);
                         Complex[] cf = a.field;
                         queue.ReadFromBuffer(aBuffer, ref cf, true, null);
                         a.SetField(cf);
@@ -619,7 +617,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
                         Subkernel.SetMemoryArgument(0, aBuffer);
                         Subkernel.SetMemoryArgument(1, bBuffer);
 
-                        queue.Execute(Subkernel, null, new long[] { a.field.Length }, null, null);
+                        queue.Execute(Subkernel, null, [a.field.Length], null, null);
                         Complex[] cf = a.field;
                         queue.ReadFromBuffer(aBuffer, ref cf, true, null);
                         a.SetField(cf);
@@ -658,7 +656,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
                         Mulkernel.SetMemoryArgument(0, aBuffer);
                         Mulkernel.SetMemoryArgument(1, bBuffer);
 
-                        queue.Execute(Mulkernel, null, new long[] { a.field.Length }, null, null);
+                        queue.Execute(Mulkernel, null, [a.field.Length], null, null);
                         Complex[] cf = a.field;
                         queue.ReadFromBuffer(aBuffer, ref cf, true, null);
                         a.SetField(cf);

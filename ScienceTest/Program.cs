@@ -22,17 +22,17 @@ WF_2D test = (WF_2D)WFCreator.CreateGaußWave(5, 0, 100, 100, 100, 50, 25, 25, E
 //WF_2D test = (WF_2D)WFCreator.CreateDelta(100, 100, 50, 50, ELatticeBoundary.Reflection,  ECalculationMethod.OpenCL);
 Console.WriteLine("Norm: " + test.Norm());
 
-List<IHamilton> hamlist = new List<IHamilton>();
+List<IHamilton> hamlist = [];
 
-TightBinding ham = new TightBinding(1);
-BlockPotential pot1 = new BlockPotential("PotMitte", 40 * test.WFInfo.DimInfo.DimX / 100, 0, 60 * test.WFInfo.DimInfo.DimX / 100, test.WFInfo.DimInfo.DimY, 1);
-BlockPotential pot2 = new BlockPotential("PotMitte", 0, 40 * test.WFInfo.DimInfo.DimY / 100, test.WFInfo.DimInfo.DimX, 60 * test.WFInfo.DimInfo.DimY / 100, 0.1);
-AF_Potential afpot1 = new AF_Potential("PotMitte", 40 * test.WFInfo.DimInfo.DimX / 100, 0, 60 * test.WFInfo.DimInfo.DimX / 100, test.WFInfo.DimInfo.DimY, 1, 5);
-AF_Potential afpot2 = new AF_Potential("PotMitte", 0, 40 * test.WFInfo.DimInfo.DimY / 100, test.WFInfo.DimInfo.DimX, 60 * test.WFInfo.DimInfo.DimY / 100, 1, 5);
-ImaginaryPotential imagpotl = new ImaginaryPotential("ImagPotLinks", 0, 3 * test.WFInfo.DimInfo.DimX / 100, 0, test.WFInfo.DimInfo.DimY, 2);
-ImaginaryPotential imagpotr = new ImaginaryPotential("ImagPotRechts", 97 * test.WFInfo.DimInfo.DimX / 100, test.WFInfo.DimInfo.DimX, 0, test.WFInfo.DimInfo.DimY, 2);
-ImaginaryPotential imagpoto = new ImaginaryPotential("ImagPotLinks", 3 * test.WFInfo.DimInfo.DimX / 100, 97 * test.WFInfo.DimInfo.DimX / 100, 97 * test.WFInfo.DimInfo.DimY / 100, test.WFInfo.DimInfo.DimY, 2);
-ImaginaryPotential imagpotu = new ImaginaryPotential("ImagPotRechts", 3 * test.WFInfo.DimInfo.DimX / 100, 97 * test.WFInfo.DimInfo.DimX / 100, 0, 3 * test.WFInfo.DimInfo.DimY / 100, 2);
+TightBinding ham = new(1);
+BlockPotential pot1 = new("PotMitte", 40 * test.WFInfo.DimInfo.DimX / 100, 0, 60 * test.WFInfo.DimInfo.DimX / 100, test.WFInfo.DimInfo.DimY, 1);
+BlockPotential pot2 = new("PotMitte", 0, 40 * test.WFInfo.DimInfo.DimY / 100, test.WFInfo.DimInfo.DimX, 60 * test.WFInfo.DimInfo.DimY / 100, 0.1);
+AF_Potential afpot1 = new("PotMitte", 40 * test.WFInfo.DimInfo.DimX / 100, 0, 60 * test.WFInfo.DimInfo.DimX / 100, test.WFInfo.DimInfo.DimY, 1, 5);
+AF_Potential afpot2 = new("PotMitte", 0, 40 * test.WFInfo.DimInfo.DimY / 100, test.WFInfo.DimInfo.DimX, 60 * test.WFInfo.DimInfo.DimY / 100, 1, 5);
+ImaginaryPotential imagpotl = new("ImagPotLinks", 0, 3 * test.WFInfo.DimInfo.DimX / 100, 0, test.WFInfo.DimInfo.DimY, 2);
+ImaginaryPotential imagpotr = new("ImagPotRechts", 97 * test.WFInfo.DimInfo.DimX / 100, test.WFInfo.DimInfo.DimX, 0, test.WFInfo.DimInfo.DimY, 2);
+ImaginaryPotential imagpoto = new("ImagPotLinks", 3 * test.WFInfo.DimInfo.DimX / 100, 97 * test.WFInfo.DimInfo.DimX / 100, 97 * test.WFInfo.DimInfo.DimY / 100, test.WFInfo.DimInfo.DimY, 2);
+ImaginaryPotential imagpotu = new("ImagPotRechts", 3 * test.WFInfo.DimInfo.DimX / 100, 97 * test.WFInfo.DimInfo.DimX / 100, 0, 3 * test.WFInfo.DimInfo.DimY / 100, 2);
 hamlist.Add(ham);
 hamlist.Add(imagpotl);
 hamlist.Add(imagpotr);
@@ -44,8 +44,8 @@ hamlist.Add(pot1);
 hamlist.Add(pot2);
 
 //U_T<WF_1D> ze = new U_T<WF_1D>(0.5);
-U_T ze = new U_T(0.5);
-Orbital orb = new Orbital(test, 0.5f, EOrbitalLabel.Alpha);
+U_T ze = new(0.5);
+Orbital orb = new(test, 0.5f, EOrbitalLabel.Alpha);
 FFMpeg_ImageToVideo recorder = new(@"C:\ffmpeg\bin\", Environment.CurrentDirectory + Path.DirectorySeparatorChar + "out.mp4", 800, 600, 50);
 
 var erg = orb.Plotter.GetImage(800, 600);
