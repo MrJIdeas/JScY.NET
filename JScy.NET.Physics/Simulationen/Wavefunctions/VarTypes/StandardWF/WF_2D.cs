@@ -119,6 +119,12 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public void SetField(int x, int y, Complex value) => this[x, y] = value;
 
+        public new void SetField(Complex value, params int[] x)
+        {
+            if (x != null && x.Length > 1)
+                SetField(x[0], x[1], value);
+        }
+
         public double getNorm(int x, int y) => getNorm(x + y * DimX);
 
         #region Cab

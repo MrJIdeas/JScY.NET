@@ -41,6 +41,8 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
 
         IWavefunction Clone();
 
+        void SetField(Complex value, params int[] dims);
+
         #endregion Feld
 
         #region Norm

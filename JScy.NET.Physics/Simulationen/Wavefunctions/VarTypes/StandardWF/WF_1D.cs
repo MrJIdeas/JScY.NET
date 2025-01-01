@@ -119,6 +119,12 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public void SetField(int x, Complex value) => field[x] = value;
 
+        public void SetField(Complex value, params int[] x)
+        {
+            if (x != null && x.Length > 0)
+                SetField(x[0], value);
+        }
+
         public void SetField(Complex[] field) => this.field = field;
 
         public void Clear()
