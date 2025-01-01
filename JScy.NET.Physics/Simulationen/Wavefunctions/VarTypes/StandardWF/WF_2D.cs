@@ -11,13 +11,8 @@ using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 {
-    public class WF_2D : WF_1D, IWF_2D
+    public class WF_2D(WFInfo wfinfo, ECalculationMethod CalcMethod) : WF_1D(wfinfo, CalcMethod), IWF_2D
     {
-        public WF_2D(WFInfo wfinfo, ECalculationMethod CalcMethod) : base(wfinfo, CalcMethod)
-        {
-            DimensionLength.Add("y", wfinfo.DimInfo.DimY);
-        }
-
         public Complex this[int x, int y]
         {
             get => this[x + y * WFInfo.DimInfo.DimX];

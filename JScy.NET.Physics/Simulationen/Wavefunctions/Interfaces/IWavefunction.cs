@@ -14,8 +14,6 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
 {
     public interface IWavefunction
     {
-        Dictionary<string, int> GetDimensionLength();
-
         ELatticeBoundary Boundary { get; }
 
         WFInfo WFInfo { get; }
