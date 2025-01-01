@@ -23,6 +23,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
         {
             DimX = wfinfo.DimX;
             DimY = wfinfo.DimY;
+            DimensionLength.Add("y", wfinfo.DimY);
         }
 
         public Complex this[int x, int y]

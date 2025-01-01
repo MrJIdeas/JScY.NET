@@ -26,6 +26,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
             rangePartitioner = Partitioner.Create(0, wfinfo.DimX * wfinfo.DimY * wfinfo.DimZ);
             CalcMethod = Method;
             result = new double[field.Length];
+            DimensionLength.Add("x", wfinfo.DimX);
         }
 
         public OrderablePartitioner<Tuple<int, int>> rangePartitioner { get; private set; }
@@ -40,8 +41,11 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
         public Complex this[int i] { get => field[i]; protected set => field[i] = value; }
         public int DimX => field.Length;
         public int Dimensions => 1;
-
         public ECalculationMethod CalcMethod { get; private set; }
+
+        protected readonly Dictionary<string, int> DimensionLength = [];
+
+        public Dictionary<string, int> GetDimensionLength() => DimensionLength;
 
         public double Norm()
         {
