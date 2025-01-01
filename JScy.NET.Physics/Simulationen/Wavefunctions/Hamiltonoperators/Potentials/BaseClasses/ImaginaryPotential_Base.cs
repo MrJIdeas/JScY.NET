@@ -4,7 +4,7 @@ using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.BaseClasses
 {
-    public abstract class ImaginaryPotential_Base<T> : Potential_Base<T>, IPotential<T> where T : IWavefunction
+    public abstract class ImaginaryPotential_Base : Potential_Base, IPotential
     {
         private Complex ImagPotential { get; set; }
 
@@ -13,6 +13,6 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentia
             ImagPotential = Potential * Complex.ImaginaryOne;
         }
 
-        public override T HPsi(T psi) => (T)(getPsiV(psi) * ImagPotential);
+        public override IWavefunction HPsi(IWavefunction psi) => (getPsiV(psi) * ImagPotential);
     }
 }

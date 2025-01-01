@@ -6,41 +6,27 @@ using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.TightBinding.VarTypes
 {
-    public class TightBinding<T> : Hamilton_Base<T> where T : IWavefunction
+    public class TightBinding(double t_hop) : Hamilton_Base
     {
-        private List<EShift> Shifts { get; set; }
+        private readonly List<EShift> Shifts = new List<EShift>();
 
-        public TightBinding(double t_hop)
+        public double t_Hopping { get; } = t_hop;
+
+        public override IWavefunction HPsi(IWavefunction psi)
         {
-            t_Hopping = t_hop;
-            Shifts = new List<EShift>();
-            if (typeof(T).Equals(typeof(IWF_1D)))
+            Shifts.Clear();
+            Shifts.Add(EShift.Xm);
+            Shifts.Add(EShift.Xp);
+            if (psi.Dimensions > 1)
             {
-                Shifts.Add(EShift.Xm);
-                Shifts.Add(EShift.Xp);
-            }
-            else if (typeof(T).Equals(typeof(IWF_2D)))
-            {
-                Shifts.Add(EShift.Xm);
-                Shifts.Add(EShift.Xp);
                 Shifts.Add(EShift.Ym);
                 Shifts.Add(EShift.Yp);
             }
-            else
+            if (psi.Dimensions > 2)
             {
-                Shifts.Add(EShift.Xm);
-                Shifts.Add(EShift.Xp);
-                Shifts.Add(EShift.Ym);
-                Shifts.Add(EShift.Yp);
                 Shifts.Add(EShift.Zm);
                 Shifts.Add(EShift.Zp);
             }
-        }
-
-        public double t_Hopping { get; }
-
-        public override T HPsi(T psi)
-        {
             IWavefunction erg = psi.GetShift(Shifts.First());
             for (int i = 1; i < Shifts.Count; i++)
             {
@@ -49,7 +35,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.TightBin
                     continue;
                 erg += erg2;
             }
-            return (T)(-t_Hopping * erg);
+            return (-t_Hopping * erg);
         }
     }
 }

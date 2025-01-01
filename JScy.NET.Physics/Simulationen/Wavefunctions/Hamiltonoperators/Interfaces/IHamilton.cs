@@ -2,10 +2,10 @@
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Interfaces
 {
-    public interface IHamilton<T> where T : IWavefunction
+    public interface IHamilton
     {
-        T HPsi(T psi);
+        IWavefunction HPsi(IWavefunction psi);
 
-        double E(T psi);
+        double E(IWavefunction psi);
     }
 }

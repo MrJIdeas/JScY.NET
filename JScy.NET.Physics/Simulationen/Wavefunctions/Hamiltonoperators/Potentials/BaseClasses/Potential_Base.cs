@@ -5,7 +5,7 @@ using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.BaseClasses
 {
-    public abstract class Potential_Base<T> : Hamilton_Base<T>, IPotential<T> where T : IWavefunction
+    public abstract class Potential_Base : Hamilton_Base, IPotential
     {
         public string Name { get; private set; }
 
@@ -35,7 +35,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentia
             zEnd = zEND;
         }
 
-        protected IWavefunction getPsiV(T psi)
+        protected IWavefunction getPsiV(IWavefunction psi)
         {
             IWavefunction psiV = (IWavefunction)Activator.CreateInstance(psi.GetType(), psi.WFInfo, psi.CalcMethod);
             int dimYZ = psi.WFInfo.DimY * psi.WFInfo.DimZ;
@@ -50,6 +50,6 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentia
             return psiV;
         }
 
-        public override T HPsi(T psi) => (T)(getPsiV(psi) * Potential);
+        public override IWavefunction HPsi(IWavefunction psi) => (getPsiV(psi) * Potential);
     }
 }

@@ -4,7 +4,7 @@ using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.VarTypes
 {
-    public class ImaginaryPotential<T> : ImaginaryPotential_Base<T>, IBarrier_X where T : IWF_1D
+    public class ImaginaryPotential : ImaginaryPotential_Base, IBarrier_X
     {
         public ImaginaryPotential(string name, int xSTART, int xEND, double damping) : base(name, -damping, xSTART, xEND, 0, 1, 0, 1)
         {

@@ -10,19 +10,19 @@ using JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.Orbitale;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.TimeEvolution.Classes
 {
-    public class U_T<T> : IU_T<T> where T : IWavefunction
+    public class U_T : IU_T
     {
         public U_T(double t_step)
         {
             t_STEP = t_step;
-            hamtodelete = new List<IHamilton<T>>();
+            hamtodelete = new List<IHamilton>();
         }
 
         public double t_STEP { get; private set; }
 
-        private List<IHamilton<T>> hamtodelete { get; set; }
+        private List<IHamilton> hamtodelete { get; set; }
 
-        public Orbital Do(Orbital orb, List<IHamilton<T>> Hamiltons)
+        public Orbital Do(Orbital orb, List<IHamilton> Hamiltons)
         {
             IWavefunction WFEnd = orb.WF.Clone();
             int n = 1;
@@ -39,24 +39,24 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.TimeEvolution.Classes
             return orb;
         }
 
-        protected IWavefunction PsiNTerm(IWavefunction WF, List<IHamilton<T>> Hamiltons, int n)
+        protected IWavefunction PsiNTerm(IWavefunction WF, List<IHamilton> Hamiltons, int n)
         {
-            IWavefunction WF1 = (T)Activator.CreateInstance(WF.GetType(), WF.WFInfo, WF.CalcMethod);
+            IWavefunction WF1 = (IWavefunction)Activator.CreateInstance(WF.GetType(), WF.WFInfo, WF.CalcMethod);
             hamtodelete.Clear();
 
-            foreach ((IHamilton<T> ham, T hampsi) in from ham in Hamiltons
-                                                     let hampsi = ham.HPsi((T)WF)
-                                                     select (ham, hampsi))
+            foreach ((IHamilton ham, IWavefunction hampsi) in from ham in Hamiltons
+                                                              let hampsi = ham.HPsi(WF)
+                                                              select (ham, hampsi))
             {
-                if (hampsi.Norm() > double.Epsilon || ham is IPotential<T>)
+                if (hampsi.Norm() > double.Epsilon || ham is IPotential)
                     WF1 += hampsi;
                 else
                     hamtodelete.Add(ham);
             }
 
-            foreach (IHamilton<T> ham in from ham in hamtodelete
-                                         where Hamiltons.Contains(ham)
-                                         select ham)
+            foreach (IHamilton ham in from ham in hamtodelete
+                                      where Hamiltons.Contains(ham)
+                                      select ham)
             {
                 Hamiltons.Remove(ham);
             }

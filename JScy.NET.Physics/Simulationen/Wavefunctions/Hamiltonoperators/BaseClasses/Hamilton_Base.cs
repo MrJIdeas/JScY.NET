@@ -3,11 +3,11 @@ using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.BaseClasses
 {
-    public abstract class Hamilton_Base<T> : IHamilton<T> where T : IWavefunction
+    public abstract class Hamilton_Base : IHamilton
     {
-        public abstract T HPsi(T psi);
+        public abstract IWavefunction HPsi(IWavefunction psi);
 
-        public double E(T psi)
+        public double E(IWavefunction psi)
         {
             double erg = 0;
             IWavefunction erg2 = psi.Conj() * HPsi(psi);
