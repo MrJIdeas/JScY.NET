@@ -34,13 +34,20 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
         {
             if (direction == 0) return null;
             var coord = getCoordinates(i);
-            if (WFInfo.BoundaryInfo == ELatticeBoundary.Reflection)
+            int newX = coord.Item1 + direction;
+            if (WFInfo.BoundaryInfo == ELatticeBoundary.Periodic)
             {
-                var val = Math.Abs(direction);
-                if (coord.Item1 <= val || coord.Item1 > WFInfo.DimInfo.DimX - val)
+                if (newX < 0 || newX >= WFInfo.DimInfo.DimX)
+                    newX = WFInfo.DimInfo.DimX + direction;
+            }
+            else if (WFInfo.BoundaryInfo == ELatticeBoundary.Reflection)
+            {
+                if (newX < 0 || newX >= WFInfo.DimInfo.DimX)
                     return null;
             }
-            var left = coord.Item1 + direction + coord.Item2 * WFInfo.DimInfo.DimX;
+            else
+                return null;
+            var left = newX + coord.Item2 * WFInfo.DimInfo.DimX;
             return left < 0 || left >= field.Length ? null : left;
         }
 
@@ -54,13 +61,20 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
         {
             if (direction == 0) return null;
             var coord = getCoordinates(i);
-            if (WFInfo.BoundaryInfo == ELatticeBoundary.Reflection)
+            var newY = coord.Item2 + direction;
+            if (WFInfo.BoundaryInfo == ELatticeBoundary.Periodic)
             {
-                var val = Math.Abs(direction);
-                if (coord.Item2 <= val || coord.Item2 > WFInfo.DimInfo.DimY - val)
+                if (newY < 0 || newY >= WFInfo.DimInfo.DimY)
+                    newY = WFInfo.DimInfo.DimY + direction;
+            }
+            else if (WFInfo.BoundaryInfo == ELatticeBoundary.Reflection)
+            {
+                if (newY < 0 || newY >= WFInfo.DimInfo.DimY)
                     return null;
             }
-            var left = (coord.Item2 + direction) * WFInfo.DimInfo.DimX + coord.Item1;
+            else
+                return null;
+            var left = newY * WFInfo.DimInfo.DimX + coord.Item1;
             return left < 0 || left >= field.Length ? null : left;
         }
 
