@@ -26,34 +26,29 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentia
         }
 
         public int Blocksize { get; private set; }
-        private Dictionary<string, int> LastDims { get; set; }
         private Dictionary<int, int> fieldpos = [];
 
         public override IWavefunction HPsi(IWavefunction psi)
         {
             IWavefunction psiV = (IWavefunction)Activator.CreateInstance(psi.GetType(), psi.WFInfo, psi.CalcMethod);
-            var dims = psi.GetDimensionLength();
 
-            if (LastDims == null || dims.Count != LastDims.Count)
-            {
-                fieldpos.Clear();
-                var dimX = dims["x"];
-                var dimY = dims.ContainsKey("y") ? dims["y"] : 1;
+            int dimYZ = psi.WFInfo.DimY * psi.WFInfo.DimZ;
 
-                for (int i = xStart; i < xEnd; i++)
-                    for (int j = yStart; j < yEnd; j++)
-                        for (int k = zStart; k < zEnd; k++)
-                        {
-                            int idx = i + (j + k * dimY) * dimX;
-                            int sign = (i - xStart) % Blocksize % 2 == (j - yStart) % Blocksize % 2 ? 1 : -1;
-                            fieldpos.Add(idx, sign);
-                        }
-                LastDims = dims;
-            }
+            int idx, sign, i, j, k;
+            for (i = xStart; i < xEnd; i++)
+                for (j = yStart; j < yEnd; j++)
+                    for (k = zStart; k < zEnd; k++)
+                    {
+                        idx = dimYZ * k + psi.WFInfo.DimX * j + i;
+                        sign = (i - xStart) % Blocksize % 2 == (j - yStart) % Blocksize % 2 ? 1 : -1;
+                        fieldpos.Add(idx, sign);
+                    }
+
             Parallel.ForEach(fieldpos, number =>
             {
                 psiV.field[number.Key] = number.Value * psi.field[number.Key];
             });
+            fieldpos.Clear();
             return psiV * Potential;
         }
     }
