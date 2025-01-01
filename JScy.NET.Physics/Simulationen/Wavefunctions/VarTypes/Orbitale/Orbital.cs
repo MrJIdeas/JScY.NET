@@ -76,7 +76,9 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.Orbitale
         public void CreateCabExitAuto()
         {
             CabExits.Clear();
-            CabExits.AddRange(WF.CreateCabExitAuto());
+            var exits = WF.CreateCabExitAuto();
+            if (exits != null)
+                CabExits.AddRange(exits);
         }
 
         public Dictionary<string, Complex> CalcCab()

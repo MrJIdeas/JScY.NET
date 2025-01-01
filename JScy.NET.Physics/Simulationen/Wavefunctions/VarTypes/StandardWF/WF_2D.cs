@@ -175,6 +175,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public new List<CabExit> CreateCabExitAuto()
         {
+            if (WFInfo.waveType == EWaveType.FreeWave) return null;
             int startx = WFInfo.GetAdditionalInfo<int>("startX");
             int starty = WFInfo.GetAdditionalInfo<int>("startY");
             if (startx <= 0 || starty <= 0)

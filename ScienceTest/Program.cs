@@ -14,12 +14,12 @@ using JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF;
 
 IWavefunction.InitOpenCL();
 
-//WF_1D test = (WF_1D)WFCreator.CreateGaußWave(-5, 10, 100, 25, ELatticeBoundary.Reflection, ECalculationMethod.OpenCL);
+//WF_1D test = (WF_1D)WFCreator.CreateGaußWave(-5, 10, 100, 25, ELatticeBoundary.Periodic, ECalculationMethod.CPU);
 //WF_1D test = (WF_1D)WFCreator.CreateFreeWave(1, 100, ELatticeBoundary.Periodic,  ECalculationMethod.OpenCL);
 //WF_1D test = (WF_1D)WFCreator.CreateDelta(100, 50, ELatticeBoundary.Periodic,  ECalculationMethod.OpenCL);
-WF_2D test = (WF_2D)WFCreator.CreateGaußWave(5, 0, 100, 100, 100, 50, 25, 25, ELatticeBoundary.Reflection, ECalculationMethod.OpenCL);
-//WF_2D test = (WF_2D)WFCreator.CreateFreeWave(1, 0, 100, 100, 50, 50, ELatticeBoundary.Reflection,  ECalculationMethod.OpenCL);
-//WF_2D test = (WF_2D)WFCreator.CreateDelta(100, 100, 50, 50, ELatticeBoundary.Reflection,  ECalculationMethod.OpenCL);
+//WF_2D test = (WF_2D)WFCreator.CreateGaußWave(5, 5, 100, 100, 100, 50, 25, 25, ELatticeBoundary.Periodic, ECalculationMethod.OpenCL);
+WF_2D test = (WF_2D)WFCreator.CreateFreeWave(1, 0, 100, 100, ELatticeBoundary.Reflection, ECalculationMethod.OpenCL);
+//WF_2D test = (WF_2D)WFCreator.CreateDelta(100, 100, 50, 50, ELatticeBoundary.Reflection, ECalculationMethod.OpenCL);
 Console.WriteLine("Norm: " + test.Norm());
 
 List<IHamilton> hamlist = [];
@@ -34,10 +34,10 @@ ImaginaryPotential imagpotr = new("ImagPotRechts", 97 * test.WFInfo.DimInfo.DimX
 ImaginaryPotential imagpoto = new("ImagPotLinks", 3 * test.WFInfo.DimInfo.DimX / 100, 97 * test.WFInfo.DimInfo.DimX / 100, 97 * test.WFInfo.DimInfo.DimY / 100, test.WFInfo.DimInfo.DimY, 2);
 ImaginaryPotential imagpotu = new("ImagPotRechts", 3 * test.WFInfo.DimInfo.DimX / 100, 97 * test.WFInfo.DimInfo.DimX / 100, 0, 3 * test.WFInfo.DimInfo.DimY / 100, 2);
 hamlist.Add(ham);
-hamlist.Add(imagpotl);
-hamlist.Add(imagpotr);
-hamlist.Add(imagpoto);
-hamlist.Add(imagpotu);
+//hamlist.Add(imagpotl);
+//hamlist.Add(imagpotr);
+//hamlist.Add(imagpoto);
+//hamlist.Add(imagpotu);
 //hamlist.Add(afpot1);
 //hamlist.Add(afpot2);
 //hamlist.Add(pot1);
@@ -51,9 +51,9 @@ var erg = orb.Plotter.GetImage(800, 600);
 recorder.AddNextImage(erg);
 orb.CreateCabExitAuto();
 var cabimg = orb.Plotter.GetCabExitImage(800, 600);
-cabimg.Save(Environment.CurrentDirectory + Path.DirectorySeparatorChar + "CAB_Exits.png");
+cabimg?.Save(Environment.CurrentDirectory + Path.DirectorySeparatorChar + "CAB_Exits.png");
 CabLogger logger = new();
-for (int i = 0; i < 200; i++)
+for (int i = 0; i < 250; i++)
 {
     DateTime start = DateTime.Now;
     orb = ze.Do(orb, hamlist);
@@ -67,11 +67,12 @@ for (int i = 0; i < 200; i++)
     }
 }
 var img = logger.GetImage(800, 600);
-for (int i1 = 0; i1 < img.Count; i1++)
-{
-    System.Drawing.Image? im = img[i1];
-    im.Save(Environment.CurrentDirectory + Path.DirectorySeparatorChar + "CAB_" + i1 + ".png");
-}
+if (img != null)
+    for (int i1 = 0; i1 < img.Count; i1++)
+    {
+        System.Drawing.Image? im = img[i1];
+        im.Save(Environment.CurrentDirectory + Path.DirectorySeparatorChar + "CAB_" + i1 + ".png");
+    }
 //Sab sablogger = new Sab();
 //sablogger.CalcSab(logger, -5, 5);
 //img = sablogger.GetImage(800, 600);
