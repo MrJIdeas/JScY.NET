@@ -8,10 +8,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentia
     {
         private Complex ImagPotential { get; set; }
 
-        protected ImaginaryPotential_Base(string name, double Vmax, int xSTART, int xEND, int ySTART, int yEND, int zSTART, int zEND) : base(name, Vmax, xSTART, xEND, ySTART, yEND, zSTART, zEND)
-        {
-            ImagPotential = Potential * Complex.ImaginaryOne;
-        }
+        protected ImaginaryPotential_Base(string name, double Vmax, int xSTART, int xEND, int ySTART, int yEND, int zSTART, int zEND) : base(name, Vmax, xSTART, xEND, ySTART, yEND, zSTART, zEND) => ImagPotential = Potential * Complex.ImaginaryOne;
 
         public override IWavefunction HPsi(IWavefunction psi) => (getPsiV(psi) * ImagPotential);
     }
