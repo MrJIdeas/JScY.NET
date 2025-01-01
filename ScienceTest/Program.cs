@@ -46,7 +46,7 @@ hamlist.Add(pot2);
 //U_T<WF_1D> ze = new U_T<WF_1D>(0.5);
 U_T ze = new(0.5);
 Orbital orb = new(test, 0.5f, EOrbitalLabel.Alpha);
-FFMpeg_ImageToVideo recorder = new(@"C:\ffmpeg\bin\", Environment.CurrentDirectory + Path.DirectorySeparatorChar + "out.mp4", 800, 600, 50);
+FFMpegCore_ImageToVideo recorder = new(Environment.CurrentDirectory + Path.DirectorySeparatorChar + "out.mp4", 800, 600, 50);
 
 var erg = orb.Plotter.GetImage(800, 600);
 recorder.AddNextImage(erg);
@@ -54,7 +54,7 @@ orb.CreateCabExitAuto();
 var cabimg = orb.Plotter.GetCabExitImage(800, 600);
 cabimg.Save(Environment.CurrentDirectory + Path.DirectorySeparatorChar + "CAB_Exits.png");
 CabLogger logger = new();
-for (int i = 0; i < 200; i++)
+for (int i = 0; i < 10; i++)
 {
     DateTime start = DateTime.Now;
     orb = ze.Do(orb, hamlist);
