@@ -41,15 +41,23 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
         public int? getNeightborX(int i, int direction)
         {
             if (direction == 0) return null;
-            var idx = i + direction;
-            if (WFInfo.BoundaryInfo == ELatticeBoundary.Periodic)
+            int newX = i + direction;
+            if (newX < 0 || newX >= WFInfo.DimInfo.DimX)
             {
-                if (idx < 0)
-                    return field.Length - 1 + idx;
-                else if (idx >= field.Length)
-                    return idx - field.Length;
+                switch (WFInfo.BoundaryInfo)
+                {
+                    case ELatticeBoundary.Periodic:
+                        newX = WFInfo.DimInfo.DimX - Math.Abs(newX);
+                        break;
+
+                    case ELatticeBoundary.Reflection:
+                        return null;
+
+                    default:
+                        return null;
+                }
             }
-            return idx < 0 || idx >= field.Length ? null : idx;
+            return newX < 0 || newX >= field.Length ? null : newX;
         }
 
         #endregion X-Nachbarn ermitteln
@@ -124,68 +132,44 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
                 case EShift.Xm: // Verschiebung nach links
                     if (WFInfo.CalcMethod == ECalculationMethod.CPU)
                     {
-                        for (int i = 0; i < dimX - positions; i++)
+                        for (int i = 0; i < dimX; i++)
                         {
-                            int sourceIndex = (i + positions) % dimX; // Berechnung des neuen Indexes
-                            neu.field[i] = field[sourceIndex];
-                        }
-                        if (Boundary == ELatticeBoundary.Periodic)
-                        {
-                            for (int i = dimX - positions; i < dimX; i++)
-                            {
-                                neu.field[i % dimX] = field[(i + positions) % dimX];
-                            }
+                            int? sourceIndex = getNeightborX(i, positions); // Berechnung des neuen Indexes
+                            if (sourceIndex != null)
+                                neu.field[i] = field[(int)sourceIndex];
                         }
                     }
                     else if (WFInfo.CalcMethod is ECalculationMethod.CPU_Multihreading
                         or ECalculationMethod.OpenCL)
                     {
-                        Parallel.For(0, dimX - positions, i =>
+                        Parallel.For(0, dimX, i =>
                         {
-                            int sourceIndex = (i + positions) % dimX; // Berechnung des neuen Indexes
-                            neu.field[i] = field[sourceIndex];
+                            int? sourceIndex = getNeightborX(i, positions); // Berechnung des neuen Indexes
+                            if (sourceIndex != null)
+                                neu.field[i] = field[(int)sourceIndex];
                         });
-                        if (Boundary == ELatticeBoundary.Periodic)
-                        {
-                            Parallel.For(dimX - positions, dimX, i =>
-                            {
-                                neu.field[i % dimX] = field[(i + positions) % dimX];
-                            });
-                        }
                     }
                     return neu;
 
                 case EShift.Xp: // Verschiebung nach rechts
                     if (WFInfo.CalcMethod == ECalculationMethod.CPU)
                     {
-                        for (int i = 0; i < dimX - positions; i++)
+                        for (int i = 0; i < dimX; i++)
                         {
-                            int sourceIndex = (i - positions + dimX) % dimX; // Berechnung des neuen Indexes
-                            neu.field[i] = field[sourceIndex];
-                        }
-                        if (Boundary == ELatticeBoundary.Periodic)
-                        {
-                            for (int i = 0; i < positions; i++)
-                            {
-                                neu.field[i] = field[(dimX + i - positions) % dimX];
-                            }
+                            int? sourceIndex = getNeightborX(i, -positions); // Berechnung des neuen Indexes
+                            if (sourceIndex != null)
+                                neu.field[i] = field[(int)sourceIndex];
                         }
                     }
                     else if (WFInfo.CalcMethod is ECalculationMethod.CPU_Multihreading
                         or ECalculationMethod.OpenCL)
                     {
-                        Parallel.For(0, dimX - positions, i =>
+                        Parallel.For(0, dimX, i =>
                         {
-                            int sourceIndex = (i - positions + dimX) % dimX; // Berechnung des neuen Indexes
-                            neu.field[i] = field[sourceIndex];
+                            int? sourceIndex = getNeightborX(i, -positions); // Berechnung des neuen Indexes
+                            if (sourceIndex != null)
+                                neu.field[i] = field[(int)sourceIndex];
                         });
-                        if (Boundary == ELatticeBoundary.Periodic)
-                        {
-                            Parallel.For(0, positions, i =>
-                            {
-                                neu.field[i] = field[(dimX + i - positions) % dimX];
-                            });
-                        }
                     }
                     return neu;
             }
