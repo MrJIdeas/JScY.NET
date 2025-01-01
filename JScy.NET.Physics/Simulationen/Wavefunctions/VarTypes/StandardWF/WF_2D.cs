@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 using System.Threading.Tasks;
+using JScy.NET.Physics.Simulationen.Spins.Enums;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.VarTypes;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Classes;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Enums;
@@ -33,6 +34,12 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
         {
             if (direction == 0) return null;
             var coord = getCoordinates(i);
+            if (WFInfo.BoundaryInfo == ELatticeBoundary.Reflection)
+            {
+                var val = Math.Abs(direction);
+                if (coord.Item1 <= val || coord.Item1 > WFInfo.DimInfo.DimX - val)
+                    return null;
+            }
             var left = coord.Item1 + direction + coord.Item2 * WFInfo.DimInfo.DimX;
             return left < 0 || left >= field.Length ? null : left;
         }
@@ -47,6 +54,12 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
         {
             if (direction == 0) return null;
             var coord = getCoordinates(i);
+            if (WFInfo.BoundaryInfo == ELatticeBoundary.Reflection)
+            {
+                var val = Math.Abs(direction);
+                if (coord.Item2 <= val || coord.Item2 > WFInfo.DimInfo.DimY - val)
+                    return null;
+            }
             var left = (coord.Item2 + direction) * WFInfo.DimInfo.DimX + coord.Item1;
             return left < 0 || left >= field.Length ? null : left;
         }
