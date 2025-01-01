@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using JScy.NET.Enums;
 using JScy.NET.Physics.Simulationen.Spins.Enums;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.VarTypes;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Enums;
@@ -9,12 +10,14 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 {
     public class WFInfo
     {
-        private Dictionary<string, object> DynamicInfo { get; set; }
+        private Dictionary<string, object> DynamicInfo = [];
 
-        public WFInfo(int dimX, int dimY, int dimZ, ELatticeBoundary boundaryInfo, EWaveType eWaveType)
+        public readonly ECalculationMethod CalcMethod;
+
+        public WFInfo(int dimX, int dimY, int dimZ, ELatticeBoundary boundaryInfo, EWaveType eWaveType, ECalculationMethod calculationMethod)
         {
+            CalcMethod = calculationMethod;
             waveType = eWaveType;
-            DynamicInfo = new Dictionary<string, object>();
             DimInfo = new DimensionInfo(dimX, dimY, dimZ);
             BoundaryInfo = boundaryInfo;
             if (dimZ > 1)

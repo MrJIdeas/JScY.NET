@@ -24,8 +24,6 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
 
         void Clear();
 
-        ECalculationMethod CalcMethod { get; }
-
         #region Feld
 
         Complex this[int x] { get; }
@@ -218,7 +216,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
 
         public static IWavefunction operator +(Complex b, IWavefunction a)
         {
-            switch (a.CalcMethod)
+            switch (a.WFInfo.CalcMethod)
             {
                 case ECalculationMethod.OpenCL:
                     {
@@ -258,7 +256,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
 
         public static IWavefunction operator -(IWavefunction a, Complex b)
         {
-            switch (a.CalcMethod)
+            switch (a.WFInfo.CalcMethod)
             {
                 case ECalculationMethod.OpenCL:
                     {
@@ -298,7 +296,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
 
         public static IWavefunction operator *(Complex b, IWavefunction a)
         {
-            switch (a.CalcMethod)
+            switch (a.WFInfo.CalcMethod)
             {
                 case ECalculationMethod.OpenCL:
                     {
@@ -344,7 +342,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
 
         public static IWavefunction operator /(IWavefunction a, Complex b)
         {
-            switch (a.CalcMethod)
+            switch (a.WFInfo.CalcMethod)
             {
                 case ECalculationMethod.OpenCL:
                     {
@@ -388,7 +386,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
 
         public static IWavefunction operator +(double b, IWavefunction a)
         {
-            switch (a.CalcMethod)
+            switch (a.WFInfo.CalcMethod)
             {
                 case ECalculationMethod.OpenCL:
                     {
@@ -427,7 +425,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
 
         public static IWavefunction operator -(IWavefunction a, double b)
         {
-            switch (a.CalcMethod)
+            switch (a.WFInfo.CalcMethod)
             {
                 case ECalculationMethod.OpenCL:
                     {
@@ -467,7 +465,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
 
         public static IWavefunction operator *(double b, IWavefunction a)
         {
-            switch (a.CalcMethod)
+            switch (a.WFInfo.CalcMethod)
             {
                 case ECalculationMethod.OpenCL:
                     {
@@ -513,7 +511,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
 
         public static IWavefunction operator /(IWavefunction a, double b)
         {
-            switch (a.CalcMethod)
+            switch (a.WFInfo.CalcMethod)
             {
                 case ECalculationMethod.OpenCL:
                     {
@@ -559,9 +557,9 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
         {
             if (!(a.WFInfo.DimInfo.Dimensions == b.WFInfo.DimInfo.Dimensions))
                 throw new Exception("Error with Dimensions.");
-            switch (a.CalcMethod)
+            switch (a.WFInfo.CalcMethod)
             {
-                case ECalculationMethod.OpenCL when b.CalcMethod == ECalculationMethod.OpenCL:
+                case ECalculationMethod.OpenCL when b.WFInfo.CalcMethod == ECalculationMethod.OpenCL:
                     {
                         if (aBuffer == null)
                             aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
@@ -606,9 +604,9 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
         {
             if (!(a.WFInfo.DimInfo.Dimensions == b.WFInfo.DimInfo.Dimensions))
                 throw new Exception("Error with Dimensions.");
-            switch (a.CalcMethod)
+            switch (a.WFInfo.CalcMethod)
             {
-                case ECalculationMethod.OpenCL when b.CalcMethod == ECalculationMethod.OpenCL:
+                case ECalculationMethod.OpenCL when b.WFInfo.CalcMethod == ECalculationMethod.OpenCL:
                     {
                         if (aBuffer == null)
                             aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);
@@ -645,9 +643,9 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
         {
             if (!(a.WFInfo.DimInfo.Dimensions == b.WFInfo.DimInfo.Dimensions))
                 throw new Exception("Error with Dimensions.");
-            switch (a.CalcMethod)
+            switch (a.WFInfo.CalcMethod)
             {
-                case ECalculationMethod.OpenCL when b.CalcMethod == ECalculationMethod.OpenCL:
+                case ECalculationMethod.OpenCL when b.WFInfo.CalcMethod == ECalculationMethod.OpenCL:
                     {
                         if (aBuffer == null)
                             aBuffer = new ComputeBuffer<Complex>(context, ComputeMemoryFlags.ReadWrite | ComputeMemoryFlags.CopyHostPointer, a.field);

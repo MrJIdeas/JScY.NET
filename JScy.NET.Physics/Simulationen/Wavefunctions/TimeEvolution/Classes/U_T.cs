@@ -41,7 +41,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.TimeEvolution.Classes
 
         protected IWavefunction PsiNTerm(IWavefunction WF, List<IHamilton> Hamiltons, int n)
         {
-            IWavefunction WF1 = (IWavefunction)Activator.CreateInstance(WF.GetType(), WF.WFInfo, WF.CalcMethod);
+            IWavefunction WF1 = (IWavefunction)Activator.CreateInstance(WF.GetType(), WF.WFInfo);
             hamtodelete.Clear();
 
             foreach ((IHamilton ham, IWavefunction hampsi) in from ham in Hamiltons

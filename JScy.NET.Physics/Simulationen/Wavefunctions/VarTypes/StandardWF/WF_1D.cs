@@ -18,13 +18,12 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
     {
         public WFInfo WFInfo { get; private set; }
 
-        public WF_1D(WFInfo wfinfo, ECalculationMethod Method)
+        public WF_1D(WFInfo wfinfo)
         {
             WFInfo = wfinfo;
             field = new Complex[wfinfo.DimInfo.DimX * wfinfo.DimInfo.DimY * wfinfo.DimInfo.DimZ];
             Boundary = wfinfo.BoundaryInfo;
             rangePartitioner = Partitioner.Create(0, wfinfo.DimInfo.DimX * wfinfo.DimInfo.DimY * wfinfo.DimInfo.DimZ);
-            CalcMethod = Method;
             result = new double[field.Length];
         }
 
@@ -38,11 +37,10 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
         public ELatticeBoundary Boundary { get; private set; }
 
         public Complex this[int i] { get => field[i]; protected set => field[i] = value; }
-        public ECalculationMethod CalcMethod { get; private set; }
 
         public double Norm()
         {
-            switch (CalcMethod)
+            switch (WFInfo.CalcMethod)
             {
                 case ECalculationMethod.CPU_Multihreading:
                     return field.ToList().AsParallel().Sum(x => Math.Pow(x.Magnitude, 2));
@@ -73,7 +71,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
             }
         }
 
-        protected virtual IWavefunction getEmptyLikeThis() => (IWavefunction)Activator.CreateInstance(GetType(), WFInfo, CalcMethod);
+        protected virtual IWavefunction getEmptyLikeThis() => (IWavefunction)Activator.CreateInstance(GetType(), WFInfo);
 
         public IWavefunction Conj()
         {
@@ -88,7 +86,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public IWavefunction GetShift(EShift shift)
         {
-            WF_1D neu = new WF_1D(WFInfo, CalcMethod);
+            WF_1D neu = new WF_1D(WFInfo);
             switch (shift)
             {
                 default:
@@ -166,13 +164,13 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
                     throw new Exception("Not enough Data to Auto Set Cab Exits!");
 
                 case EWaveType.Delta:
-                    clone = (WF_1D)WFCreator.CreateDelta(WFInfo.DimInfo.DimX, x, Boundary, CalcMethod);
+                    clone = (WF_1D)WFCreator.CreateDelta(WFInfo.DimInfo.DimX, x, Boundary, WFInfo.CalcMethod);
                     break;
 
                 case EWaveType.Gauß:
                     double k = WFInfo.GetAdditionalInfo<double>("k");
                     double sigma = WFInfo.GetAdditionalInfo<double>("sigma");
-                    clone = (WF_1D)WFCreator.CreateGaußWave(k, sigma, WFInfo.DimInfo.DimX, x, Boundary, CalcMethod);
+                    clone = (WF_1D)WFCreator.CreateGaußWave(k, sigma, WFInfo.DimInfo.DimX, x, Boundary, WFInfo.CalcMethod);
                     break;
             }
             return clone != null ? new CabExit(x.ToString(), clone) : null;

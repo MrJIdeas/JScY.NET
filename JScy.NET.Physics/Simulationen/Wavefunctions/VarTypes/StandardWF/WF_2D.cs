@@ -11,7 +11,7 @@ using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 {
-    public class WF_2D(WFInfo wfinfo, ECalculationMethod CalcMethod) : WF_1D(wfinfo, CalcMethod), IWF_2D
+    public class WF_2D(WFInfo wfinfo) : WF_1D(wfinfo), IWF_2D
     {
         public Complex this[int x, int y]
         {
@@ -29,7 +29,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public new IWavefunction GetShift(EShift shift)
         {
-            WF_2D neu = new WF_2D(WFInfo, CalcMethod);
+            WF_2D neu = new WF_2D(WFInfo);
             switch (shift)
             {
                 default:
@@ -165,7 +165,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
                     throw new Exception("Not enough Data to Auto Set Cab Exits!");
 
                 case EWaveType.Delta:
-                    clone = (WF_2D)WFCreator.CreateDelta(WFInfo.DimInfo.DimX, WFInfo.DimInfo.DimY, x, y, Boundary, CalcMethod);
+                    clone = (WF_2D)WFCreator.CreateDelta(WFInfo.DimInfo.DimX, WFInfo.DimInfo.DimY, x, y, Boundary, WFInfo.CalcMethod);
                     break;
 
                 case EWaveType.Gauß:
@@ -173,7 +173,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
                     double ky = WFInfo.GetAdditionalInfo<double>("ky");
                     double sigmax = WFInfo.GetAdditionalInfo<double>("sigmaX");
                     double sigmay = WFInfo.GetAdditionalInfo<double>("sigmaY");
-                    clone = (WF_2D)WFCreator.CreateGaußWave(kx, ky, sigmax, sigmay, WFInfo.DimInfo.DimX, WFInfo.DimInfo.DimY, x, y, Boundary, CalcMethod);
+                    clone = (WF_2D)WFCreator.CreateGaußWave(kx, ky, sigmax, sigmay, WFInfo.DimInfo.DimX, WFInfo.DimInfo.DimY, x, y, Boundary, WFInfo.CalcMethod);
                     break;
             }
             if (clone != null)
