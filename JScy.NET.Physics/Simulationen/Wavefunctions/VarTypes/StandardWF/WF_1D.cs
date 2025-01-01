@@ -237,7 +237,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
             if (startx <= 0)
                 throw new Exception("Not enough Data to Auto Set Cab Exits!");
             List<CabExit> Exits = [CreateCabExit(startx), CreateCabExit(WFInfo.DimInfo.DimX - startx)];
-            return Exits;
+            return Exits.DistinctBy(x => x.ExitName).ToList();
         }
 
         private CabExit CreateCabExit(int x)

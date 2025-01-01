@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using JScy.NET.Physics.Simulationen.Spins.Enums;
@@ -156,6 +157,8 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
             }
         }
 
+        #region Felder setzen
+
         public void SetField(int x, int y, Complex value) => this[x, y] = value;
 
         public new void SetField(Complex value, params int[] x)
@@ -163,6 +166,8 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
             if (x != null && x.Length > 1)
                 SetField(x[0], x[1], value);
         }
+
+        #endregion Felder setzen
 
         public double getNorm(int x, int y) => getNorm(x + y * WFInfo.DimInfo.DimX);
 
@@ -204,7 +209,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
                 Exits.Add(CreateCabExit(WFInfo.DimInfo.DimX - startx, WFInfo.DimInfo.DimY - starty));
             }
 
-            return Exits;
+            return Exits.DistinctBy(x => x.ExitName).ToList();
         }
 
         private CabExit CreateCabExit(int x, int y)
