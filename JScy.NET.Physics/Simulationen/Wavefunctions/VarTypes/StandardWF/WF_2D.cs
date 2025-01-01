@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Numerics;
 using System.Threading.Tasks;
-using JScy.NET.Enums;
-using JScy.NET.Physics.Simulationen.Spins.Enums;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.VarTypes;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Classes;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Enums;
@@ -44,49 +42,53 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
                     return null;
 
                 case EShift.Xm: // Verschiebung nach links
-                    Parallel.ForEach(neu.rangePartitioner, (range, loopState) =>
+                    _ = Parallel.ForEach(neu.rangePartitioner, (range, loopState) =>
                     {
                         for (int i = range.Item1; i < range.Item2; i++)
                         {
                             var coord = getCoordinates(i);
                             int sourceX = (coord.Item1 + positions) % dimX;
-                            neu[i] = this[sourceX, coord.Item2];
+                            if (sourceX <= dimX - positions)
+                                neu[i] = this[sourceX, coord.Item2];
                         }
                     });
                     return neu;
 
                 case EShift.Xp: // Verschiebung nach rechts
-                    Parallel.ForEach(neu.rangePartitioner, (range, loopState) =>
+                    _ = Parallel.ForEach(neu.rangePartitioner, (range, loopState) =>
                     {
                         for (int i = range.Item1; i < range.Item2; i++)
                         {
                             var coord = getCoordinates(i);
                             int sourceX = (coord.Item1 - positions + dimX) % dimX;
-                            neu[i] = this[sourceX, coord.Item2];
+                            if (sourceX > positions)
+                                neu[i] = this[sourceX, coord.Item2];
                         }
                     });
                     return neu;
 
                 case EShift.Ym: // Verschiebung nach unten
-                    Parallel.ForEach(neu.rangePartitioner, (range, loopState) =>
+                    _ = Parallel.ForEach(neu.rangePartitioner, (range, loopState) =>
                     {
                         for (int i = range.Item1; i < range.Item2; i++)
                         {
                             var coord = getCoordinates(i);
                             int sourceY = (coord.Item2 + positions) % dimY;
-                            neu[i] = this[coord.Item1, sourceY];
+                            if (sourceY <= dimY - positions)
+                                neu[i] = this[coord.Item1, sourceY];
                         }
                     });
                     return neu;
 
                 case EShift.Yp: // Verschiebung nach oben
-                    Parallel.ForEach(neu.rangePartitioner, (range, loopState) =>
+                    _ = Parallel.ForEach(neu.rangePartitioner, (range, loopState) =>
                     {
                         for (int i = range.Item1; i < range.Item2; i++)
                         {
                             var coord = getCoordinates(i);
                             int sourceY = (coord.Item2 - positions + dimY) % dimY;
-                            neu[i] = this[coord.Item1, sourceY];
+                            if (sourceY > positions)
+                                neu[i] = this[coord.Item1, sourceY];
                         }
                     });
                     return neu;
