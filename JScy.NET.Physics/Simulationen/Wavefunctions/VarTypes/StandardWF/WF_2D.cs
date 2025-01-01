@@ -17,11 +17,43 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
             set => this[x + y * WFInfo.DimInfo.DimX] = value;
         }
 
+        #region Koordinatenhandling
+
         public Tuple<int, int> getCoordinates(int i)
         {
             int x = i % WFInfo.DimInfo.DimX;
             return new Tuple<int, int>(x, (i - x) / WFInfo.DimInfo.DimX);
         }
+
+        #region X-Nachbarn ermitteln
+
+        public int?[] getNeighborsX(int i, int positions = 1) => [getNeightborX(i, -positions), getNeightborX(i, positions)];
+
+        public int? getNeightborX(int i, int direction)
+        {
+            if (direction == 0) return null;
+            var coord = getCoordinates(i);
+            var left = coord.Item1 + direction + coord.Item2 * WFInfo.DimInfo.DimX;
+            return left < 0 || left>=field.Length ? null : left;
+        }
+
+        #endregion X-Nachbarn ermitteln
+
+        #region Y-Nachbarn ermitteln
+
+        public int?[] getNeighborsY(int i, int positions = 1) => [getNeightborY(i, -positions), getNeightborY(i, positions)];
+
+        public int? getNeightborY(int i, int direction)
+        {
+            if (direction == 0) return null;
+            var coord = getCoordinates(i);
+            var left = (coord.Item2 + direction) * WFInfo.DimInfo.DimX + coord.Item1;
+            return left < 0 || left >= field.Length ? null : left;
+        }
+
+        #endregion Y-Nachbarn ermitteln
+
+        #endregion Koordinatenhandling
 
         #region Interface
 
