@@ -22,11 +22,8 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Gewichtungsfunktion.Classe
 
         public override Complex Calculate(double k) => Math.Exp(-Math.Pow(k, 2) / Math.Pow(deltak, 2));
 
-        public override Complex GetEta(double k)
-        {
-            if (k < k_min || k > k_max)
-                throw new ArgumentOutOfRangeException("k liegt außerhalb der Limit von k_min und k_max.");
-            return base.GetEta(k);
-        }
+        public override Complex GetEta(double k) => k < k_min || k > k_max
+                ? throw new ArgumentOutOfRangeException("k liegt außerhalb der Limit von k_min und k_max.")
+                : base.GetEta(k);
     }
 }

@@ -10,17 +10,11 @@ using JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.Orbitale;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.TimeEvolution.Classes
 {
-    public class U_T : IU_T
+    public class U_T(double t_step) : IU_T
     {
-        public U_T(double t_step)
-        {
-            t_STEP = t_step;
-            hamtodelete = new List<IHamilton>();
-        }
+        public double t_STEP { get; private set; } = t_step;
 
-        public double t_STEP { get; private set; }
-
-        private List<IHamilton> hamtodelete { get; set; }
+        private List<IHamilton> hamtodelete { get; set; } = [];
 
         public Orbital Do(Orbital orb, List<IHamilton> Hamiltons)
         {

@@ -8,7 +8,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.TightBin
 {
     public class TightBinding(double t_hop) : Hamilton_Base
     {
-        private readonly List<EShift> Shifts = new List<EShift>();
+        private readonly List<EShift> Shifts = [];
 
         public double t_Hopping { get; } = t_hop;
 

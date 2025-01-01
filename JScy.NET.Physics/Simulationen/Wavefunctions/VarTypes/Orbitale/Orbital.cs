@@ -23,7 +23,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.Orbitale
 
         #region Connection to other Orbitals
 
-        private readonly List<Orbital> ConnectedOrbitals = new List<Orbital>();
+        private readonly List<Orbital> ConnectedOrbitals = [];
 
         public void ConnectToOrbital(Orbital remote)
         {
@@ -64,7 +64,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.Orbitale
 
         #region Cab
 
-        internal readonly List<CabExit> CabExits = new List<CabExit>();
+        internal readonly List<CabExit> CabExits = [];
 
         public void AddExit(string ExitName, IWavefunction exitWF)
         {
@@ -85,7 +85,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.Orbitale
             foreach (var exit in CabExits)
             {
                 IWavefunction cal = WF.Clone() * exit.wavefunction.Conj();
-                Complex calc = new Complex();
+                Complex calc = new();
                 for (int i = 0; i < cal.field.Length; i++)
                 {
                     calc += cal.field[i];
@@ -103,6 +103,8 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.Orbitale
         public bool Equals(Orbital other) => other.Bezeichnung.Equals(Bezeichnung);
 
         public bool Equals(IWavefunction other) => WF.WFInfo.DimInfo.Dimensions == other.WFInfo.DimInfo.Dimensions;
+
+        public override bool Equals(object obj) => Equals(obj as Orbital);
 
         #endregion Equatable
 

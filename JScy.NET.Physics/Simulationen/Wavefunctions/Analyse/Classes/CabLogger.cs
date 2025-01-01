@@ -15,7 +15,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes
 
         public CabLogger()
         {
-            entries = new List<CabEntry>();
+            entries = [];
             myPlot = new Plot();
         }
 
@@ -36,13 +36,13 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes
 
         public List<System.Drawing.Image> GetImage(int width, int height)
         {
-            List<System.Drawing.Image> images = new List<System.Drawing.Image>();
+            List<System.Drawing.Image> images = [];
             var exits = entries.Select(x => x.ExitName).Distinct();
             foreach (var exit in exits)
             {
                 myPlot.Clear();
-                List<double> x = new List<double>();
-                List<double> y = new List<double>();
+                List<double> x = [];
+                List<double> y = [];
                 foreach (var item in entries.Where(x => x.ExitName.Equals(exit)).OrderBy(x => x.t))
                 {
                     x.Add(item.t);

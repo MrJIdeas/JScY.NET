@@ -14,20 +14,20 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes
         public System.Drawing.Image GetImage(int width, int height)
         {
             Plot myPlot_wf = new();
-            if (orbital.WF.WFInfo.DimInfo.Dimensions == 1 && orbital.WF is IWF_1D)
+            if (orbital.WF.WFInfo.DimInfo.Dimensions == 1 && orbital.WF is IWF_1D d)
             {
-                var DimX = ((IWF_1D)orbital.WF).WFInfo.DimInfo.DimX;
-                List<double> x = new List<double>();
+                var DimX = d.WFInfo.DimInfo.DimX;
+                List<double> x = [];
                 for (int i = 0; i < DimX; i++)
                     x.Add(i);
-                List<double> y = new List<double>();
+                List<double> y = [];
                 for (int i = 0; i < DimX; i++)
                     y.Add((double)orbital.WF.getNorm(i));
                 myPlot_wf.Add.Bars(x, y);
             }
-            else if (orbital.WF.WFInfo.DimInfo.Dimensions == 2 && orbital.WF is IWF_2D)
+            else if (orbital.WF.WFInfo.DimInfo.Dimensions == 2 && orbital.WF is IWF_2D d1)
             {
-                var formatted = (IWF_2D)orbital.WF;
+                var formatted = d1;
                 double[,] data = new double[formatted.WFInfo.DimInfo.DimX, formatted.WFInfo.DimInfo.DimY];
                 for (int i = 0; i < formatted.WFInfo.DimInfo.DimX; i++)
                     for (int j = 0; j < formatted.WFInfo.DimInfo.DimY; j++)
@@ -45,25 +45,25 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes
         public System.Drawing.Image GetCabExitImage(int width, int height)
         {
             Plot myPlot_cab = new();
-            if (orbital.WF.WFInfo.DimInfo.Dimensions == 1 && orbital.WF is IWF_1D)
+            if (orbital.WF.WFInfo.DimInfo.Dimensions == 1 && orbital.WF is IWF_1D d)
             {
-                var DimX = ((IWF_1D)orbital.WF).WFInfo.DimInfo.DimX;
+                var DimX = d.WFInfo.DimInfo.DimX;
                 IWavefunction super = orbital.CabExits.FirstOrDefault()?.wavefunction;
                 if (super == null)
                     return null;
                 for (int i = 1; i < orbital.CabExits.Count; i++)
                     super += orbital.CabExits.ElementAt(i).wavefunction;
-                List<double> x = new List<double>();
+                List<double> x = [];
                 for (int i = 0; i < DimX; i++)
                     x.Add(i);
-                List<double> y = new List<double>();
+                List<double> y = [];
                 for (int i = 0; i < DimX; i++)
                     y.Add((double)super.getNorm(i));
                 myPlot_cab.Add.Bars(x, y);
             }
-            else if (orbital.WF.WFInfo.DimInfo.Dimensions == 2 && orbital.WF is IWF_2D)
+            else if (orbital.WF.WFInfo.DimInfo.Dimensions == 2 && orbital.WF is IWF_2D d1)
             {
-                var formatted = (IWF_2D)orbital.WF;
+                var formatted = d1;
                 IWavefunction super = orbital.CabExits.FirstOrDefault()?.wavefunction;
                 if (super == null)
                     return null;

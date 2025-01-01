@@ -29,7 +29,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public new IWavefunction GetShift(EShift shift)
         {
-            WF_2D neu = new WF_2D(WFInfo);
+            WF_2D neu = new(WFInfo);
             switch (shift)
             {
                 default:
@@ -123,7 +123,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
             int starty = WFInfo.GetAdditionalInfo<int>("startY");
             if (startx <= 0 || starty <= 0)
                 throw new Exception("Not enough Data to Auto Set Cab Exits!");
-            List<CabExit> Exits = new();
+            List<CabExit> Exits = [];
             double kx = 0, ky = 0;
             switch (WFInfo.waveType)
             {

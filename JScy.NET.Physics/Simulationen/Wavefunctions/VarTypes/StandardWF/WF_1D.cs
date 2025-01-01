@@ -59,7 +59,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
                         IWavefunction.Normkernel.SetMemoryArgument(0, IWavefunction.resultBuffer);
                         IWavefunction.Normkernel.SetMemoryArgument(1, IWavefunction.bBuffer);
 
-                        IWavefunction.queue.Execute(IWavefunction.Normkernel, null, new long[] { field.Length }, null, null);
+                        IWavefunction.queue.Execute(IWavefunction.Normkernel, null, [field.Length], null, null);
                         double[] buf = result;
                         IWavefunction.queue.ReadFromBuffer(IWavefunction.resultBuffer, ref buf, true, null);
                         result = buf;
@@ -86,7 +86,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public IWavefunction GetShift(EShift shift)
         {
-            WF_1D neu = new WF_1D(WFInfo);
+            WF_1D neu = new(WFInfo);
             switch (shift)
             {
                 default:

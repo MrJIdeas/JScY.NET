@@ -8,6 +8,6 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.VarTypes
         public double v { get; set; }
         public Complex sab { get; set; }
 
-        public double GetSab2() => (Complex.Conjugate(sab) * sab).Real;
+        public readonly double GetSab2() => (Complex.Conjugate(sab) * sab).Real;
     }
 }

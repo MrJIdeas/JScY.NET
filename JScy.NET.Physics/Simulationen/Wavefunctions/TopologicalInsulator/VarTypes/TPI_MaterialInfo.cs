@@ -2,7 +2,7 @@
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.TopologicalInsulator.VarTypes
 {
-    public struct TPI_MaterialInfo
+    public readonly struct TPI_MaterialInfo
     {
         public readonly string Bezeichnung;
 

@@ -10,7 +10,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 {
     public class WFInfo
     {
-        private Dictionary<string, object> DynamicInfo = [];
+        private readonly Dictionary<string, object> DynamicInfo = [];
 
         public readonly ECalculationMethod CalcMethod;
 
@@ -42,7 +42,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
                 DynamicInfo.Add(key, val);
         }
 
-        public T GetAdditionalInfo<T>(string key) => DynamicInfo.ContainsKey(key) ? (T)DynamicInfo[key] : default;
+        public T GetAdditionalInfo<T>(string key) => DynamicInfo.TryGetValue(key, out object value) ? (T)value : default;
 
         public Dictionary<string, object> GetAllAdditionalInfos() => DynamicInfo;
 
