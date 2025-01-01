@@ -9,5 +9,9 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
         void SetField(int x, int y, int z, Complex value);
 
         double getNorm(int x, int y, int z);
+
+        int?[] getNeighborsZ(int i, int positions = 1);
+
+        int? getNeightborZ(int i, int direction);
     }
 }
