@@ -36,11 +36,9 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentia
                 for (int j = yStart; j < yEnd; j++)
                     for (int k = zStart; k < zEnd; k++)
                     {
-                        var idx = i + j * dimX + k * dimY * dimX;
-                        if ((i - xStart) % Blocksize % 2 == (j - yStart) % Blocksize % 2)
-                            psiV.SetField(psi.field[idx], i, j, k);
-                        else
-                            psiV.SetField(-psi.field[idx], i, j, k);
+                        int idx = i + (j + k * dimY) * dimX;
+                        int sign = (i - xStart) % Blocksize % 2 == (j - yStart) % Blocksize % 2 ? 1 : -1;
+                        psiV.SetField(sign * psi.field[idx], i, j, k);
                     }
             return psiV * Potential;
         }
