@@ -13,29 +13,21 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 {
     public class WF_2D : WF_1D, IWF_2D
     {
-        public new int DimX { get; private set; }
-
-        public int DimY { get; private set; }
-
-        public new int Dimensions => 2;
-
         public WF_2D(WFInfo wfinfo, ECalculationMethod CalcMethod) : base(wfinfo, CalcMethod)
         {
-            DimX = wfinfo.DimX;
-            DimY = wfinfo.DimY;
-            DimensionLength.Add("y", wfinfo.DimY);
+            DimensionLength.Add("y", wfinfo.DimInfo.DimY);
         }
 
         public Complex this[int x, int y]
         {
-            get => this[x + y * DimX];
-            set => this[x + y * DimX] = value;
+            get => this[x + y * WFInfo.DimInfo.DimX];
+            set => this[x + y * WFInfo.DimInfo.DimX] = value;
         }
 
         public Tuple<int, int> getCoordinates(int i)
         {
-            int x = i % DimX;
-            return new Tuple<int, int>(x, (i - x) / DimX);
+            int x = i % WFInfo.DimInfo.DimX;
+            return new Tuple<int, int>(x, (i - x) / WFInfo.DimInfo.DimX);
         }
 
         #region Interface
@@ -54,7 +46,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
                         for (int i = range.Item1; i < range.Item2; i++)
                         {
                             var coord = getCoordinates(i);
-                            if (coord.Item1 < DimX - 1)
+                            if (coord.Item1 < WFInfo.DimInfo.DimX - 1)
                                 neu[i] = this[coord.Item1 + 1, coord.Item2];
                             else
                             {
@@ -76,7 +68,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
                             else
                             {
                                 if (Boundary == ELatticeBoundary.Periodic)
-                                    neu[i] = this[DimX - 1, coord.Item2];
+                                    neu[i] = this[WFInfo.DimInfo.DimX - 1, coord.Item2];
                             }
                         }
                     });
@@ -88,7 +80,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
                         for (int i = range.Item1; i < range.Item2; i++)
                         {
                             var coord = getCoordinates(i);
-                            if (coord.Item2 < DimY - 1)
+                            if (coord.Item2 < WFInfo.DimInfo.DimY - 1)
                                 neu[i] = this[coord.Item1, coord.Item2 + 1];
                             else
                             {
@@ -110,7 +102,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
                             else
                             {
                                 if (Boundary == ELatticeBoundary.Periodic)
-                                    neu[i] = this[coord.Item1, DimY - 1];
+                                    neu[i] = this[coord.Item1, WFInfo.DimInfo.DimY - 1];
                             }
                         }
                     });
@@ -126,7 +118,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
                 SetField(x[0], x[1], value);
         }
 
-        public double getNorm(int x, int y) => getNorm(x + y * DimX);
+        public double getNorm(int x, int y) => getNorm(x + y * WFInfo.DimInfo.DimX);
 
         #region Cab
 
@@ -155,15 +147,15 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
             Exits.Add(CreateCabExit(startx, starty));
             if (kx != 0)
             {
-                Exits.Add(CreateCabExit(DimX - startx, starty));
+                Exits.Add(CreateCabExit(WFInfo.DimInfo.DimX - startx, starty));
             }
             if (ky != 0)
             {
-                Exits.Add(CreateCabExit(startx, DimY - starty));
+                Exits.Add(CreateCabExit(startx, WFInfo.DimInfo.DimY - starty));
             }
             if (kx != 0 && ky != 0)
             {
-                Exits.Add(CreateCabExit(DimX - startx, DimY - starty));
+                Exits.Add(CreateCabExit(WFInfo.DimInfo.DimX - startx, WFInfo.DimInfo.DimY - starty));
             }
 
             return Exits;
@@ -178,7 +170,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
                     throw new Exception("Not enough Data to Auto Set Cab Exits!");
 
                 case EWaveType.Delta:
-                    clone = (WF_2D)WFCreator.CreateDelta(DimX, DimY, x, y, Boundary, CalcMethod);
+                    clone = (WF_2D)WFCreator.CreateDelta(WFInfo.DimInfo.DimX, WFInfo.DimInfo.DimY, x, y, Boundary, CalcMethod);
                     break;
 
                 case EWaveType.Gauß:
@@ -186,7 +178,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
                     double ky = WFInfo.GetAdditionalInfo<double>("ky");
                     double sigmax = WFInfo.GetAdditionalInfo<double>("sigmaX");
                     double sigmay = WFInfo.GetAdditionalInfo<double>("sigmaY");
-                    clone = (WF_2D)WFCreator.CreateGaußWave(kx, ky, sigmax, sigmay, DimX, DimY, x, y, Boundary, CalcMethod);
+                    clone = (WF_2D)WFCreator.CreateGaußWave(kx, ky, sigmax, sigmay, WFInfo.DimInfo.DimX, WFInfo.DimInfo.DimY, x, y, Boundary, CalcMethod);
                     break;
             }
             if (clone != null)

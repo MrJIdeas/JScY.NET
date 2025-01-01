@@ -15,7 +15,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.Orbitale
     {
         public IWavefunction WF { get; internal set; }
 
-        public string Bezeichnung => $"DIM{WF.Dimensions}_{OrbitalBezeichnung}{(Math.Sign(Spin) > 0 ? "-UP-" : "-DOWN-")}{Spin}";
+        public string Bezeichnung => $"DIM{WF.WFInfo.DimInfo.Dimensions}_{OrbitalBezeichnung}{(Math.Sign(Spin) > 0 ? "-UP-" : "-DOWN-")}{Spin}";
         public readonly float Spin;
         public readonly EOrbitalLabel OrbitalBezeichnung;
 
@@ -102,7 +102,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.Orbitale
 
         public bool Equals(Orbital other) => other.Bezeichnung.Equals(Bezeichnung);
 
-        public bool Equals(IWavefunction other) => WF.Dimensions == other.Dimensions;
+        public bool Equals(IWavefunction other) => WF.WFInfo.DimInfo.Dimensions == other.WFInfo.DimInfo.Dimensions;
 
         #endregion Equatable
 

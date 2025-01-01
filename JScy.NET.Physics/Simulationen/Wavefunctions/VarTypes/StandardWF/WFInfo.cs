@@ -15,9 +15,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
         {
             waveType = eWaveType;
             DynamicInfo = new Dictionary<string, object>();
-            DimX = dimX;
-            DimY = dimY;
-            DimZ = dimZ;
+            DimInfo = new DimensionInfo(dimX, dimY, dimZ);
             BoundaryInfo = boundaryInfo;
             if (dimZ > 1)
                 Type = typeof(IWF_3D);
@@ -29,9 +27,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public Type Type { get; private set; }
 
-        public int DimX { get; private set; }
-        public int DimY { get; private set; }
-        public int DimZ { get; private set; }
+        public readonly DimensionInfo DimInfo;
 
         public ELatticeBoundary BoundaryInfo { get; private set; }
 

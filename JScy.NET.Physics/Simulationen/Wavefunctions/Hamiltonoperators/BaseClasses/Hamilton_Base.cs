@@ -11,7 +11,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.BaseClas
         {
             double erg = 0;
             IWavefunction erg2 = psi.Conj() * HPsi(psi);
-            for (int i = 0; i < erg2.WFInfo.DimX * erg2.WFInfo.DimY * erg2.WFInfo.DimZ; i++)
+            for (int i = 0; i < erg2.WFInfo.DimInfo.DimX * erg2.WFInfo.DimInfo.DimY * erg2.WFInfo.DimInfo.DimZ; i++)
                 erg += erg2[i].Real;
             return erg;
         }

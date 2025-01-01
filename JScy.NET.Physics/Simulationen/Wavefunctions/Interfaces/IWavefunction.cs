@@ -16,7 +16,6 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
     {
         Dictionary<string, int> GetDimensionLength();
 
-        int Dimensions { get; }
         ELatticeBoundary Boundary { get; }
 
         WFInfo WFInfo { get; }
@@ -560,7 +559,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
 
         public static IWavefunction operator +(IWavefunction a, IWavefunction b)
         {
-            if (!(a.Dimensions == b.Dimensions))
+            if (!(a.WFInfo.DimInfo.Dimensions == b.WFInfo.DimInfo.Dimensions))
                 throw new Exception("Error with Dimensions.");
             switch (a.CalcMethod)
             {
@@ -607,7 +606,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
 
         public static IWavefunction operator -(IWavefunction a, IWavefunction b)
         {
-            if (!(a.Dimensions == b.Dimensions))
+            if (!(a.WFInfo.DimInfo.Dimensions == b.WFInfo.DimInfo.Dimensions))
                 throw new Exception("Error with Dimensions.");
             switch (a.CalcMethod)
             {
@@ -646,7 +645,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
 
         public static IWavefunction operator *(IWavefunction a, IWavefunction b)
         {
-            if (!(a.Dimensions == b.Dimensions))
+            if (!(a.WFInfo.DimInfo.Dimensions == b.WFInfo.DimInfo.Dimensions))
                 throw new Exception("Error with Dimensions.");
             switch (a.CalcMethod)
             {

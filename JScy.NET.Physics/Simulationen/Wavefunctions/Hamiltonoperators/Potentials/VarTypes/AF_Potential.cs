@@ -32,14 +32,14 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentia
         {
             IWavefunction psiV = (IWavefunction)Activator.CreateInstance(psi.GetType(), psi.WFInfo, psi.CalcMethod);
 
-            int dimYZ = psi.WFInfo.DimY * psi.WFInfo.DimZ;
+            int dimYZ = psi.WFInfo.DimInfo.DimY * psi.WFInfo.DimInfo.DimZ;
 
             int idx, sign, i, j, k;
             for (i = xStart; i < xEnd; i++)
                 for (j = yStart; j < yEnd; j++)
                     for (k = zStart; k < zEnd; k++)
                     {
-                        idx = dimYZ * k + psi.WFInfo.DimX * j + i;
+                        idx = dimYZ * k + psi.WFInfo.DimInfo.DimX * j + i;
                         sign = (i - xStart) % Blocksize % 2 == (j - yStart) % Blocksize % 2 ? 1 : -1;
                         fieldpos.Add(idx, sign);
                     }

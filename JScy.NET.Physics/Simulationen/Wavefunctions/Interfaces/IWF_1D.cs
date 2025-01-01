@@ -2,6 +2,5 @@
 {
     public interface IWF_1D : IWavefunction
     {
-        int DimX { get; }
     }
 }

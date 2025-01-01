@@ -14,9 +14,9 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes
         public System.Drawing.Image GetImage(int width, int height)
         {
             Plot myPlot_wf = new();
-            if (orbital.WF.Dimensions == 1 && orbital.WF is IWF_1D)
+            if (orbital.WF.WFInfo.DimInfo.Dimensions == 1 && orbital.WF is IWF_1D)
             {
-                var DimX = ((IWF_1D)orbital.WF).DimX;
+                var DimX = ((IWF_1D)orbital.WF).WFInfo.DimInfo.DimX;
                 List<double> x = new List<double>();
                 for (int i = 0; i < DimX; i++)
                     x.Add(i);
@@ -25,12 +25,12 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes
                     y.Add((double)orbital.WF.getNorm(i));
                 myPlot_wf.Add.Bars(x, y);
             }
-            else if (orbital.WF.Dimensions == 2 && orbital.WF is IWF_2D)
+            else if (orbital.WF.WFInfo.DimInfo.Dimensions == 2 && orbital.WF is IWF_2D)
             {
                 var formatted = (IWF_2D)orbital.WF;
-                double[,] data = new double[formatted.DimX, formatted.DimY];
-                for (int i = 0; i < formatted.DimX; i++)
-                    for (int j = 0; j < formatted.DimY; j++)
+                double[,] data = new double[formatted.WFInfo.DimInfo.DimX, formatted.WFInfo.DimInfo.DimY];
+                for (int i = 0; i < formatted.WFInfo.DimInfo.DimX; i++)
+                    for (int j = 0; j < formatted.WFInfo.DimInfo.DimY; j++)
                         data[i, j] = formatted.getNorm(i, j);
                 var hm1 = myPlot_wf.Add.Heatmap(data);
                 hm1.Colormap = new ScottPlot.Colormaps.Turbo();
@@ -45,9 +45,9 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes
         public System.Drawing.Image GetCabExitImage(int width, int height)
         {
             Plot myPlot_cab = new();
-            if (orbital.WF.Dimensions == 1 && orbital.WF is IWF_1D)
+            if (orbital.WF.WFInfo.DimInfo.Dimensions == 1 && orbital.WF is IWF_1D)
             {
-                var DimX = ((IWF_1D)orbital.WF).DimX;
+                var DimX = ((IWF_1D)orbital.WF).WFInfo.DimInfo.DimX;
                 IWavefunction super = orbital.CabExits.FirstOrDefault()?.wavefunction;
                 if (super == null)
                     return null;
@@ -61,7 +61,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes
                     y.Add((double)super.getNorm(i));
                 myPlot_cab.Add.Bars(x, y);
             }
-            else if (orbital.WF.Dimensions == 2 && orbital.WF is IWF_2D)
+            else if (orbital.WF.WFInfo.DimInfo.Dimensions == 2 && orbital.WF is IWF_2D)
             {
                 var formatted = (IWF_2D)orbital.WF;
                 IWavefunction super = orbital.CabExits.FirstOrDefault()?.wavefunction;
@@ -69,9 +69,9 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes
                     return null;
                 for (int i = 1; i < orbital.CabExits.Count; i++)
                     super += (orbital.CabExits.ElementAt(i).wavefunction);
-                double[,] data = new double[formatted.DimX, formatted.DimY];
-                for (int i = 0; i < formatted.DimX; i++)
-                    for (int j = 0; j < formatted.DimY; j++)
+                double[,] data = new double[formatted.WFInfo.DimInfo.DimX, formatted.WFInfo.DimInfo.DimY];
+                for (int i = 0; i < formatted.WFInfo.DimInfo.DimX; i++)
+                    for (int j = 0; j < formatted.WFInfo.DimInfo.DimY; j++)
                         data[i, j] = ((IWF_2D)super).getNorm(i, j);
                 var hm1 = myPlot_cab.Add.Heatmap(data);
                 hm1.Colormap = new ScottPlot.Colormaps.Turbo();

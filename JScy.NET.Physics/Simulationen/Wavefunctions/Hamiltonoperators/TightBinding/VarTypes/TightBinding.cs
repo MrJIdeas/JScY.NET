@@ -17,12 +17,12 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.TightBin
             Shifts.Clear();
             Shifts.Add(EShift.Xm);
             Shifts.Add(EShift.Xp);
-            if (psi.Dimensions > 1)
+            if (psi.WFInfo.DimInfo.Dimensions > 1)
             {
                 Shifts.Add(EShift.Ym);
                 Shifts.Add(EShift.Yp);
             }
-            if (psi.Dimensions > 2)
+            if (psi.WFInfo.DimInfo.Dimensions > 2)
             {
                 Shifts.Add(EShift.Zm);
                 Shifts.Add(EShift.Zp);

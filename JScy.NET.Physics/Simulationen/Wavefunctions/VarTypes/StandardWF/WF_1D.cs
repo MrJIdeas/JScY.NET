@@ -21,12 +21,12 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
         public WF_1D(WFInfo wfinfo, ECalculationMethod Method)
         {
             WFInfo = wfinfo;
-            field = new Complex[wfinfo.DimX * wfinfo.DimY * wfinfo.DimZ];
+            field = new Complex[wfinfo.DimInfo.DimX * wfinfo.DimInfo.DimY * wfinfo.DimInfo.DimZ];
             Boundary = wfinfo.BoundaryInfo;
-            rangePartitioner = Partitioner.Create(0, wfinfo.DimX * wfinfo.DimY * wfinfo.DimZ);
+            rangePartitioner = Partitioner.Create(0, wfinfo.DimInfo.DimX * wfinfo.DimInfo.DimY * wfinfo.DimInfo.DimZ);
             CalcMethod = Method;
             result = new double[field.Length];
-            DimensionLength.Add("x", wfinfo.DimX);
+            DimensionLength.Add("x", wfinfo.DimInfo.DimX);
         }
 
         public OrderablePartitioner<Tuple<int, int>> rangePartitioner { get; private set; }
@@ -39,8 +39,6 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
         public ELatticeBoundary Boundary { get; private set; }
 
         public Complex this[int i] { get => field[i]; protected set => field[i] = value; }
-        public int DimX => field.Length;
-        public int Dimensions => 1;
         public ECalculationMethod CalcMethod { get; private set; }
 
         protected readonly Dictionary<string, int> DimensionLength = [];
@@ -102,21 +100,21 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
                     return null;
 
                 case EShift.Xm:
-                    Parallel.For(0, neu.DimX - 1, (i) =>
+                    Parallel.For(0, neu.WFInfo.DimInfo.DimX - 1, (i) =>
                     {
                         neu.field[i] = field[i + 1];
                     });
                     if (Boundary == ELatticeBoundary.Periodic)
-                        neu.field[neu.DimX - 1] = field[0];
+                        neu.field[neu.WFInfo.DimInfo.DimX - 1] = field[0];
                     return neu;
 
                 case EShift.Xp:
-                    Parallel.For(1, neu.DimX, (i) =>
+                    Parallel.For(1, neu.WFInfo.DimInfo.DimX, (i) =>
                     {
                         neu.field[i] = field[i - 1];
                     });
                     if (Boundary == ELatticeBoundary.Periodic)
-                        neu.field[0] = field[DimX - 1];
+                        neu.field[0] = field[WFInfo.DimInfo.DimX - 1];
                     return neu;
             }
         }
@@ -160,7 +158,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
             int startx = WFInfo.GetAdditionalInfo<int>("startX");
             if (startx <= 0)
                 throw new Exception("Not enough Data to Auto Set Cab Exits!");
-            List<CabExit> Exits = [CreateCabExit(startx), CreateCabExit(DimX - startx)];
+            List<CabExit> Exits = [CreateCabExit(startx), CreateCabExit(WFInfo.DimInfo.DimX - startx)];
             return Exits;
         }
 
@@ -173,13 +171,13 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
                     throw new Exception("Not enough Data to Auto Set Cab Exits!");
 
                 case EWaveType.Delta:
-                    clone = (WF_1D)WFCreator.CreateDelta(DimX, x, Boundary, CalcMethod);
+                    clone = (WF_1D)WFCreator.CreateDelta(WFInfo.DimInfo.DimX, x, Boundary, CalcMethod);
                     break;
 
                 case EWaveType.Gauß:
                     double k = WFInfo.GetAdditionalInfo<double>("k");
                     double sigma = WFInfo.GetAdditionalInfo<double>("sigma");
-                    clone = (WF_1D)WFCreator.CreateGaußWave(k, sigma, DimX, x, Boundary, CalcMethod);
+                    clone = (WF_1D)WFCreator.CreateGaußWave(k, sigma, WFInfo.DimInfo.DimX, x, Boundary, CalcMethod);
                     break;
             }
             return clone != null ? new CabExit(x.ToString(), clone) : null;

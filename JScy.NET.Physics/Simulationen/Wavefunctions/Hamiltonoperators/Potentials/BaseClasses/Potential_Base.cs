@@ -26,13 +26,13 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentia
         protected IWavefunction getPsiV(IWavefunction psi)
         {
             IWavefunction psiV = (IWavefunction)Activator.CreateInstance(psi.GetType(), psi.WFInfo, psi.CalcMethod);
-            int dimYZ = psi.WFInfo.DimY * psi.WFInfo.DimZ;
+            int dimYZ = psi.WFInfo.DimInfo.DimY * psi.WFInfo.DimInfo.DimZ;
             int idx, i, j, k;
             for (i = xStart; i < xEnd; i++)
                 for (j = yStart; j < yEnd; j++)
                     for (k = zStart; k < zEnd; k++)
                     {
-                        idx = dimYZ * k + psi.WFInfo.DimX * j + i;
+                        idx = dimYZ * k + psi.WFInfo.DimInfo.DimX * j + i;
                         psiV.field[idx] = psi.field[idx];
                     }
             return psiV;

@@ -5,7 +5,6 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
 {
     public interface IWF_2D : IWF_1D
     {
-        int DimY { get; }
         Complex this[int x, int y] { get; set; }
 
         void SetField(int x, int y, Complex value);
