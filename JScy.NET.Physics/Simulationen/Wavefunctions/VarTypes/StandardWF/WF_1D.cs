@@ -8,6 +8,7 @@ using Cloo;
 using JScy.NET.Enums;
 using JScy.NET.Physics.Simulationen.Spins.Enums;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.VarTypes;
+using JScy.NET.Physics.Simulationen.Wavefunctions.AttributesCustom;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Classes;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Enums;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
@@ -116,63 +117,39 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public IWavefunction GetShift(EShift shift, int positions = 1)
         {
+            if (shift is not EShift.Xp and not EShift.Xm) return null;
             if (positions < 0) throw new ArgumentException("Positions must be non-negative.");
+            var fieldInfo = typeof(EShift).GetField(shift.ToString());
+            var attribute = (MathSignAttribute)Attribute.GetCustomAttribute(fieldInfo, typeof(MathSignAttribute));
 
+            // Überprüfen, ob das Attribut vorhanden ist und dann die Beschreibung anzeigen
+            if (attribute == null || attribute.Sign == 0) return null;
             WF_1D neu = new(WFInfo);
             int dimX = WFInfo.DimInfo.DimX;
 
             // Normalisierung der Positionen, falls die Verschiebung größer als die Dimension ist
             positions %= dimX;
 
-            switch (shift)
+            if (WFInfo.CalcMethod == ECalculationMethod.CPU)
             {
-                default:
-                    return null;
-
-                case EShift.Xm: // Verschiebung nach links
-                    if (WFInfo.CalcMethod == ECalculationMethod.CPU)
-                    {
-                        for (int i = 0; i < dimX; i++)
-                        {
-                            int? sourceIndex = getNeightborX(i, positions); // Berechnung des neuen Indexes
-                            if (sourceIndex != null)
-                                neu.field[i] = field[(int)sourceIndex];
-                        }
-                    }
-                    else if (WFInfo.CalcMethod is ECalculationMethod.CPU_Multihreading
-                        or ECalculationMethod.OpenCL)
-                    {
-                        Parallel.For(0, dimX, i =>
-                        {
-                            int? sourceIndex = getNeightborX(i, positions); // Berechnung des neuen Indexes
-                            if (sourceIndex != null)
-                                neu.field[i] = field[(int)sourceIndex];
-                        });
-                    }
-                    return neu;
-
-                case EShift.Xp: // Verschiebung nach rechts
-                    if (WFInfo.CalcMethod == ECalculationMethod.CPU)
-                    {
-                        for (int i = 0; i < dimX; i++)
-                        {
-                            int? sourceIndex = getNeightborX(i, -positions); // Berechnung des neuen Indexes
-                            if (sourceIndex != null)
-                                neu.field[i] = field[(int)sourceIndex];
-                        }
-                    }
-                    else if (WFInfo.CalcMethod is ECalculationMethod.CPU_Multihreading
-                        or ECalculationMethod.OpenCL)
-                    {
-                        Parallel.For(0, dimX, i =>
-                        {
-                            int? sourceIndex = getNeightborX(i, -positions); // Berechnung des neuen Indexes
-                            if (sourceIndex != null)
-                                neu.field[i] = field[(int)sourceIndex];
-                        });
-                    }
-                    return neu;
+                for (int i = 0; i < dimX; i++)
+                {
+                    int? sourceIndex = getNeightborX(i, attribute.Sign * positions); // Berechnung des neuen Indexes
+                    if (sourceIndex != null)
+                        neu.field[i] = field[(int)sourceIndex];
+                }
             }
+            else if (WFInfo.CalcMethod is ECalculationMethod.CPU_Multihreading
+                or ECalculationMethod.OpenCL)
+            {
+                Parallel.For(0, dimX, i =>
+                {
+                    int? sourceIndex = getNeightborX(i, attribute.Sign * positions); // Berechnung des neuen Indexes
+                    if (sourceIndex != null)
+                        neu.field[i] = field[(int)sourceIndex];
+                });
+            }
+            return neu;
         }
 
         #endregion Shifting

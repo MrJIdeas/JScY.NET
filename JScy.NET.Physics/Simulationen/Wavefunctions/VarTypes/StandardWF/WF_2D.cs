@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
+using JScy.NET.Enums;
 using JScy.NET.Physics.Simulationen.Spins.Enums;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.VarTypes;
+using JScy.NET.Physics.Simulationen.Wavefunctions.AttributesCustom;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Classes;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Enums;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
+using ScottPlot;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 {
@@ -95,6 +98,11 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
         {
             if (positions < 0) throw new ArgumentException("Positions must be non-negative.");
 
+            var fieldInfo = typeof(EShift).GetField(shift.ToString());
+            var attribute = (MathSignAttribute)Attribute.GetCustomAttribute(fieldInfo, typeof(MathSignAttribute));
+
+            // Überprüfen, ob das Attribut vorhanden ist und dann die Beschreibung anzeigen
+            if (attribute == null || attribute.Sign == 0) return null;
             WF_2D neu = new(WFInfo);
             int dimX = WFInfo.DimInfo.DimX;
             int dimY = WFInfo.DimInfo.DimY;
@@ -108,51 +116,55 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
                     return null;
 
                 case EShift.Xm: // Verschiebung nach links
-                    _ = Parallel.ForEach(neu.rangePartitioner, (range, loopState) =>
-                    {
-                        for (int i = range.Item1; i < range.Item2; i++)
-                        {
-                            int? neighbor = getNeightborX(i, -positions);
-                            if (neighbor != null)
-                                neu[i] = field[(int)neighbor];
-                        }
-                    });
-                    return neu;
-
                 case EShift.Xp: // Verschiebung nach rechts
-                    _ = Parallel.ForEach(neu.rangePartitioner, (range, loopState) =>
+                    if (WFInfo.CalcMethod is ECalculationMethod.CPU)
                     {
-                        for (int i = range.Item1; i < range.Item2; i++)
+                        for (int i = 0; i < field.Length; i++)
                         {
-                            int? neighbor = getNeightborX(i, positions);
+                            int? neighbor = getNeightborX(i, attribute.Sign * positions);
                             if (neighbor != null)
                                 neu[i] = field[(int)neighbor];
                         }
-                    });
+                    }
+                    else if (WFInfo.CalcMethod is ECalculationMethod.CPU_Multihreading
+                        or ECalculationMethod.OpenCL)
+                    {
+                        _ = Parallel.ForEach(neu.rangePartitioner, (range, loopState) =>
+                        {
+                            for (int i = range.Item1; i < range.Item2; i++)
+                            {
+                                int? neighbor = getNeightborX(i, attribute.Sign * positions);
+                                if (neighbor != null)
+                                    neu[i] = field[(int)neighbor];
+                            }
+                        });
+                    }
                     return neu;
 
                 case EShift.Ym: // Verschiebung nach unten
-                    _ = Parallel.ForEach(neu.rangePartitioner, (range, loopState) =>
-                    {
-                        for (int i = range.Item1; i < range.Item2; i++)
-                        {
-                            int? neighbor = getNeightborY(i, -positions);
-                            if (neighbor != null)
-                                neu[i] = field[(int)neighbor];
-                        }
-                    });
-                    return neu;
-
                 case EShift.Yp: // Verschiebung nach oben
-                    _ = Parallel.ForEach(neu.rangePartitioner, (range, loopState) =>
+                    if (WFInfo.CalcMethod is ECalculationMethod.CPU)
                     {
-                        for (int i = range.Item1; i < range.Item2; i++)
+                        for (int i = 0; i < field.Length; i++)
                         {
-                            int? neighbor = getNeightborY(i, positions);
+                            int? neighbor = getNeightborY(i, attribute.Sign * positions);
                             if (neighbor != null)
                                 neu[i] = field[(int)neighbor];
                         }
-                    });
+                    }
+                    else if (WFInfo.CalcMethod is ECalculationMethod.CPU_Multihreading
+                        or ECalculationMethod.OpenCL)
+                    {
+                        _ = Parallel.ForEach(neu.rangePartitioner, (range, loopState) =>
+                        {
+                            for (int i = range.Item1; i < range.Item2; i++)
+                            {
+                                int? neighbor = getNeightborY(i, attribute.Sign * positions);
+                                if (neighbor != null)
+                                    neu[i] = field[(int)neighbor];
+                            }
+                        });
+                    }
                     return neu;
             }
         }
