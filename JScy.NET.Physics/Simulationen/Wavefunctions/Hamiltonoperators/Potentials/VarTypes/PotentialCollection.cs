@@ -7,14 +7,8 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentia
 {
     public class PotentialCollection : Potential_Base
     {
-        public PotentialCollection(string name, WFInfo wfinfo) : base(name, 0, 0, 0, 0, 0, 0, 0)
-        {
-            psiV = (IWavefunction)Activator.CreateInstance(wfinfo.Type, wfinfo);
-        }
+        public PotentialCollection(string name, WFInfo wfinfo) : base(name, 0, 0, 0, 0, 0, 0, 0) => psiV = (IWavefunction)Activator.CreateInstance(wfinfo.Type, wfinfo);
 
-        public void MigratePotential(Potential_Base OPot)
-        {
-            psiV += OPot.psiV;
-        }
+        public void MigratePotential(Potential_Base OPot) => psiV += OPot.psiV;
     }
 }
