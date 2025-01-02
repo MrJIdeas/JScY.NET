@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Numerics;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Interfaces;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.VarTypes;
 using JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.Orbitale;
