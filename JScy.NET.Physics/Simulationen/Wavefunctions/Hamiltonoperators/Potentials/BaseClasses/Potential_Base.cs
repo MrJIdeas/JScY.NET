@@ -23,7 +23,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentia
 
         public int zEnd { get; private set; } = zEND;
 
-        protected IWavefunction getPsiV(IWavefunction psi)
+        protected IWavefunction getPsiV(ref IWavefunction psi)
         {
             IWavefunction psiV = (IWavefunction)Activator.CreateInstance(psi.GetType(), psi.WFInfo);
             int dimYZ = psi.WFInfo.DimInfo.DimY * psi.WFInfo.DimInfo.DimZ;
@@ -38,6 +38,6 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentia
             return psiV;
         }
 
-        public override IWavefunction HPsi(IWavefunction psi) => (getPsiV(psi) * Potential);
+        public override IWavefunction HPsi(ref IWavefunction psi) => (getPsiV(ref psi) * Potential);
     }
 }

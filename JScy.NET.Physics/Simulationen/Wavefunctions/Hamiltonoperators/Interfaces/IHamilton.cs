@@ -4,8 +4,8 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Interfac
 {
     public interface IHamilton
     {
-        IWavefunction HPsi(IWavefunction psi);
+        IWavefunction HPsi(ref IWavefunction psi);
 
-        double E(IWavefunction psi);
+        double E(ref IWavefunction psi);
     }
 }

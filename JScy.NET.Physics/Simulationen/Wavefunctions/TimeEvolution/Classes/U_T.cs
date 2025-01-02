@@ -39,7 +39,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.TimeEvolution.Classes
             hamtodelete.Clear();
 
             foreach ((IHamilton ham, IWavefunction hampsi) in from ham in Hamiltons
-                                                              let hampsi = ham.HPsi(WF)
+                                                              let hampsi = ham.HPsi(ref WF)
                                                               select (ham, hampsi))
             {
                 if (hampsi.Norm() > double.Epsilon || ham is IPotential)

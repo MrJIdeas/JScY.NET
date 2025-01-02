@@ -12,7 +12,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.TightBin
 
         public double t_Hopping { get; } = t_hop;
 
-        public override IWavefunction HPsi(IWavefunction psi)
+        public override IWavefunction HPsi(ref IWavefunction psi)
         {
             Shifts.Clear();
             Shifts.Add(EShift.Xm);
