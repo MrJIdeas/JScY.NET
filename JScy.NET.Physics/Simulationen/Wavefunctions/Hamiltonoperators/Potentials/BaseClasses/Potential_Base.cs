@@ -7,6 +7,7 @@ using JScy.NET.Interfaces;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.BaseClasses;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.Interfaces;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
+using JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF;
 using ScottPlot;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.BaseClasses
@@ -20,18 +21,18 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentia
         public Tuple<int, int> limit_x { get; private set; } = new Tuple<int, int>(xSTART, xEND);
         public Tuple<int, int> limit_y { get; private set; } = new Tuple<int, int>(ySTART, yEND);
         public Tuple<int, int> limit_z { get; private set; } = new Tuple<int, int>(zSTART, zEND);
-        protected IWavefunction psiV { get; set; }
+        internal IWavefunction psiV { get; set; }
 
         private readonly Plot myPlot_wf = new();
 
-        protected virtual IWavefunction getPsiV(ref IWavefunction psi)
+        public virtual IWavefunction getPsiV(WFInfo wfinfo)
         {
             if (psiV == null)
             {
-                int dimYZ = psi.WFInfo.DimInfo.DimY * psi.WFInfo.DimInfo.DimZ;
-                psiV = (IWavefunction)Activator.CreateInstance(psi.GetType(), psi.WFInfo);
+                int dimYZ = wfinfo.DimInfo.DimY * wfinfo.DimInfo.DimZ;
+                psiV = (IWavefunction)Activator.CreateInstance(wfinfo.Type, wfinfo);
 
-                switch (psi.WFInfo.CalcMethod)
+                switch (wfinfo.CalcMethod)
                 {
                     case ECalculationMethod.CPU:
                         int idx, i, j, k;
@@ -39,7 +40,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentia
                             for (j = limit_y.Item1; j < limit_y.Item2; j++)
                                 for (k = limit_z.Item1; k < limit_z.Item2; k++)
                                 {
-                                    idx = dimYZ * k + psi.WFInfo.DimInfo.DimX * j + i;
+                                    idx = dimYZ * k + wfinfo.DimInfo.DimX * j + i;
                                     psiV.field[idx] = Potential;
                                 }
 
@@ -47,12 +48,11 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentia
 
                     case ECalculationMethod.CPU_Multihreading:
                     case ECalculationMethod.OpenCL:
-                        var psi2 = psi;
                         Parallel.For(limit_x.Item1, limit_x.Item2, i =>
                         {
-                            int x = i % psi2.WFInfo.DimInfo.DimX;
-                            int y = (i / psi2.WFInfo.DimInfo.DimX) % psi2.WFInfo.DimInfo.DimY;
-                            int z = i / (psi2.WFInfo.DimInfo.DimX * psi2.WFInfo.DimInfo.DimY);
+                            int x = i % wfinfo.DimInfo.DimX;
+                            int y = (i / wfinfo.DimInfo.DimX) % wfinfo.DimInfo.DimY;
+                            int z = i / (wfinfo.DimInfo.DimX * wfinfo.DimInfo.DimY);
 
                             if (x >= limit_x.Item1 && x < limit_x.Item2 &&
                                 y >= limit_y.Item1 && y < limit_y.Item2 &&
@@ -67,7 +67,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentia
             return psiV;
         }
 
-        public override IWavefunction HPsi(ref IWavefunction psi) => psi * getPsiV(ref psi);
+        public override IWavefunction HPsi(ref IWavefunction psi) => psi * getPsiV(psi.WFInfo);
 
         public System.Drawing.Image GetImage(int width, int height)
         {
