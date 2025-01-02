@@ -18,7 +18,7 @@ IWavefunction.InitOpenCL();
 //WF_1D test = (WF_1D)WFCreator.CreateFreeWave(1, 100, ELatticeBoundary.Periodic,  ECalculationMethod.OpenCL);
 //WF_1D test = (WF_1D)WFCreator.CreateDelta(100, 50, ELatticeBoundary.Periodic,  ECalculationMethod.OpenCL);
 //WF_2D test = (WF_2D)WFCreator.CreateGaußWave(5, 5, 100, 100, 100, 50, 25, 25, ELatticeBoundary.Periodic, ECalculationMethod.OpenCL);
-WF_2D test = (WF_2D)WFCreator.CreateFreeWave(1, 0, 100, 100, ELatticeBoundary.Reflection, ECalculationMethod.OpenCL);
+WF_2D test = (WF_2D)WFCreator.CreateFreeWave(1, 0, 100, 100, ELatticeBoundary.Periodic, ECalculationMethod.OpenCL);
 //WF_2D test = (WF_2D)WFCreator.CreateDelta(100, 100, 50, 50, ELatticeBoundary.Reflection, ECalculationMethod.OpenCL);
 Console.WriteLine("Norm: " + test.Norm());
 
@@ -53,13 +53,15 @@ orb.CreateCabExitAuto();
 var cabimg = orb.Plotter.GetCabExitImage(800, 600);
 cabimg?.Save(Environment.CurrentDirectory + Path.DirectorySeparatorChar + "CAB_Exits.png");
 CabLogger logger = new();
+Normlogger normlogger = new();
 for (int i = 0; i < 250; i++)
 {
+    var step = i * ze.t_STEP;
     DateTime start = DateTime.Now;
     orb = ze.Do(orb, hamlist);
-    logger.AddCab(i * ze.t_STEP, orb);
+    logger.Add(step, orb);
     Console.WriteLine("Dauer Sek: " + (DateTime.Now - start).TotalSeconds);
-    Console.WriteLine("Norm: " + test.Norm());
+    normlogger.Add(step, orb);
     if (i % 2 == 0)
     {
         erg = orb.Plotter.GetImage(800, 600);
@@ -72,6 +74,13 @@ if (img != null)
     {
         System.Drawing.Image? im = img[i1];
         im.Save(Environment.CurrentDirectory + Path.DirectorySeparatorChar + "CAB_" + i1 + ".png");
+    }
+img = normlogger.GetImage(800, 600);
+if (img != null)
+    for (int i1 = 0; i1 < img.Count; i1++)
+    {
+        System.Drawing.Image? im = img[i1];
+        im.Save(Environment.CurrentDirectory + Path.DirectorySeparatorChar + "Norm_" + i1 + ".png");
     }
 //Sab sablogger = new Sab();
 //sablogger.CalcSab(logger, -5, 5);
