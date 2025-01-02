@@ -45,7 +45,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentia
 
                     case ECalculationMethod.CPU_Multihreading:
                     case ECalculationMethod.OpenCL:
-                        Parallel.For(limit_x.Item1, limit_x.Item2, i =>
+                        Parallel.For(0, psiV.field.Length, i =>
                         {
                             int x = i % wfinfo.DimInfo.DimX;
                             int y = (i / wfinfo.DimInfo.DimX) % wfinfo.DimInfo.DimY;
