@@ -1,9 +1,9 @@
-﻿namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.Interfaces
+﻿using System;
+
+namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.Interfaces
 {
     public interface IBarrier_X : IBarrier
     {
-        public int xStart { get; }
-
-        public int xEnd { get; }
+        public Tuple<int, int> limit_x { get; }
     }
 }

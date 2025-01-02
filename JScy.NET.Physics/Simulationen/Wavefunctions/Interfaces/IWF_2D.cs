@@ -11,7 +11,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
 
         double getNorm(int x, int y);
 
-        Tuple<int, int> getCoordinates(int i);
+        Tuple<int, int> getCoordinatesXY(int i);
 
         int?[] getNeighborsY(int i, int positions = 1);
 

@@ -168,6 +168,8 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         #endregion Feldwerte setzen
 
+        public virtual int?[] getCoordinates(int i) => i < 0 || i >= field.Length ? null : [i];
+
         public void Clear()
         {
             Parallel.ForEach(rangePartitioner, (range, loopState) =>

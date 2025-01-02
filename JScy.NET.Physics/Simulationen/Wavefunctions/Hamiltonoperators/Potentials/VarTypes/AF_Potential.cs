@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using HarfBuzzSharp;
 using JScy.NET.Enums;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.Interfaces;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
-using ScottPlot;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.VarTypes
 {
@@ -37,12 +34,12 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentia
             int dimYZ = psi.WFInfo.DimInfo.DimY * psi.WFInfo.DimInfo.DimZ;
 
             int idx, sign, i, j, k;
-            for (i = xStart; i < xEnd; i++)
-                for (j = yStart; j < yEnd; j++)
-                    for (k = zStart; k < zEnd; k++)
+            for (i = limit_x.Item1; i < limit_x.Item2; i++)
+                for (j = limit_y.Item1; j < limit_y.Item2; j++)
+                    for (k = limit_z.Item1; k < limit_z.Item2; k++)
                     {
                         idx = dimYZ * k + psi.WFInfo.DimInfo.DimX * j + i;
-                        sign = (i - xStart) % Blocksize % 2 == (j - yStart) % Blocksize % 2 ? 1 : -1;
+                        sign = (i - limit_x.Item1) % Blocksize % 2 == (j - limit_y.Item1) % Blocksize % 2 ? 1 : -1;
                         fieldpos.Add(idx, sign);
                     }
             switch (psi.WFInfo.CalcMethod)

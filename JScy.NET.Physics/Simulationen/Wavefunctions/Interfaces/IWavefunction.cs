@@ -40,6 +40,8 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
 
         void SetField(Complex value, params int[] dims);
 
+        int?[] getCoordinates(int i);
+
         #endregion Feld
 
         #region Norm

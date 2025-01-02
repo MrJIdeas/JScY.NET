@@ -10,7 +10,6 @@ using JScy.NET.Physics.Simulationen.Wavefunctions.AttributesCustom;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Classes;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Enums;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
-using ScottPlot;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 {
@@ -24,7 +23,14 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         #region Koordinatenhandling
 
-        public Tuple<int, int> getCoordinates(int i)
+        public override int?[] getCoordinates(int i)
+        {
+            if (i < 0 || i >= field.Length) return null;
+            Tuple<int, int> erg = getCoordinatesXY(i);
+            return [erg.Item1, erg.Item2];
+        }
+
+        public Tuple<int, int> getCoordinatesXY(int i)
         {
             int x = i % WFInfo.DimInfo.DimX;
             return new Tuple<int, int>(x, (i - x) / WFInfo.DimInfo.DimX);
@@ -38,7 +44,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
         {
             if (direction == 0) return null;
             var coord = getCoordinates(i);
-            int newX = coord.Item1 + direction;
+            int newX = (int)(coord[0] + direction);
             if (newX < 0 || newX >= WFInfo.DimInfo.DimX)
             {
                 switch (WFInfo.BoundaryInfo)
@@ -54,7 +60,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
                         return null;
                 }
             }
-            var left = newX + coord.Item2 * WFInfo.DimInfo.DimX;
+            var left = newX + coord[1] * WFInfo.DimInfo.DimX;
             return left < 0 || left >= field.Length ? null : left;
         }
 
@@ -68,7 +74,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
         {
             if (direction == 0) return null;
             var coord = getCoordinates(i);
-            var newY = coord.Item2 + direction;
+            int newY = (int)(coord[1] + direction);
             if (newY < 0 || newY >= WFInfo.DimInfo.DimY)
             {
                 switch (WFInfo.BoundaryInfo)
@@ -84,7 +90,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
                         return null;
                 }
             }
-            var left = newY * WFInfo.DimInfo.DimX + coord.Item1;
+            var left = newY * WFInfo.DimInfo.DimX + coord[0];
             return left < 0 || left >= field.Length ? null : left;
         }
 
