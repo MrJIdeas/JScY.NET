@@ -62,6 +62,6 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentia
             return psiV;
         }
 
-        public override IWavefunction HPsi(ref IWavefunction psi) => (getPsiV(ref psi) * psi);
+        public override IWavefunction HPsi(ref IWavefunction psi) => psi * getPsiV(ref psi);
     }
 }
