@@ -17,8 +17,8 @@ IWavefunction.InitOpenCL();
 //WF_1D test = (WF_1D)WFCreator.CreateGaußWave(-5, 10, 100, 25, ELatticeBoundary.Periodic, ECalculationMethod.CPU);
 //WF_1D test = (WF_1D)WFCreator.CreateFreeWave(1, 100, ELatticeBoundary.Periodic,  ECalculationMethod.OpenCL);
 //WF_1D test = (WF_1D)WFCreator.CreateDelta(100, 50, ELatticeBoundary.Periodic,  ECalculationMethod.OpenCL);
-//WF_2D test = (WF_2D)WFCreator.CreateGaußWave(5, 5, 100, 100, 100, 50, 25, 25, ELatticeBoundary.Periodic, ECalculationMethod.OpenCL);
-WF_2D test = (WF_2D)WFCreator.CreateFreeWave(1, 0, 100, 100, ELatticeBoundary.Periodic, ECalculationMethod.OpenCL);
+WF_2D test = (WF_2D)WFCreator.CreateGaußWave(5, 5, 100, 100, 100, 50, 25, 25, ELatticeBoundary.Periodic, ECalculationMethod.CPU);
+//WF_2D test = (WF_2D)WFCreator.CreateFreeWave(1, 0, 100, 100, ELatticeBoundary.Periodic, ECalculationMethod.CPU);
 //WF_2D test = (WF_2D)WFCreator.CreateDelta(100, 100, 50, 50, ELatticeBoundary.Reflection, ECalculationMethod.OpenCL);
 Console.WriteLine("Norm: " + test.Norm());
 
@@ -58,7 +58,7 @@ for (int i = 0; i < 250; i++)
 {
     var step = i * ze.t_STEP;
     DateTime start = DateTime.Now;
-    orb = ze.Do(orb, hamlist);
+    orb = ze.Do(ref orb, hamlist);
     logger.Add(step, orb);
     Console.WriteLine("Dauer Sek: " + (DateTime.Now - start).TotalSeconds);
     normlogger.Add(step, orb);

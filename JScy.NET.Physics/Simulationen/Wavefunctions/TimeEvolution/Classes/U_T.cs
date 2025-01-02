@@ -16,14 +16,14 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.TimeEvolution.Classes
 
         private List<IHamilton> hamtodelete { get; set; } = [];
 
-        public Orbital Do(Orbital orb, List<IHamilton> Hamiltons)
+        public Orbital Do(ref Orbital orb, List<IHamilton> Hamiltons)
         {
             IWavefunction WFEnd = orb.WF.Clone();
             int n = 1;
             IWavefunction WF1 = PsiNTerm(orb.WF, Hamiltons, n);
             WFEnd += WF1;
 
-            while (WF1.Norm() > double.Epsilon)
+            while (WF1.Norm() >= double.Epsilon)
             {
                 n++;
                 WF1 = PsiNTerm(WF1, Hamiltons, n);
