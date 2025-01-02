@@ -17,7 +17,7 @@ IWavefunction.InitOpenCL();
 //WF_1D test = (WF_1D)WFCreator.CreateGaußWave(5, 10, 200, 50, ELatticeBoundary.Periodic, ECalculationMethod.CPU);
 //WF_1D test = (WF_1D)WFCreator.CreateFreeWave(1, 100, ELatticeBoundary.Periodic,  ECalculationMethod.OpenCL);
 //WF_1D test = (WF_1D)WFCreator.CreateDelta(100, 50, ELatticeBoundary.Periodic,  ECalculationMethod.OpenCL);
-WF_2D test = (WF_2D)WFCreator.CreateGaußWave(5, 0, 100, 100, 100, 50, 25, 25, ELatticeBoundary.Periodic, ECalculationMethod.CPU);
+WF_2D test = (WF_2D)WFCreator.CreateGaußWave(5, 0, 100, 100, 100, 50, 50, 50, ELatticeBoundary.Periodic, ECalculationMethod.CPU_Multihreading);
 //WF_2D test = (WF_2D)WFCreator.CreateFreeWave(1, 0, 100, 100, ELatticeBoundary.Periodic, ECalculationMethod.CPU);
 //WF_2D test = (WF_2D)WFCreator.CreateDelta(100, 100, 50, 50, ELatticeBoundary.Reflection, ECalculationMethod.OpenCL);
 Console.WriteLine("Norm: " + test.Norm());
@@ -29,10 +29,10 @@ TightBinding ham = new(1);
 //BlockPotential pot2 = new("PotMitte", 0, 40 * test.WFInfo.DimInfo.DimY / 100, test.WFInfo.DimInfo.DimX, 60 * test.WFInfo.DimInfo.DimY / 100, 0.1);
 //AF_Potential afpot1 = new("PotMitte", 40 * test.WFInfo.DimInfo.DimX / 100, 0, 60 * test.WFInfo.DimInfo.DimX / 100, test.WFInfo.DimInfo.DimY, 1, 5);
 //AF_Potential afpot2 = new("PotMitte", 0, 40 * test.WFInfo.DimInfo.DimY / 100, test.WFInfo.DimInfo.DimX, 60 * test.WFInfo.DimInfo.DimY / 100, 1, 5);
-ImaginaryBlockPotential imagpotl = new("ImagPotLinks", 0, 5 * test.WFInfo.DimInfo.DimX / 100, 0, test.WFInfo.DimInfo.DimY, 2);
-ImaginaryBlockPotential imagpotr = new("ImagPotRechts", 95 * test.WFInfo.DimInfo.DimX / 100, test.WFInfo.DimInfo.DimX, 0, test.WFInfo.DimInfo.DimY, 2);
-ImaginaryBlockPotential imagpoto = new("ImagPotLinks", 5 * test.WFInfo.DimInfo.DimX / 100, 95 * test.WFInfo.DimInfo.DimX / 100, 95 * test.WFInfo.DimInfo.DimY / 100, test.WFInfo.DimInfo.DimY, 2);
-ImaginaryBlockPotential imagpotu = new("ImagPotRechts", 5 * test.WFInfo.DimInfo.DimX / 100, 95 * test.WFInfo.DimInfo.DimX / 100, 0, 5 * test.WFInfo.DimInfo.DimY / 100, 2);
+ImaginaryLinearPotential imagpotl = new("ImagPotLinks", 0, 10 * test.WFInfo.DimInfo.DimX / 100, 0, test.WFInfo.DimInfo.DimY, 1, EShift.Xm);
+ImaginaryLinearPotential imagpotr = new("ImagPotRechts", 90 * test.WFInfo.DimInfo.DimX / 100, test.WFInfo.DimInfo.DimX, 0, test.WFInfo.DimInfo.DimY, 1, EShift.Xp);
+ImaginaryLinearPotential imagpoto = new("ImagPotOben", 5 * test.WFInfo.DimInfo.DimX / 100, 95 * test.WFInfo.DimInfo.DimX / 100, 90 * test.WFInfo.DimInfo.DimY / 100, test.WFInfo.DimInfo.DimY, 1, EShift.Yp);
+ImaginaryLinearPotential imagpotu = new("ImagPotUnten", 5 * test.WFInfo.DimInfo.DimX / 100, 95 * test.WFInfo.DimInfo.DimX / 100, 0, 10 * test.WFInfo.DimInfo.DimY / 100, 1, EShift.Ym);
 imagpotl.getPsiV(test.WFInfo);
 imagpotr.getPsiV(test.WFInfo);
 imagpoto.getPsiV(test.WFInfo);
@@ -51,6 +51,9 @@ Potcollection.MigratePotential(imagpotu);
 //Potcollection.MigratePotential(pot2);
 hamlist.Add(Potcollection);
 
+var img_pot = Potcollection.GetImage(800, 600);
+if (img_pot != null)
+    img_pot.Save(Environment.CurrentDirectory + Path.DirectorySeparatorChar + Potcollection.Name + ".png");
 U_T ze = new(0.5);
 Orbital orb = new(test, 0.5f, EOrbitalLabel.Alpha);
 FFMpegCore_ImageToVideo recorder = new(Environment.CurrentDirectory + Path.DirectorySeparatorChar + "out.mp4", 800, 600, 50);
@@ -58,11 +61,11 @@ FFMpegCore_ImageToVideo recorder = new(Environment.CurrentDirectory + Path.Direc
 var erg = orb.Plotter.GetImage(800, 600);
 recorder.AddNextImage(erg);
 orb.CreateCabExitAuto();
-var cabimg = orb.Plotter.GetCabExitImage(800, 600);
-cabimg?.Save(Environment.CurrentDirectory + Path.DirectorySeparatorChar + "CAB_Exits.png");
+//var cabimg = orb.Plotter.GetCabExitImage(800, 600);
+//cabimg?.Save(Environment.CurrentDirectory + Path.DirectorySeparatorChar + "CAB_Exits.png");
 CabLogger logger = new();
 Normlogger normlogger = new();
-for (int i = 0; i < 50; i++)
+for (int i = 0; i < 250; i++)
 {
     var step = i * ze.t_STEP;
     DateTime start = DateTime.Now;
@@ -76,9 +79,6 @@ for (int i = 0; i < 50; i++)
         recorder.AddNextImage(erg);
     }
 }
-var img_pot = Potcollection.GetImage(800, 600);
-if (img_pot != null)
-    img_pot.Save(Environment.CurrentDirectory + Path.DirectorySeparatorChar + Potcollection.Name + ".png");
 //var img = logger.GetImage(800, 600);
 //if (img != null)
 //    for (int i1 = 0; i1 < img.Count; i1++)
