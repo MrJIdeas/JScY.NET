@@ -2,13 +2,14 @@
 using System.IO;
 using System.Linq;
 using System.Numerics;
+using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Interfaces;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.VarTypes;
 using JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.Orbitale;
 using ScottPlot;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes
 {
-    public class CabLogger
+    public class CabLogger : ILogger<CabEntry>
     {
         private List<CabEntry> entries { get; set; }
         private Plot myPlot { get; set; }
@@ -21,9 +22,9 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes
 
         public List<CabEntry> GetEntries() => entries;
 
-        public void AddCab(double t, Orbital wavefunction)
+        public void Add(double t, Orbital value)
         {
-            foreach (var item in wavefunction.CalcCab())
+            foreach (var item in value.CalcCab())
             {
                 entries.Add(new CabEntry()
                 {
