@@ -1,19 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using JScy.NET.Interfaces;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
 using JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.Orbitale;
 using ScottPlot;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes
 {
-    public class WFPlotter(Orbital orbital)
+    public class WFPlotter(Orbital orbital) : IPlotter
     {
         private readonly Orbital orbital = orbital;
+        private readonly Plot myPlot_wf = new();
+        private readonly Plot myPlot_cab = new();
 
         public System.Drawing.Image GetImage(int width, int height)
         {
-            Plot myPlot_wf = new();
+            myPlot_wf.Clear();
             if (orbital.WF.WFInfo.DimInfo.Dimensions == 1 && orbital.WF is IWF_1D d)
             {
                 var DimX = d.WFInfo.DimInfo.DimX;
@@ -44,7 +47,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes
 
         public System.Drawing.Image GetCabExitImage(int width, int height)
         {
-            Plot myPlot_cab = new();
+            myPlot_cab.Clear();
             if (orbital.WF.WFInfo.DimInfo.Dimensions == 1 && orbital.WF is IWF_1D d)
             {
                 var DimX = d.WFInfo.DimInfo.DimX;
