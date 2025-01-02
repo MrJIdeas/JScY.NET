@@ -23,8 +23,6 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentia
         public Tuple<int, int> limit_z { get; private set; } = new Tuple<int, int>(zSTART, zEND);
         internal IWavefunction psiV { get; set; }
 
-        private readonly Plot myPlot_wf = new();
-
         public virtual IWavefunction getPsiV(WFInfo wfinfo)
         {
             if (psiV == null)
@@ -72,7 +70,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentia
         public System.Drawing.Image GetImage(int width, int height)
         {
             if (psiV == null) return null;
-            myPlot_wf.Clear();
+            Plot myPlot_wf = new();
             if (psiV.WFInfo.DimInfo.Dimensions == 1 && psiV is IWF_1D d)
             {
                 var DimX = d.WFInfo.DimInfo.DimX;
@@ -97,6 +95,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentia
             else
                 return null;
             var img = System.Drawing.Image.FromStream(new MemoryStream(myPlot_wf.GetImage(width, height).GetImageBytes()));
+            myPlot_wf.Dispose();
             return img;
         }
     }
