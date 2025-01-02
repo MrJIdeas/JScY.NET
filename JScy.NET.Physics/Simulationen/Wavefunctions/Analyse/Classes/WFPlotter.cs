@@ -11,12 +11,10 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes
     public class WFPlotter(Orbital orbital) : IPlotter
     {
         private readonly Orbital orbital = orbital;
-        private readonly Plot myPlot_wf = new();
-        private readonly Plot myPlot_cab = new();
 
         public System.Drawing.Image GetImage(int width, int height)
         {
-            myPlot_wf.Clear();
+            Plot myPlot_wf = new();
             if (orbital.WF.WFInfo.DimInfo.Dimensions == 1 && orbital.WF is IWF_1D d)
             {
                 var DimX = d.WFInfo.DimInfo.DimX;
@@ -42,12 +40,13 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes
             else
                 return null;
             var img = System.Drawing.Image.FromStream(new MemoryStream(myPlot_wf.GetImage(width, height).GetImageBytes()));
+            myPlot_wf.Dispose();
             return img;
         }
 
         public System.Drawing.Image GetCabExitImage(int width, int height)
         {
-            myPlot_cab.Clear();
+            Plot myPlot_cab = new();
             if (orbital.WF.WFInfo.DimInfo.Dimensions == 1 && orbital.WF is IWF_1D d)
             {
                 var DimX = d.WFInfo.DimInfo.DimX;
@@ -83,6 +82,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes
             else
                 return null;
             var img = System.Drawing.Image.FromStream(new MemoryStream(myPlot_cab.GetImage(width, height).GetImageBytes()));
+            myPlot_cab.Dispose();
             return img;
         }
     }
