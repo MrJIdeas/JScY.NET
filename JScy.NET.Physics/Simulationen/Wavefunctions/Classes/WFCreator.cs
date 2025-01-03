@@ -11,20 +11,11 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Classes
 {
     public static class WFCreator
     {
-        private static IWF_1D NormWave(IWF_1D wave)
+        private static T NormWave<T>(T wave) where T : IWavefunction
         {
             double norm = Math.Sqrt(wave.Norm());
-            for (int i = 0; i < wave.WFInfo.DimInfo.DimX; i++)
-                wave.SetField(i, wave[i] / norm);
-            return wave;
-        }
-
-        private static IWF_2D NormWave(IWF_2D wave)
-        {
-            double norm = Math.Sqrt(wave.Norm());
-            for (int i = 0; i < wave.WFInfo.DimInfo.DimX; i++)
-                for (int j = 0; j < wave.WFInfo.DimInfo.DimY; j++)
-                    wave.SetField(i, j, wave[i, j] / norm);
+            for (int i = 0; i < wave.field.Length; i++)
+                wave.field[i] /= norm;
             return wave;
         }
 
