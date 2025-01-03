@@ -17,7 +17,7 @@ IWavefunction.InitOpenCL();
 //WF_1D test = (WF_1D)WFCreator.CreateGaußWave(5, 10, 200, 50, ELatticeBoundary.Periodic, ECalculationMethod.CPU);
 //WF_1D test = (WF_1D)WFCreator.CreateFreeWave(1, 100, ELatticeBoundary.Periodic,  ECalculationMethod.OpenCL);
 //WF_1D test = (WF_1D)WFCreator.CreateDelta(100, 50, ELatticeBoundary.Periodic,  ECalculationMethod.OpenCL);
-WF_2D test = (WF_2D)WFCreator.CreateGaußWave(5, 0, 100, 100, 100, 50, 50, 50, ELatticeBoundary.Periodic, ECalculationMethod.CPU_Multihreading);
+WF_2D test = (WF_2D)WFCreator.CreateGaußWave(5, 0, 100, 100, 100, 50, 25, 25, ELatticeBoundary.Periodic, ECalculationMethod.CPU_Multihreading);
 //WF_2D test = (WF_2D)WFCreator.CreateFreeWave(1, 0, 100, 100, ELatticeBoundary.Periodic, ECalculationMethod.CPU);
 //WF_2D test = (WF_2D)WFCreator.CreateDelta(100, 100, 50, 50, ELatticeBoundary.Reflection, ECalculationMethod.OpenCL);
 Console.WriteLine("Norm: " + test.Norm());
@@ -29,10 +29,10 @@ TightBinding ham = new(1);
 //BlockPotential pot2 = new("PotMitte", 0, 40 * test.WFInfo.DimInfo.DimY / 100, test.WFInfo.DimInfo.DimX, 60 * test.WFInfo.DimInfo.DimY / 100, 0.1);
 //AF_Potential afpot1 = new("PotMitte", 40 * test.WFInfo.DimInfo.DimX / 100, 0, 60 * test.WFInfo.DimInfo.DimX / 100, test.WFInfo.DimInfo.DimY, 1, 5);
 //AF_Potential afpot2 = new("PotMitte", 0, 40 * test.WFInfo.DimInfo.DimY / 100, test.WFInfo.DimInfo.DimX, 60 * test.WFInfo.DimInfo.DimY / 100, 1, 5);
-ImaginaryLinearPotential imagpotl = new("ImagPotLinks", 0, 10 * test.WFInfo.DimInfo.DimX / 100, 0, test.WFInfo.DimInfo.DimY, 1, EShift.Xm);
-ImaginaryLinearPotential imagpotr = new("ImagPotRechts", 90 * test.WFInfo.DimInfo.DimX / 100, test.WFInfo.DimInfo.DimX, 0, test.WFInfo.DimInfo.DimY, 1, EShift.Xp);
-ImaginaryLinearPotential imagpoto = new("ImagPotOben", 5 * test.WFInfo.DimInfo.DimX / 100, 95 * test.WFInfo.DimInfo.DimX / 100, 90 * test.WFInfo.DimInfo.DimY / 100, test.WFInfo.DimInfo.DimY, 1, EShift.Yp);
-ImaginaryLinearPotential imagpotu = new("ImagPotUnten", 5 * test.WFInfo.DimInfo.DimX / 100, 95 * test.WFInfo.DimInfo.DimX / 100, 0, 10 * test.WFInfo.DimInfo.DimY / 100, 1, EShift.Ym);
+ImaginaryLinearPotential imagpotl = new("ImagPotLinks", 0, 10 * test.WFInfo.DimInfo.DimX / 100, 0, test.WFInfo.DimInfo.DimY, 1.5, EShift.Xm);
+ImaginaryLinearPotential imagpotr = new("ImagPotRechts", 90 * test.WFInfo.DimInfo.DimX / 100, test.WFInfo.DimInfo.DimX, 0, test.WFInfo.DimInfo.DimY, 1.5, EShift.Xp);
+ImaginaryLinearPotential imagpoto = new("ImagPotOben", 5 * test.WFInfo.DimInfo.DimX / 100, 95 * test.WFInfo.DimInfo.DimX / 100, 90 * test.WFInfo.DimInfo.DimY / 100, test.WFInfo.DimInfo.DimY, 1.5, EShift.Yp);
+ImaginaryLinearPotential imagpotu = new("ImagPotUnten", 5 * test.WFInfo.DimInfo.DimX / 100, 95 * test.WFInfo.DimInfo.DimX / 100, 0, 10 * test.WFInfo.DimInfo.DimY / 100, 1.5, EShift.Ym);
 imagpotl.getPsiV(test.WFInfo);
 imagpotr.getPsiV(test.WFInfo);
 imagpoto.getPsiV(test.WFInfo);
@@ -71,13 +71,15 @@ for (int i = 0; i < 250; i++)
     DateTime start = DateTime.Now;
     orb = ze.Do(ref orb, hamlist);
     //logger.Add(step, orb);
-    Console.WriteLine("Dauer Sek: " + (DateTime.Now - start).TotalSeconds + ";Norm: " + orb.WF.Norm());
+    Console.WriteLine(i + ": Dauer " + (DateTime.Now - start).TotalSeconds + " s ; Norm: " + orb.WF.Norm());
     normlogger.Add(step, orb);
     if (i % 2 == 0)
     {
         erg = orb.Plotter.GetImage(800, 600);
         recorder.AddNextImage(erg);
     }
+    if (orb.WF.Norm() < 0.001)
+        break;
 }
 //var img = logger.GetImage(800, 600);
 //if (img != null)
