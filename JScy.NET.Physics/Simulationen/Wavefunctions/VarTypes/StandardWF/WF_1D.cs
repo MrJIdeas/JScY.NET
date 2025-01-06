@@ -12,6 +12,7 @@ using JScy.NET.Physics.Simulationen.Wavefunctions.AttributesCustom;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Classes;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Enums;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
+using ScottPlot;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 {
@@ -172,25 +173,46 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public void Clear()
         {
-            Parallel.ForEach(rangePartitioner, (range, loopState) =>
+            if (WFInfo.CalcMethod is ECalculationMethod.CPU)
             {
-                for (int i = range.Item1; i < range.Item2; i++)
+                for (int i = 0; i < field.Length; i++)
                     field[i] = Complex.Zero;
-            });
+            }
+            else if (WFInfo.CalcMethod is ECalculationMethod.CPU_Multihreading
+                or ECalculationMethod.OpenCL)
+            {
+                Parallel.ForEach(rangePartitioner, (range, loopState) =>
+                {
+                    for (int i = range.Item1; i < range.Item2; i++)
+                        field[i] = Complex.Zero;
+                });
+            }
         }
 
         public IWavefunction Clone()
         {
             IWavefunction conj = getEmptyLikeThis();
-            Parallel.ForEach(conj.rangePartitioner, (range, loopState) =>
+            if (WFInfo.CalcMethod is ECalculationMethod.CPU)
             {
-                for (int i = range.Item1; i < range.Item2; i++)
+                for (int i = 0; i < field.Length; i++)
                     conj.SetField(i, field[i]);
-            });
+            }
+            else if (WFInfo.CalcMethod is ECalculationMethod.CPU_Multihreading
+                or ECalculationMethod.OpenCL)
+            {
+                Parallel.ForEach(conj.rangePartitioner, (range, loopState) =>
+                {
+                    for (int i = range.Item1; i < range.Item2; i++)
+                        conj.SetField(i, field[i]);
+                });
+            }
             return conj;
         }
 
-        public double getNorm(int x) => field[x].Magnitude;
+        /// <inheritdoc/>
+        public double getNorm(int x) => x < 0 || x >= field.Length
+                ? throw new ArgumentOutOfRangeException("Wert für x liegt außerhalb des Bereiches.")
+                : field[x].Magnitude;
 
         #region Cab
 
