@@ -42,6 +42,9 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes
             foreach (var exit in exits)
             {
                 myPlot.Clear();
+                myPlot.XLabel("Simulated time in steps");
+                myPlot.YLabel("Cab Value");
+                myPlot.Axes.Title.Label.Text = "Cab Analysis: " + exit;
                 List<double> x = [];
                 List<double> y = [];
                 foreach (var item in entries.Where(x => x.ExitName.Equals(exit)).OrderBy(x => x.t))

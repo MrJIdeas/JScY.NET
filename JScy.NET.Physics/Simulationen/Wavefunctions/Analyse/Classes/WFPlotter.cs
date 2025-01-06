@@ -25,6 +25,8 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes
                 for (int i = 0; i < DimX; i++)
                     y.Add((double)orbital.WF.getNorm(i));
                 myPlot_wf.Add.Bars(x, y);
+                myPlot_wf.XLabel("Location x");
+                myPlot_wf.YLabel("|Psi|^2");
             }
             else if (orbital.WF.WFInfo.DimInfo.Dimensions == 2 && orbital.WF is IWF_2D d1)
             {
@@ -36,9 +38,12 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes
                 var hm1 = myPlot_wf.Add.Heatmap(data);
                 hm1.Colormap = new ScottPlot.Colormaps.Turbo();
                 myPlot_wf.Add.ColorBar(hm1);
+                myPlot_wf.XLabel("Location x");
+                myPlot_wf.YLabel("Location y");
             }
             else
                 return null;
+            myPlot_wf.Axes.Title.Label.Text = "Plot of Wave Function: " + orbital.Bezeichnung;
             var img = System.Drawing.Image.FromStream(new MemoryStream(myPlot_wf.GetImage(width, height).GetImageBytes()));
             myPlot_wf.Dispose();
             return img;
@@ -62,6 +67,8 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes
                 for (int i = 0; i < DimX; i++)
                     y.Add((double)super.getNorm(i));
                 myPlot_cab.Add.Bars(x, y);
+                myPlot_cab.XLabel("Location x");
+                myPlot_cab.YLabel("|Psi|^2");
             }
             else if (orbital.WF.WFInfo.DimInfo.Dimensions == 2 && orbital.WF is IWF_2D d1)
             {
@@ -78,9 +85,12 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes
                 var hm1 = myPlot_cab.Add.Heatmap(data);
                 hm1.Colormap = new ScottPlot.Colormaps.Turbo();
                 myPlot_cab.Add.ColorBar(hm1);
+                myPlot_cab.XLabel("Location x");
+                myPlot_cab.YLabel("Location y");
             }
             else
                 return null;
+            myPlot_cab.Axes.Title.Label.Text = "Plot of Wave Function Cab Exit: " + orbital.Bezeichnung;
             var img = System.Drawing.Image.FromStream(new MemoryStream(myPlot_cab.GetImage(width, height).GetImageBytes()));
             myPlot_cab.Dispose();
             return img;

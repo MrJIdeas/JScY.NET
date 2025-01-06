@@ -31,6 +31,9 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes
                 foreach (var exit in exits)
                 {
                     myPlot.Clear();
+                    myPlot.XLabel("Simulated time in steps");
+                    myPlot.YLabel("Norm");
+                    myPlot.Axes.Title.Label.Text = "Norm Analysis: " + exit;
                     List<double> x = [];
                     List<double> y = [];
                     foreach (var item in orbitals[orb].Where(x => x.WFName.Equals(exit)).OrderBy(x => x.t))
