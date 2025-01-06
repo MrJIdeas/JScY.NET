@@ -66,6 +66,7 @@ orb.CreateCabExitAuto();
 //cabimg?.Save(Environment.CurrentDirectory + Path.DirectorySeparatorChar + "CAB_Exits.png");
 CabLogger logger = new();
 Normlogger normlogger = new();
+normlogger.WatchOrbital(orb);
 for (int i = 0; i < 250; i++)
 {
     var step = i * ze.t_STEP;
@@ -73,7 +74,7 @@ for (int i = 0; i < 250; i++)
     orb = ze.Do(ref orb, hamlist);
     //logger.Add(step, orb);
     Console.WriteLine(i + ": Dauer " + (DateTime.Now - start).TotalSeconds + " s ; Norm: " + orb.WF.Norm());
-    normlogger.Add(step, orb);
+    normlogger.Add(step);
     if (i % 2 == 0)
     {
         erg = orb.Plotter.GetImage(800, 600);

@@ -9,7 +9,7 @@ using ScottPlot;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes
 {
-    public class CabLogger : ILogger<CabEntry>
+    public class CabLogger : I_ImageGenerator
     {
         private List<CabEntry> entries { get; set; }
         private Plot myPlot { get; set; }
