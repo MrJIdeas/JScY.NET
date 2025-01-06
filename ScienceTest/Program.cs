@@ -59,6 +59,7 @@ Orbital orb = new(test, 0.5f, EOrbitalLabel.Alpha);
 FFMpegCore_ImageToVideo recorder = new(Environment.CurrentDirectory + Path.DirectorySeparatorChar + "out.mp4", 800, 600, 50);
 
 var erg = orb.Plotter.GetImage(800, 600);
+erg.Save(Environment.CurrentDirectory + Path.DirectorySeparatorChar + orb.Bezeichnung + "start.png");
 recorder.AddNextImage(erg);
 orb.CreateCabExitAuto();
 //var cabimg = orb.Plotter.GetCabExitImage(800, 600);

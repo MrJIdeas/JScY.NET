@@ -56,8 +56,10 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Classes
             wfinfo.AddAdditionalInfo("ky", ky);
             WF_2D erg = new(wfinfo);
             for (int i = 0; i < DimX; i++)
-                for (int j = 0; j < DimY; j++)
-                    erg.SetField(i, j, Complex.Exp(-Complex.ImaginaryOne * (kx * i + ky * j)));
+            {
+                var tuple = erg.getCoordinatesXY(i);
+                erg.SetField(tuple.Item1, tuple.Item2, Complex.Exp(-Complex.ImaginaryOne * (kx * tuple.Item1 + ky * tuple.Item2)));
+            }
             return NormWave(erg);
         }
 
@@ -111,24 +113,16 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Classes
             wfinfo.AddAdditionalInfo("startX", StartX);
             wfinfo.AddAdditionalInfo("startY", StartY);
             WF_2D erg = new(wfinfo);
-            for (int i = 0; i < DimX; i++)
+            for (int i = 0; i < erg.field.Length; i++)
             {
-                for (int j = 0; j < DimY; j++)
-                {
-                    // Berechnung des Gaußschen Exponenten
-                    double exponentX = -Math.Pow(i - StartX, 2) / sigmaX;
-                    double exponentY = -Math.Pow(j - StartY, 2) / sigmaY;
-
-                    // Kombination der Exponenten
-                    double exponent = exponentX + exponentY;
-
-                    // Gaußscher Faktor (Amplitudenwert)
-                    double amplitude = Math.Exp(exponent);
-
-                    // Speichern als komplexer Wert (z.B. ohne Phase oder mit Phase)
-                    Complex value = new Complex(amplitude, 0); // Reine Realteil-Wellenpaket
-                    erg.SetField(i, j, value);
-                }
+                var tuple = erg.getCoordinatesXY(i);
+                double exponentX = -Math.Pow(tuple.Item1 - StartX, 2) / sigmaX;
+                double exponentY = -Math.Pow(tuple.Item2 - StartY, 2) / sigmaY;
+                // Gaußscher Faktor (Amplitudenwert)
+                double amplitude = Math.Exp(exponentX + exponentY);
+                // Speichern als komplexer Wert (z.B. ohne Phase oder mit Phase)
+                Complex value = new Complex(amplitude, 0); // Reine Realteil-Wellenpaket
+                erg.SetField(i, value);
             }
             return (IWF_2D)NormWave(erg * CreateFreeWave(kx, ky, DimX, DimY, boundary, CalcMethod));
         }
