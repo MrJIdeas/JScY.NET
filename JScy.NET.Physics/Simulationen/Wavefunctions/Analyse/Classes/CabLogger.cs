@@ -9,54 +9,59 @@ using ScottPlot;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes
 {
-    public class CabLogger : I_ImageGenerator
+    public class CabLogger : IOrbitalWatcher<CabEntry>, ITimeLog, I_ImageGenerator
     {
-        private List<CabEntry> entries { get; set; }
-        private Plot myPlot { get; set; }
+        private Plot myPlot = new();
 
-        public CabLogger()
+        private readonly Dictionary<Orbital, List<CabEntry>> orbitals = [];
+
+        public List<CabEntry> GetEntries(Orbital orb) => orbitals[orb];
+
+        public void Add(double t)
         {
-            entries = [];
-            myPlot = new Plot();
-        }
-
-        public List<CabEntry> GetEntries() => entries;
-
-        public void Add(double t, Orbital value)
-        {
-            foreach (var item in value.CalcCab())
-            {
-                entries.Add(new CabEntry()
+            foreach (var orb in orbitals.Keys)
+                foreach (var item in orb.CalcCab())
                 {
-                    ExitName = item.Key,
-                    t = t,
-                    cab = item.Value
-                });
-            }
+                    orbitals[orb].Add(new CabEntry()
+                    {
+                        ExitName = item.Key,
+                        t = t,
+                        cab = item.Value
+                    });
+                }
         }
 
         public List<System.Drawing.Image> GetImage(int width, int height)
         {
             List<System.Drawing.Image> images = [];
-            var exits = entries.Select(x => x.ExitName).Distinct();
-            foreach (var exit in exits)
+            foreach (var orb in orbitals.Keys)
             {
-                myPlot.Clear();
-                myPlot.XLabel("Simulated time in steps");
-                myPlot.YLabel("Cab Value");
-                myPlot.Axes.Title.Label.Text = "Cab Analysis: " + exit;
-                List<double> x = [];
-                List<double> y = [];
-                foreach (var item in entries.Where(x => x.ExitName.Equals(exit)).OrderBy(x => x.t))
+                var exits = orbitals[orb].Select(x => x.ExitName).Distinct();
+                foreach (var exit in exits)
                 {
-                    x.Add(item.t);
-                    y.Add((item.cab * Complex.Conjugate(item.cab)).Real);
+                    myPlot.Clear();
+                    myPlot.XLabel("Simulated time in steps");
+                    myPlot.YLabel("Cab Value");
+                    myPlot.Axes.Title.Label.Text = "Cab Analysis: " + exit;
+                    List<double> x = [];
+                    List<double> y = [];
+                    foreach (var item in orbitals[orb].Where(x => x.ExitName.Equals(exit)).OrderBy(x => x.t))
+                    {
+                        x.Add(item.t);
+                        y.Add((item.cab * Complex.Conjugate(item.cab)).Real);
+                    }
+                    myPlot.Add.Bars(x, y);
+                    var img = System.Drawing.Image.FromStream(new MemoryStream(myPlot.GetImage(width, height).GetImageBytes()));
+                    images.Add(img);
                 }
-                myPlot.Add.Bars(x, y);
-                var img = System.Drawing.Image.FromStream(new MemoryStream(myPlot.GetImage(width, height).GetImageBytes()));
-                images.Add(img);
             }
             return images;
+        }
+
+        public void WatchOrbital(Orbital orb)
+        {
+            if (!orbitals.ContainsKey(orb))
+                orbitals.Add(orb, []);
         }
     }
 }
