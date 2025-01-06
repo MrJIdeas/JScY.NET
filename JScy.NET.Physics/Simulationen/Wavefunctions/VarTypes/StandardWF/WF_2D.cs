@@ -181,8 +181,10 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 
         public new void SetField(Complex value, params int[] x)
         {
-            if (x != null && x.Length > 1)
+            if (x != null && x.Length == 2)
                 SetField(x[0], x[1], value);
+            else
+                throw new ApplicationException("Koordinatenarray fehlerhaft. Länge " + x?.Length);
         }
 
         #endregion Felder setzen
