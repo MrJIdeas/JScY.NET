@@ -55,7 +55,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Classes
             wfinfo.AddAdditionalInfo("kx", kx);
             wfinfo.AddAdditionalInfo("ky", ky);
             WF_2D erg = new(wfinfo);
-            for (int i = 0; i < DimX; i++)
+            for (int i = 0; i < erg.field.Length; i++)
             {
                 var tuple = erg.getCoordinatesXY(i);
                 erg.SetField(tuple.Item1, tuple.Item2, Complex.Exp(-Complex.ImaginaryOne * (kx * tuple.Item1 + ky * tuple.Item2)));
