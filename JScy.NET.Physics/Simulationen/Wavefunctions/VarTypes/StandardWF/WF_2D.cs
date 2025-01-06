@@ -33,7 +33,8 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
         public Tuple<int, int> getCoordinatesXY(int i)
         {
             int x = i % WFInfo.DimInfo.DimX;
-            return new Tuple<int, int>(x, (i - x) / WFInfo.DimInfo.DimX);
+            int y = ((i - x) / WFInfo.DimInfo.DimX) % WFInfo.DimInfo.DimY;
+            return new Tuple<int, int>(x, y);
         }
 
         #region X-Nachbarn ermitteln
