@@ -35,7 +35,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Classes
             wfinfo.AddAdditionalInfo("k", k);
             WF_1D erg = new(wfinfo);
             for (int i = 0; i < DimX; i++)
-                erg.SetField(i, Complex.Exp(Complex.ImaginaryOne * k * i));
+                erg.SetField(i, Complex.Exp(-Complex.ImaginaryOne * k * i));
             return NormWave(erg);
         }
 
@@ -57,7 +57,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Classes
             WF_2D erg = new(wfinfo);
             for (int i = 0; i < DimX; i++)
                 for (int j = 0; j < DimY; j++)
-                    erg.SetField(i, j, Complex.Exp(Complex.ImaginaryOne * (kx * i + ky * j)));
+                    erg.SetField(i, j, Complex.Exp(-Complex.ImaginaryOne * (kx * i + ky * j)));
             return NormWave(erg);
         }
 
@@ -83,8 +83,8 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Classes
             wfinfo.AddAdditionalInfo("startX", StartX);
             WF_1D erg = new(wfinfo);
             for (int i = 0; i < DimX; i++)
-                erg.SetField(i, Complex.Exp(new Complex(-Math.Pow(i - StartX, 2) / sigma, 0) - Complex.ImaginaryOne * k * i));
-            return NormWave(erg);
+                erg.SetField(i, Complex.Exp(new Complex(-Math.Pow(i - StartX, 2) / (4 * Math.Pow(sigma, 2)), 0)));
+            return (IWF_1D)(NormWave(erg * CreateFreeWave(k, DimX, boundary, CalcMethod)));
         }
 
         /// <summary>
@@ -112,9 +112,25 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Classes
             wfinfo.AddAdditionalInfo("startY", StartY);
             WF_2D erg = new(wfinfo);
             for (int i = 0; i < DimX; i++)
+            {
                 for (int j = 0; j < DimY; j++)
-                    erg.SetField(i, j, Complex.Exp(-((i - StartX) * (i - StartX) / sigmaX) - (j - StartY) * (j - StartY) / sigmaY - Complex.ImaginaryOne * (kx * i + ky * j)));
-            return NormWave(erg);
+                {
+                    // Berechnung des Gaußschen Exponenten
+                    double exponentX = -Math.Pow(i - StartX, 2) / sigmaX;
+                    double exponentY = -Math.Pow(j - StartY, 2) / sigmaY;
+
+                    // Kombination der Exponenten
+                    double exponent = exponentX + exponentY;
+
+                    // Gaußscher Faktor (Amplitudenwert)
+                    double amplitude = Math.Exp(exponent);
+
+                    // Speichern als komplexer Wert (z.B. ohne Phase oder mit Phase)
+                    Complex value = new Complex(amplitude, 0); // Reine Realteil-Wellenpaket
+                    erg.SetField(i, j, value);
+                }
+            }
+            return (IWF_2D)NormWave(erg * CreateFreeWave(kx, ky, DimX, DimY, boundary, CalcMethod));
         }
 
         #endregion Gauß
