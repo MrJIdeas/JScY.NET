@@ -3,67 +3,89 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes;
+using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Interfaces;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.VarTypes;
+using JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.Orbitale;
 using ScottPlot;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.BaseClasses
 {
-    public abstract class Sab
+    public abstract class Sab : IOrbitalWatcher<SabEntry>, I_ImageGenerator
     {
-        private List<SabEntry> entries;
         private readonly Plot myPlot = new();
+
+        private readonly Dictionary<Orbital, List<SabEntry>> orbitals = [];
 
         public List<System.Drawing.Image> GetImage(int width, int height)
         {
             List<System.Drawing.Image> images = [];
-            var exits = entries.Select(x => x.ExitName).Distinct();
-            foreach (var exit in exits)
+            foreach (var orb in orbitals.Keys)
             {
-                myPlot.Clear();
-                List<double> x = [];
-                List<double> y = [];
-                foreach (var item in entries.Where(x => x.ExitName.Equals(exit)).OrderBy(x => x.v))
+                var exits = orbitals[orb].Select(x => x.ExitName).Distinct();
+                foreach (var exit in exits)
                 {
-                    x.Add(item.v);
-                    y.Add((item.sab * Complex.Conjugate(item.sab)).Real);
+                    myPlot.Clear();
+                    myPlot.XLabel("Energy Values");
+                    myPlot.YLabel("Sab Value");
+                    myPlot.Axes.Title.Label.Text = "Sab Analysis: " + exit;
+                    List<double> x = [];
+                    List<double> y = [];
+                    foreach (var item in orbitals[orb].Where(x => x.ExitName.Equals(exit)).OrderBy(x => x.v))
+                    {
+                        x.Add(item.v);
+                        y.Add((item.sab * Complex.Conjugate(item.sab)).Real);
+                    }
+                    myPlot.Add.Scatter(x, y);
+                    var img = System.Drawing.Image.FromStream(new MemoryStream(myPlot.GetImage(width, height).GetImageBytes()));
+                    images.Add(img);
                 }
-                myPlot.Add.Scatter(x, y);
-                var img = System.Drawing.Image.FromStream(new MemoryStream(myPlot.GetImage(width, height).GetImageBytes()));
-                images.Add(img);
             }
             return images;
         }
 
         public List<SabEntry> CalcSab(CabLogger cabLogger, double vMin, double vMax)
         {
-            if (cabLogger == null || cabLogger.GetEntries().Count <= 1)
+            if (cabLogger == null)
                 return null;
-            List<SabEntry> erg = [];
-            List<CabEntry> cabs = cabLogger.GetEntries();
-            var exits = cabs.Select(x => x.ExitName).Distinct().ToList();
-            foreach (var (e, cablist, dv, dt) in from e in exits
-                                                 let cablist = cabs.Where(x => x.ExitName.Equals(e)).OrderBy(x => x.t).ToList()
-                                                 let dv = (vMax - vMin) / cablist.Count
-                                                 let dt = (cablist.Last().t - cablist.First().t) / cablist.Count
-                                                 select (e, cablist, dv, dt))
+            List<SabEntry> erg2 = [];
+            foreach (var orb in orbitals.Keys)
             {
-                for (int i = 0; i < cablist.Count; i++)
+                List<SabEntry> erg = [];
+                List<CabEntry> cabs = cabLogger.GetEntries(orb);
+                var exits = cabs.Select(x => x.ExitName).Distinct().ToList();
+                foreach (var (e, cablist, dv, dt) in from e in exits
+                                                     let cablist = cabs.Where(x => x.ExitName.Equals(e)).OrderBy(x => x.t).ToList()
+                                                     let dv = (vMax - vMin) / cablist.Count
+                                                     let dt = (cablist.Last().t - cablist.First().t) / cablist.Count
+                                                     select (e, cablist, dv, dt))
                 {
-                    SabEntry sab = new()
+                    for (int i = 0; i < cablist.Count; i++)
                     {
-                        v = vMin + dv * i,
-                        ExitName = e
-                    };
-                    for (int j = 0; j < cablist.Count; j++)
-                    {
-                        sab.sab += cablist[j].cab * dt * Complex.Exp(Complex.ImaginaryOne * sab.v * cablist[j].t);
+                        SabEntry sab = new()
+                        {
+                            v = vMin + dv * i,
+                            ExitName = e
+                        };
+                        for (int j = 0; j < cablist.Count; j++)
+                        {
+                            sab.sab += cablist[j].cab * dt * Complex.Exp(Complex.ImaginaryOne * sab.v * cablist[j].t);
+                        }
+                        erg.Add(sab);
                     }
-                    erg.Add(sab);
                 }
+                orbitals[orb] = erg;
+                erg2.AddRange(erg);
             }
-            entries = erg;
-            return erg;
+            return erg2;
         }
+
+        public void WatchOrbital(Orbital orb)
+        {
+            if (!orbitals.ContainsKey(orb))
+                orbitals.Add(orb, []);
+        }
+
+        public List<SabEntry> GetEntries(Orbital orb) => orbitals[orb];
 
         //public /*abstract*/ double GroupVelocity(double v);
     }
