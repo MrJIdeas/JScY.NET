@@ -100,6 +100,12 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.Orbitale
 
         #endregion Cab
 
+        #region Entropie
+
+        public double CalcEntropy() => WF.CalcEntropy();
+
+        #endregion Entropie
+
         #region Equatable
 
         public bool Equals(Orbital other) => other.Bezeichnung.Equals(Bezeichnung);

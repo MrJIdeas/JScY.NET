@@ -52,6 +52,16 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces
 
         #endregion Norm
 
+        #region Entropie
+
+        public double CalcEntropy()
+        {
+            var norm = Norm();
+            return norm * Math.Log(norm);
+        }
+
+        #endregion
+
         #region C alpha beta
 
         List<CabExit> CreateCabExitAuto();
