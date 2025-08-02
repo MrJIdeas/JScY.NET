@@ -10,30 +10,28 @@ using System.Numerics;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.TimeEvolution.Classes
 {
-    public class U_T(double t_step) : IU_T_static
+    public class U_T_flex() : IU_T_flex
     {
-        public double t_STEP { get; private set; } = t_step;
-
         private List<IHamilton> hamtodelete { get; set; } = [];
 
-        public Orbital Do(ref Orbital orb, List<IHamilton> Hamiltons)
+        public Orbital Do(ref Orbital orb, List<IHamilton> Hamiltons, double t_step)
         {
             IWavefunction WFEnd = orb.WF.Clone();
             int n = 1;
-            IWavefunction WF1 = PsiNTerm(orb.WF, Hamiltons, n);
+            IWavefunction WF1 = PsiNTerm(orb.WF, Hamiltons, n, t_step);
             WFEnd += WF1;
 
             while (WF1.Norm() >= double.Epsilon)
             {
                 n++;
-                WF1 = PsiNTerm(WF1, Hamiltons, n);
+                WF1 = PsiNTerm(WF1, Hamiltons, n, t_step);
                 WFEnd += WF1;
             }
             orb.WF = WFEnd;
             return orb;
         }
 
-        protected IWavefunction PsiNTerm(IWavefunction WF, List<IHamilton> Hamiltons, int n)
+        protected IWavefunction PsiNTerm(IWavefunction WF, List<IHamilton> Hamiltons, int n, double t_step)
         {
             IWavefunction WF1 = (IWavefunction)Activator.CreateInstance(WF.GetType(), WF.WFInfo);
             hamtodelete.Clear();
@@ -55,7 +53,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.TimeEvolution.Classes
                 Hamiltons.Remove(ham);
             }
 
-            WF1 *= -Complex.ImaginaryOne * t_STEP / n;
+            WF1 *= -Complex.ImaginaryOne * t_step / n;
             return WF1;
         }
     }
