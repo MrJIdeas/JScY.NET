@@ -1,9 +1,10 @@
 ﻿using JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Interfaces;
+using JScy.NET.Physics.Simulationen.Wavefunctions.TimeEvolution.Classes;
 using JScy.NET.Physics.Simulationen.Wavefunctions.TimeEvolution.Interfaces;
 using JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.Orbitale;
 using System.Collections.Generic;
 
-namespace JScy.NET.Physics.Simulationen.Wavefunctions.TimeEvolution.Classes
+namespace JScy.NET.Physics.Simulationen.Wavefunctions.TimeEvolution.BaseClasses
 {
     public abstract class U_T_eigen() : IU_T_eigenzeit
     {
