@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Threading.Tasks;
-using JScy.NET.Enums;
+﻿using JScy.NET.Enums;
 using JScy.NET.Physics.Simulationen.Spins.Enums;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.VarTypes;
 using JScy.NET.Physics.Simulationen.Wavefunctions.AttributesCustom;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Classes;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Enums;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Threading.Tasks;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF
 {

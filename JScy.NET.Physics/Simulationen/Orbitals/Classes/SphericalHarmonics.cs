@@ -1,6 +1,6 @@
-﻿using System;
+﻿using JScy.NET.Mathmatics.Zahlentheorie;
+using System;
 using System.Numerics;
-using JScy.NET.Mathmatics.Zahlentheorie;
 
 namespace JScy.NET.Physics.Simulationen.Orbitals.Classes
 {

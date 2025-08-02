@@ -1,7 +1,7 @@
-﻿using System;
-using JScy.NET.Physics.Enums;
+﻿using JScy.NET.Physics.Enums;
 using JScy.NET.Physics.Simulationen.Spins.Classic.Interfaces;
 using JScy.NET.Physics.Simulationen.Spins.Enums;
+using System;
 
 namespace JScy.NET.Physics.Simulationen.Spins.Classic.VarTypes
 {

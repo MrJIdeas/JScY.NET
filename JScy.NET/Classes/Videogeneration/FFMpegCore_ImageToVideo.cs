@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using FFMpegCore;
+﻿using FFMpegCore;
 using FFMpegCore.Extensions.System.Drawing.Common;
 using FFMpegCore.Pipes;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace JScy.NET.Classes.Videogeneration
 {

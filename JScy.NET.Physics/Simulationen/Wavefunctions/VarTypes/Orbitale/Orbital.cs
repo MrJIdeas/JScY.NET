@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using JScy.NET.Enums;
+﻿using JScy.NET.Enums;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.VarTypes;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Enums;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
 using JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.Orbitale
 {

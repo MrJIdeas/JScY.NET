@@ -1,7 +1,7 @@
-﻿using System;
-using JScy.NET.Physics.Simulationen.Wavefunctions.Enums;
+﻿using JScy.NET.Physics.Simulationen.Wavefunctions.Enums;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
 using JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF;
+using System;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.VarTypes
 {

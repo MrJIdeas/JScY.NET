@@ -1,6 +1,6 @@
-﻿using System;
-using JScy.NET.Mathmatics.Vectors.Enums;
+﻿using JScy.NET.Mathmatics.Vectors.Enums;
 using JScy.NET.Mathmatics.Vectors.Interfaces;
+using System;
 
 namespace JScy.NET.Mathmatics.Vectors.BaseClasses
 {

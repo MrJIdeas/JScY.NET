@@ -1,5 +1,5 @@
-﻿using System;
-using JScy.NET.Physics.Simulationen.Wavefunctions.Enums;
+﻿using JScy.NET.Physics.Simulationen.Wavefunctions.Enums;
+using System;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.AttributesCustom
 {

@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Interfaces;
+﻿using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Interfaces;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.VarTypes;
 using JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.Orbitale;
 using ScottPlot;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Analyse.Classes
 {

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using JScy.NET.Physics.Simulationen.Wavefunctions.Dispersion.BaseClasses;
+﻿using JScy.NET.Physics.Simulationen.Wavefunctions.Dispersion.BaseClasses;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Gruppengeschwindigkeit.Interfaces;
+using System.Collections.Generic;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Gruppengeschwindigkeit.BaseClasses
 {

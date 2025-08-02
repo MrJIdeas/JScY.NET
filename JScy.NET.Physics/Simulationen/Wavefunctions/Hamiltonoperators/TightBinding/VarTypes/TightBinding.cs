@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using JScy.NET.Physics.Simulationen.Wavefunctions.Enums;
+﻿using JScy.NET.Physics.Simulationen.Wavefunctions.Enums;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.BaseClasses;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.TightBinding.VarTypes
 {

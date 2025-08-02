@@ -1,7 +1,7 @@
-﻿using System;
-using JScy.NET.Physics.Simulationen.Wavefunctions.Dispersion.BaseClasses;
+﻿using JScy.NET.Physics.Simulationen.Wavefunctions.Dispersion.BaseClasses;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Gewichtungsfunktion.BaseClasses;
 using JScy.NET.Physics.Simulationen.Wavefunctions.TopologicalInsulator.VarTypes;
+using System;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Dispersion.Classes
 {

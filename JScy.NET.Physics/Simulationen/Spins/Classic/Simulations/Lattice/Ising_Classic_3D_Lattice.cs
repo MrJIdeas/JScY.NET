@@ -1,12 +1,12 @@
-﻿using System;
-using System.Data;
-using System.IO;
-using System.Xml.Linq;
-using JScy.NET.Interfaces;
+﻿using JScy.NET.Interfaces;
 using JScy.NET.Physics.Enums;
 using JScy.NET.Physics.Simulationen.Spins.Classic.Interfaces;
 using JScy.NET.Physics.Simulationen.Spins.Classic.VarTypes;
 using JScy.NET.Physics.Simulationen.Spins.Enums;
+using System;
+using System.Data;
+using System.IO;
+using System.Xml.Linq;
 
 namespace JScy.NET.Physics.Simulationen.Spins.Classic.Simulations.Lattice
 {

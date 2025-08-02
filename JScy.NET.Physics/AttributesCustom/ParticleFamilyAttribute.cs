@@ -1,5 +1,5 @@
-﻿using System;
-using JScy.NET.Physics.Enums;
+﻿using JScy.NET.Physics.Enums;
+using System;
 
 namespace JScy.NET.Physics.AttributesCustom
 {

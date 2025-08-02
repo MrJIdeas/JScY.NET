@@ -1,7 +1,7 @@
-﻿using System;
-using JScy.NET.Physics.Simulationen.Wavefunctions.Enums;
+﻿using JScy.NET.Physics.Simulationen.Wavefunctions.Enums;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Interfaces;
 using JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF;
+using System;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentials.VarTypes
 {
@@ -17,7 +17,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.Hamiltonoperators.Potentia
 
         public override IWavefunction getPsiV(WFInfo wfinfo)
         {
-            var erg =-1* base.getPsiV(wfinfo);
+            var erg = -1 * base.getPsiV(wfinfo);
             if (Direction is EShift.Xm or EShift.Xp)
             {
                 int dx = Math.Sign((int)Direction) * limit_x.Item2 - limit_x.Item1;

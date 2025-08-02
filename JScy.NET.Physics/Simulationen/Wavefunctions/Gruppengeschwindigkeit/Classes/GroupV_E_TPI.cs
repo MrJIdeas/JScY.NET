@@ -1,8 +1,8 @@
-﻿using System;
-using System.Linq;
-using JScy.NET.Physics.Simulationen.Wavefunctions.Dispersion.Classes;
+﻿using JScy.NET.Physics.Simulationen.Wavefunctions.Dispersion.Classes;
 using JScy.NET.Physics.Simulationen.Wavefunctions.Gruppengeschwindigkeit.BaseClasses;
 using JScy.NET.Physics.Simulationen.Wavefunctions.TopologicalInsulator.VarTypes;
+using System;
+using System.Linq;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Gruppengeschwindigkeit.Classes
 {

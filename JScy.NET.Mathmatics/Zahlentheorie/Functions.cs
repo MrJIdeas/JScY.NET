@@ -1,8 +1,8 @@
-﻿using System;
+﻿using JScy.NET.Mathmatics.Stochastik;
+using System;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
-using JScy.NET.Mathmatics.Stochastik;
 
 namespace JScy.NET.Mathmatics.Zahlentheorie
 {

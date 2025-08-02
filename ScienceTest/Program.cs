@@ -14,21 +14,26 @@ using JScy.NET.Physics.Simulationen.Wavefunctions.VarTypes.StandardWF;
 
 IWavefunction.InitOpenCL();
 
-//WF_1D test = (WF_1D)WFCreator.CreateGaußWave(5, 10, 200, 50, ELatticeBoundary.Periodic, ECalculationMethod.CPU);
+//WF_1D test = (WF_1D)WFCreator.CreateGaußWave(5, 10, 200, 50, ELatticeBoundary.Reflection, ECalculationMethod.CPU_Multihreading);
 //WF_1D test = (WF_1D)WFCreator.CreateFreeWave(1, 100, ELatticeBoundary.Periodic,  ECalculationMethod.OpenCL);
 //WF_1D test = (WF_1D)WFCreator.CreateDelta(100, 50, ELatticeBoundary.Periodic,  ECalculationMethod.OpenCL);
-WF_2D test = (WF_2D)WFCreator.CreateGaußWave(5, 0, 100, 100, 100, 50, 25, 25, ELatticeBoundary.Periodic, ECalculationMethod.CPU_Multihreading);
-//WF_2D test = (WF_2D)WFCreator.CreateFreeWave(1, 0, 100, 100, ELatticeBoundary.Periodic, ECalculationMethod.CPU);
+WF_2D test = (WF_2D)WFCreator.CreateGaußWave(5, 0, 100, 100, 100, 50, 25, 25, ELatticeBoundary.Reflection, ECalculationMethod.CPU);
+//WF_2D test = (WF_2D)WFCreator.CreateFreeWave(1, 0, 100, 100, ELatticeBoundary.Periodic, ECalculationMethod.CPU_Multihreading);
 //WF_2D test = (WF_2D)WFCreator.CreateDelta(100, 100, 50, 50, ELatticeBoundary.Reflection, ECalculationMethod.OpenCL);
 Console.WriteLine("Norm: " + test.Norm());
 
 List<IHamilton> hamlist = [];
 
 TightBinding ham = new(1);
-//BlockPotential pot1 = new("PotMitte", 40 * test.WFInfo.DimInfo.DimX / 100, 0, 60 * test.WFInfo.DimInfo.DimX / 100, test.WFInfo.DimInfo.DimY, 5);
+Laplace laplace = new(0.1);
+
+BlockPotential pot1 = new("PotMitte", 40 * test.WFInfo.DimInfo.DimX / 100, 0, 60 * test.WFInfo.DimInfo.DimX / 100, test.WFInfo.DimInfo.DimY, 1);
 //BlockPotential pot2 = new("PotMitte", 0, 40 * test.WFInfo.DimInfo.DimY / 100, test.WFInfo.DimInfo.DimX, 60 * test.WFInfo.DimInfo.DimY / 100, 0.1);
 //AF_Potential afpot1 = new("PotMitte", 40 * test.WFInfo.DimInfo.DimX / 100, 0, 60 * test.WFInfo.DimInfo.DimX / 100, test.WFInfo.DimInfo.DimY, 1, 5);
 //AF_Potential afpot2 = new("PotMitte", 0, 40 * test.WFInfo.DimInfo.DimY / 100, test.WFInfo.DimInfo.DimX, 60 * test.WFInfo.DimInfo.DimY / 100, 1, 5);
+
+pot1.getPsiV(test.WFInfo);
+
 ImaginaryLinearPotential imagpotl = new("ImagPotLinks", 0, 10 * test.WFInfo.DimInfo.DimX / 100, 0, test.WFInfo.DimInfo.DimY, 1.5, EShift.Xm);
 ImaginaryLinearPotential imagpotr = new("ImagPotRechts", 90 * test.WFInfo.DimInfo.DimX / 100, test.WFInfo.DimInfo.DimX, 0, test.WFInfo.DimInfo.DimY, 1.5, EShift.Xp);
 ImaginaryLinearPotential imagpoto = new("ImagPotOben", 5 * test.WFInfo.DimInfo.DimX / 100, 95 * test.WFInfo.DimInfo.DimX / 100, 90 * test.WFInfo.DimInfo.DimY / 100, test.WFInfo.DimInfo.DimY, 1.5, EShift.Yp);
@@ -40,16 +45,17 @@ imagpotu.getPsiV(test.WFInfo);
 
 PotentialCollection Potcollection = new("Potcollection", test.WFInfo);
 
-hamlist.Add(ham);
-Potcollection.MigratePotential(imagpotl);
-Potcollection.MigratePotential(imagpotr);
-Potcollection.MigratePotential(imagpoto);
-Potcollection.MigratePotential(imagpotu);
+//hamlist.Add(ham);
+hamlist.Add(laplace);
+//Potcollection.MigratePotential(imagpotl);
+//Potcollection.MigratePotential(imagpotr);
+//Potcollection.MigratePotential(imagpoto);
+//Potcollection.MigratePotential(imagpotu);
 //Potcollection.MigratePotential(afpot1);
 //Potcollection.MigratePotential(afpot2);
-//Potcollection.MigratePotential(pot1);
+Potcollection.MigratePotential(pot1);
 //Potcollection.MigratePotential(pot2);
-hamlist.Add(Potcollection);
+//hamlist.Add(Potcollection);
 
 var img_pot = Potcollection.GetImage(800, 600);
 if (img_pot != null)

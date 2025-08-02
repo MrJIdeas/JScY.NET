@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using JScy.NET.Mathmatics.DifferentialEquations.Interfaces;
+﻿using JScy.NET.Mathmatics.DifferentialEquations.Interfaces;
+using System.Collections.Generic;
 
 namespace JScy.NET.Mathmatics.DifferentialEquations.Classes
 {

@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using JScy.NET.Physics.Simulationen.Wavefunctions.Gewichtungsfunktion.Interfaces;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using JScy.NET.Physics.Simulationen.Wavefunctions.Gewichtungsfunktion.Interfaces;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Gewichtungsfunktion.BaseClasses
 {

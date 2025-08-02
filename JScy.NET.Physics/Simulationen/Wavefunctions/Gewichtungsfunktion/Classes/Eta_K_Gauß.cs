@@ -1,6 +1,6 @@
-﻿using System;
+﻿using JScy.NET.Physics.Simulationen.Wavefunctions.Gewichtungsfunktion.BaseClasses;
+using System;
 using System.Numerics;
-using JScy.NET.Physics.Simulationen.Wavefunctions.Gewichtungsfunktion.BaseClasses;
 
 namespace JScy.NET.Physics.Simulationen.Wavefunctions.Gewichtungsfunktion.Classes
 {
