@@ -21,7 +21,7 @@ namespace JScy.NET.Physics.Simulationen.Wavefunctions.TimeEvolution.Classes
                 vari += hampsi2.Norm();
             }
             double varianz = vari - Math.Pow(energy, 2);
-            LastTAU = 1 / Math.Sqrt(varianz);
+            LastTAU = 0.5 / Math.Sqrt(varianz);
         }
     }
 }
